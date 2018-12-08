@@ -25,7 +25,7 @@
 \usepackage{hyperref}
 \hypersetup{unicode=true,
             pdftitle={A Reproducible Research Compendium},
-            pdfauthor={cf.~contributors},
+            pdfauthor={cf.~list of contributors at https://github.com/rr-mrc-bsu/reproducible-research/graphs/contributors},
             pdfborder={0 0 0},
             breaklinks=true}
 \urlstyle{same}  % don't use monospace font for urls
@@ -120,12 +120,12 @@
   \title{A Reproducible Research Compendium}
     \pretitle{\vspace{\droptitle}\centering\huge}
   \posttitle{\par}
-    \author{cf.~contributors}
+    \author{cf.~list of contributors at \url{https://github.com/rr-mrc-bsu/reproducible-research/graphs/contributors}}
     \preauthor{\centering\large\emph}
   \postauthor{\par}
       \predate{\centering\large\emph}
   \postdate{\par}
-    \date{2018-12-07}
+    \date{2018-12-08}
 
 \usepackage{booktabs}
 
@@ -136,28 +136,48 @@
 \setcounter{tocdepth}{1}
 \tableofcontents
 }
-\hypertarget{prerequisites}{%
-\chapter{Prerequisites}\label{prerequisites}}
+\hypertarget{a-living-book---aims-and-scope}{%
+\chapter{A `Living Book' - aims and scope}\label{a-living-book---aims-and-scope}}
 
-This is a \emph{sample} book written in \textbf{Markdown}.
-You can use anything that Pandoc's Markdown supports, e.g.,
-a math equation \(a^2 + b^2 = c^2\).
+This book is a little different from your ususal statistics foliant -
+it is written entirely using \textbf{Markdown} and rendered to html, pdf, and epub
+publishing formats using the R package \textbf{bookdown}.
+Its entire Markdown source code is publicly available on GitHub.com at
+\url{https://github.com/rr-mrc-bsu/reproducible-research}.
+A pre-build version is hosted as static html website using \textbf{GitHub pages} at
+\url{https://rr-mrc-bsu.github.io/reproducible-research/}.
+This structure allows to easily discuss changes \url{http://127.0.0.1:20540/rmd_output/2/intro.htmlusing} GitHub issues, organize
+further development using milestones and projects, contribute corrections or
+even entire chapters by creating pull requests, and to manage editions by
+GitHub releases.
+It also means that everybody - and yes, that does include you - can become a
+contributor by creating pull requests in the GitHub repository.
+Since the contents are thus evolving over time as long as there are active
+contributors to the project, the book is `living'.
 
-The \textbf{bookdown} package can be installed from CRAN or Github:
+The overall purpose of the \emph{Reproducible Research Compendium} is threefold:
 
-\begin{Shaded}
-\begin{Highlighting}[]
-\KeywordTok{install.packages}\NormalTok{(}\StringTok{"bookdown"}\NormalTok{)}
-\CommentTok{# or the development version}
-\CommentTok{# devtools::install_github("rstudio/bookdown")}
-\end{Highlighting}
-\end{Shaded}
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi}.}
+\tightlist
+\item
+  Provide a platform for discussing aims and objectives as well as best
+  practices for reproducible research with a clear focus on applications in
+  biostatistics.
+\item
+  Build-up a lasting compendium for knowledge sharing around various issues
+  and methods for coping with them that may broadly be subsumed under the term
+  `reproducible research'.
+\item
+  The book project itself acts as a learning-by-doing example for its
+  contributors with the goal of anybody participating becoming knowlegable about
+  organizing collaborative open-source {[}mostly coding{]} projects.
+\end{enumerate}
 
-Remember each Rmd file contains one and only one chapter,
-and a chapter is defined by the first-level heading \texttt{\#}.
-
-To compile this example to PDF, you need XeLaTeX. You are recommended to install
-TinyTeX (which includes XeLaTeX): \url{https://yihui.name/tinytex/}.
+The complete documentation for \textbf{bookdown} can be found at
+\url{https://bookdown.org/yihui/bookdown/}.
+Note that R is a prerequisite but only for building the book -
+the contents itself are completely language-agnostic.
 
 \hypertarget{intro}{%
 \chapter{Introduction}\label{intro}}

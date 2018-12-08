@@ -22,10 +22,10 @@
   <meta name="twitter:description" content="This compendium is inteded is intended to be a growing knowledge base on reproducible research and by writing it collaboratively acts as learning-by-doing example on modern collaborative coding workflows and version control." />
   
 
-<meta name="author" content="cf. contributors">
+<meta name="author" content="cf. list of contributors at https://github.com/rr-mrc-bsu/reproducible-research/graphs/contributors">
 
 
-<meta name="date" content="2018-12-07">
+<meta name="date" content="2018-12-08">
 
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="apple-mobile-web-app-capable" content="yes">
@@ -68,7 +68,7 @@ a.sourceLine { text-indent: -1em; padding-left: 1em; }
 pre.numberSource a.sourceLine
   { position: relative; left: -4em; }
 pre.numberSource a.sourceLine::before
-  { content: attr(data-line-number);
+  { content: attr(title);
     position: relative; left: -1em; text-align: right; vertical-align: baseline;
     border: none; pointer-events: all; display: inline-block;
     -webkit-touch-callout: none; -webkit-user-select: none;
@@ -130,7 +130,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li><a href="./">A Reproducible Research Compendium</a></li>
 
 <li class="divider"></li>
-<li class="chapter" data-level="1" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i><b>1</b> Prerequisites</a></li>
+<li class="chapter" data-level="1" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i><b>1</b> A ‘Living Book’ - aims and scope</a></li>
 <li class="chapter" data-level="2" data-path="intro.html"><a href="intro.html"><i class="fa fa-check"></i><b>2</b> Introduction</a></li>
 <li class="chapter" data-level="" data-path="references.html"><a href="references.html"><i class="fa fa-check"></i>References</a></li>
 <li class="divider"></li>
@@ -155,22 +155,42 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
             <section class="normal" id="section-">
 <div id="header">
 <h1 class="title">A Reproducible Research Compendium</h1>
-<p class="author"><em>cf. contributors</em></p>
-<p class="date"><em>2018-12-07</em></p>
+<p class="author"><em>cf. list of contributors at <a href="https://github.com/rr-mrc-bsu/reproducible-research/graphs/contributors" class="uri">https://github.com/rr-mrc-bsu/reproducible-research/graphs/contributors</a></em></p>
+<p class="date"><em>2018-12-08</em></p>
 </div>
-<div id="prerequisites" class="section level1">
-<h1><span class="header-section-number">Chapter 1</span> Prerequisites</h1>
-<p>This is a <em>sample</em> book written in <strong>Markdown</strong>.
-You can use anything that Pandoc’s Markdown supports, e.g.,
-a math equation <span class="math inline">\(a^2 + b^2 = c^2\)</span>.</p>
-<p>The <strong>bookdown</strong> package can be installed from CRAN or Github:</p>
-<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">install.packages</span>(<span class="st">&quot;bookdown&quot;</span>)
-<span class="co"># or the development version</span>
-<span class="co"># devtools::install_github(&quot;rstudio/bookdown&quot;)</span></code></pre>
-<p>Remember each Rmd file contains one and only one chapter,
-and a chapter is defined by the first-level heading <code>#</code>.</p>
-<p>To compile this example to PDF, you need XeLaTeX. You are recommended to install
-TinyTeX (which includes XeLaTeX): <a href="https://yihui.name/tinytex/" class="uri">https://yihui.name/tinytex/</a>.</p>
+<div id="a-living-book---aims-and-scope" class="section level1">
+<h1><span class="header-section-number">1</span> A ‘Living Book’ - aims and scope</h1>
+<p>This book is a little different from your ususal statistics foliant -
+it is written entirely using <strong>Markdown</strong> and rendered to html, pdf, and epub
+publishing formats using the R package <strong>bookdown</strong>.
+Its entire Markdown source code is publicly available on GitHub.com at
+<a href="https://github.com/rr-mrc-bsu/reproducible-research">https://github.com/rr-mrc-bsu/reproducible-research</a>.
+A pre-build version is hosted as static html website using <strong>GitHub pages</strong> at
+<a href="https://rr-mrc-bsu.github.io/reproducible-research/">https://rr-mrc-bsu.github.io/reproducible-research/</a>.
+This structure allows to easily discuss changes <a href="http://127.0.0.1:20540/rmd_output/2/intro.htmlusing" class="uri">http://127.0.0.1:20540/rmd_output/2/intro.htmlusing</a> GitHub issues, organize
+further development using milestones and projects, contribute corrections or
+even entire chapters by creating pull requests, and to manage editions by
+GitHub releases.
+It also means that everybody - and yes, that does include you - can become a
+contributor by creating pull requests in the GitHub repository.
+Since the contents are thus evolving over time as long as there are active
+contributors to the project, the book is ‘living’.</p>
+<p>The overall purpose of the <em>Reproducible Research Compendium</em> is threefold:</p>
+<ol style="list-style-type: decimal">
+<li>Provide a platform for discussing aims and objectives as well as best
+practices for reproducible research with a clear focus on applications in
+biostatistics.</li>
+<li>Build-up a lasting compendium for knowledge sharing around various issues
+and methods for coping with them that may broadly be subsumed under the term
+‘reproducible research’.</li>
+<li>The book project itself acts as a learning-by-doing example for its
+contributors with the goal of anybody participating becoming knowlegable about
+organizing collaborative open-source [mostly coding] projects.</li>
+</ol>
+<p>The complete documentation for <strong>bookdown</strong> can be found at
+<a href="https://bookdown.org/yihui/bookdown/">https://bookdown.org/yihui/bookdown/</a>.
+Note that R is a prerequisite but only for building the book -
+the contents itself are completely language-agnostic.</p>
 
 </div>
             </section>
@@ -224,19 +244,6 @@ gitbook.start({
 });
 </script>
 
-<!-- dynamically load mathjax for compatibility with self-contained -->
-<script>
-  (function () {
-    var script = document.createElement("script");
-    script.type = "text/javascript";
-    var src = "true";
-    if (src === "" || src === "true") src = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML";
-    if (location.protocol !== "file:" && /^https?:/.test(src))
-      src = src.replace(/^https?:/, '');
-    script.src = src;
-    document.getElementsByTagName("head")[0].appendChild(script);
-  })();
-</script>
 </body>
 
 </html>

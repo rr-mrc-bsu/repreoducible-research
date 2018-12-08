@@ -1,6 +1,6 @@
 --- 
 title: "A Reproducible Research Compendium"
-author: "cf. contributors"
+author: "cf. list of contributors at https://github.com/rr-mrc-bsu/reproducible-research/graphs/contributors"
 date: "`r Sys.Date()`"
 site: bookdown::bookdown_site
 documentclass: book
@@ -10,29 +10,42 @@ link-citations: yes
 description: "This compendium is inteded is intended to be a growing knowledge base on reproducible research and by writing it collaboratively acts as learning-by-doing example on modern collaborative coding workflows and version control."
 ---
 
-# Prerequisites
 
-This is a _sample_ book written in **Markdown**. 
-You can use anything that Pandoc's Markdown supports, e.g., 
-a math equation $a^2 + b^2 = c^2$.
 
-The **bookdown** package can be installed from CRAN or Github:
 
-```{r eval=FALSE}
-install.packages("bookdown")
-# or the development version
-# devtools::install_github("rstudio/bookdown")
-```
 
-Remember each Rmd file contains one and only one chapter, 
-and a chapter is defined by the first-level heading `#`.
+# A 'Living Book' - aims and scope
 
-To compile this example to PDF, you need XeLaTeX. You are recommended to install 
-TinyTeX (which includes XeLaTeX): <https://yihui.name/tinytex/>.
 
-```{r include=FALSE}
-# automatically create a bib database for R packages
-knitr::write_bib(c(
-  .packages(), 'bookdown', 'knitr', 'rmarkdown'
-), 'packages.bib')
-```
+This book is a little different from your ususal statistics foliant -
+it is written entirely using **Markdown** and rendered to html, pdf, and epub
+publishing formats using the R package **bookdown**.
+Its entire Markdown source code is publicly available on GitHub.com at
+[https://github.com/rr-mrc-bsu/reproducible-research](https://github.com/rr-mrc-bsu/reproducible-research).
+A pre-build version is hosted as static html website using **GitHub pages** at
+[https://rr-mrc-bsu.github.io/reproducible-research/](https://rr-mrc-bsu.github.io/reproducible-research/).
+This structure allows to easily discuss changes http://127.0.0.1:20540/rmd_output/2/intro.htmlusing GitHub issues, organize
+further development using milestones and projects, contribute corrections or 
+even entire chapters by creating pull requests, and to manage editions by
+GitHub releases.
+It also means that everybody - and yes, that does include you - can become a 
+contributor by creating pull requests in the GitHub repository.
+Since the contents are thus evolving over time as long as there are active 
+contributors to the project, the book is 'living'.
+
+The overall purpose of the *Reproducible Research Compendium* is threefold:
+
+1. Provide a platform for discussing aims and objectives as well as best 
+practices for reproducible research with a clear focus on applications in 
+biostatistics.
+2. Build-up a lasting compendium for knowledge sharing around various issues 
+and methods for coping with them that may broadly be subsumed under the term 
+'reproducible research'. 
+3. The book project itself acts as a learning-by-doing example for its 
+contributors with the goal of anybody participating becoming knowlegable about
+organizing collaborative open-source [mostly coding] projects.
+
+The complete documentation for **bookdown** can be found at 
+[https://bookdown.org/yihui/bookdown/](https://bookdown.org/yihui/bookdown/).
+Note that R is a prerequisite but only for building the book - 
+the contents itself are completely language-agnostic.
