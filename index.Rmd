@@ -24,7 +24,8 @@ Its entire Markdown source code is publicly available on GitHub.com at
 [https://github.com/rr-mrc-bsu/reproducible-research](https://github.com/rr-mrc-bsu/reproducible-research).
 A pre-build version is hosted as static html website using **GitHub pages** at
 [https://rr-mrc-bsu.github.io/reproducible-research/](https://rr-mrc-bsu.github.io/reproducible-research/).
-This structure allows to easily discuss changes http://127.0.0.1:20540/rmd_output/2/intro.htmlusing GitHub issues, organize
+This structure allows to easily discuss changes using GitHub issues
+[https://github.com/rr-mrc-bsu/reproducible-research/issues](https://github.com/rr-mrc-bsu/reproducible-research/issues), organize
 further development using milestones and projects, contribute corrections or 
 even entire chapters by creating pull requests, and to manage editions by
 GitHub releases.
