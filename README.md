@@ -1,4 +1,4 @@
-[![Build Status](https://travis-ci.org/rr-mrc-bsu/repreoducible-research.svg?branch=master)](https://travis-ci.org/rr-mrc-bsu/repreoducible-research) [ToDo: let travis automatically deploy last mater build!]
+[![Build Status](https://travis-ci.org/rr-mrc-bsu/reproducible-research.svg?branch=master)](https://travis-ci.org/rr-mrc-bsu/repreoducible-research) [ToDo: let travis automatically deploy last mater build!]
 
 
 
