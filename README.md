@@ -8,5 +8,5 @@
 This is an interactive, 'living', bookdown (https://github.com/rstudio/bookdown) 
 project to build a hands-on resource
 for pragmatic solutions to reproducibility related issues in biostatistics.
-The book itself acts a learning-by-doing example for its contributers and should 
+The book itself acts a learning-by-doing example for its contributors and should 
 be considered permanent WIP.
