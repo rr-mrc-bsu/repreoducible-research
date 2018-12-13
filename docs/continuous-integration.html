@@ -5,11 +5,11 @@
 
   <meta charset="UTF-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <title>A Reproducible Research Compendium</title>
+  <title>3 Continuous Integration | A Reproducible Research Compendium</title>
   <meta name="description" content="This compendium is inteded is intended to be a growing knowledge base on reproducible research and by writing it collaboratively acts as learning-by-doing example on modern collaborative coding workflows and version control.">
   <meta name="generator" content="bookdown  and GitBook 2.6.7">
 
-  <meta property="og:title" content="A Reproducible Research Compendium" />
+  <meta property="og:title" content="3 Continuous Integration | A Reproducible Research Compendium />
   <meta property="og:type" content="book" />
   
   
@@ -17,7 +17,7 @@
   
 
   <meta name="twitter:card" content="summary" />
-  <meta name="twitter:title" content="A Reproducible Research Compendium" />
+  <meta name="twitter:title" content="3 Continuous Integration | A Reproducible Research Compendium />
   
   <meta name="twitter:description" content="This compendium is inteded is intended to be a growing knowledge base on reproducible research and by writing it collaboratively acts as learning-by-doing example on modern collaborative coding workflows and version control." />
   
@@ -32,8 +32,8 @@
   <meta name="apple-mobile-web-app-status-bar-style" content="black">
   
   
-
-<link rel="next" href="intro.html">
+<link rel="prev" href="intro.html">
+<link rel="next" href="references.html">
 <script src="libs/jquery-2.2.3/jquery.min.js"></script>
 <link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
 <link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
@@ -132,11 +132,11 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="divider"></li>
 <li class="chapter" data-level="1" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i><b>1</b> A ‘Living Book’ - aims and scope</a></li>
 <li class="chapter" data-level="2" data-path="intro.html"><a href="intro.html"><i class="fa fa-check"></i><b>2</b> Introduction</a></li>
-<li class="chapter" data-level="3" data-path="continuous-integration-and-build-automation.html"><a href="continuous-integration-and-build-automation.html"><i class="fa fa-check"></i><b>3</b> Continuous Integration and Build Automation</a><ul>
-<li class="chapter" data-level="3.1" data-path="continuous-integration-and-build-automation.html"><a href="continuous-integration-and-build-automation.html#build-automation-for-r-package-development"><i class="fa fa-check"></i><b>3.1</b> Build automation for R package development</a><ul>
-<li class="chapter" data-level="3.1.1" data-path="continuous-integration-and-build-automation.html"><a href="continuous-integration-and-build-automation.html#other-languages"><i class="fa fa-check"></i><b>3.1.1</b> Other languages</a></li>
+<li class="chapter" data-level="3" data-path="continuous-integration.html"><a href="continuous-integration.html"><i class="fa fa-check"></i><b>3</b> Continuous Integration</a><ul>
+<li class="chapter" data-level="3.1" data-path="continuous-integration.html"><a href="continuous-integration.html#build-automation-for-r-package-development"><i class="fa fa-check"></i><b>3.1</b> Build automation for R package development</a><ul>
+<li class="chapter" data-level="3.1.1" data-path="continuous-integration.html"><a href="continuous-integration.html#other-languages"><i class="fa fa-check"></i><b>3.1.1</b> Other languages</a></li>
 </ul></li>
-<li class="chapter" data-level="3.2" data-path="continuous-integration-and-build-automation.html"><a href="continuous-integration-and-build-automation.html#some-advice-on-using-build-automation-with-analysis-projects"><i class="fa fa-check"></i><b>3.2</b> Some advice on using build automation with analysis projects</a></li>
+<li class="chapter" data-level="3.2" data-path="continuous-integration.html"><a href="continuous-integration.html#some-advice-on-using-build-automation-with-analysis-projects"><i class="fa fa-check"></i><b>3.2</b> Some advice on using build automation with analysis projects</a></li>
 </ul></li>
 <li class="chapter" data-level="" data-path="references.html"><a href="references.html"><i class="fa fa-check"></i>References</a></li>
 <li class="divider"></li>
@@ -159,54 +159,76 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
           <div class="page-inner">
 
             <section class="normal" id="section-">
-<div id="header">
-<h1 class="title">A Reproducible Research Compendium</h1>
-<p class="author"><em>cf. list of contributors at <a href="https://github.com/rr-mrc-bsu/reproducible-research/graphs/contributors" class="uri">https://github.com/rr-mrc-bsu/reproducible-research/graphs/contributors</a></em></p>
-<p class="date"><em>2018-12-13</em></p>
+<div id="continuous-integration" class="section level1">
+<h1><span class="header-section-number">3</span> Continuous Integration</h1>
+<p>Did you ever wonder what the green/yellow/red ‘badges’ in some Readme.md files
+on, e.g., Github.com actually mean?
+How are they created, what are they for and why should you care?</p>
+<p>This chapter will hopeflly shed light on the meaning of some of these badges
+(those refering to a ‘build status’) and you will learn how to use these
+techniques for you own repositories.
+The key term here is ‘continuous integration’ (CI) which refers to a concept in
+software development where all working copies
+(in git one would refer to branches) of a project are frequently integrated into
+the mainline (in git terms: the master branch).
+The rationale being that frequent/continuous integration prevents diverging
+development branches.
+Since the philosophy of git is to create feature branches for small, contained
+changes of master which are to be merged back as soon as possible CI and git
+are a natural fit.</p>
+<p>In practice, however, frequent changes to master are dangerous.
+After all, the master branch should maintain the last at least working if not
+stable version of the project that other feature branches can be started from.
+It is thus crucial to prevent erroneous changes to be merged into the master
+branch too often.
+This means that CI requires some kind of automated quality checks that
+preemptively check for new bugs/problems before a pull request from a feature
+branch on master is executed.
+It is this particular aspect of CI that is most interesting to collaborative
+work on scientific coding projects - being able to automatically run
+checks/tests on pull requests proposing changes to the master branch of the
+project.</p>
+<p>[Random thought: we should have an example repository for demonstraiting the different states of PRs etc. instead of just including pictures. Readers could then inspect the
+‘frozen’ repository directly and see the PRs etc.!]</p>
+<p>To enable this kind of feature on Github, a cloud-based farm or build servers
+is required where users can run build scripts in virtual machines and retrieve
+reports on the build status (0 worked, 1 failed).
+It is these build-statuses that the green/yellow/red badges report visually
+(yellow/gray being a pending build)!
+There are multiple companies offering these services (within reasonable bounds)
+for free for public repositories and as of 2018 the free academic account for
+GitHub also enables free builds using TravisCI for private repositories.
+It must be stressed though that, since everything is running in the cloud,
+the same constraints as for storing data on GitHub servers apply to downloading
+or processing data in buildscripts for CI services.
+[point to Jenkins as on-premis solution]</p>
+<p>The obvious setting to use automated builds in is package development.
+This is by far the most common application and the current tools are definitely
+geared towards that use case.
+We will later discuss how to extend the scope to non-package situations.
+For instance, the repository containing the source code for this book also
+uses TravisCI for build automation even though it is not an R-package itself.</p>
+<div id="build-automation-for-r-package-development" class="section level2">
+<h2><span class="header-section-number">3.1</span> Build automation for R package development</h2>
+<p>[Todo]</p>
+<div id="other-languages" class="section level3">
+<h3><span class="header-section-number">3.1.1</span> Other languages</h3>
+<p>[Todo]</p>
 </div>
-<div id="a-living-book---aims-and-scope" class="section level1">
-<h1><span class="header-section-number">1</span> A ‘Living Book’ - aims and scope</h1>
-<p>This book is a little different from your ususal statistics foliant -
-it is written entirely using <strong>Markdown</strong> and rendered to html, pdf, and epub
-publishing formats using the R package <strong>bookdown</strong>.
-Its entire Markdown source code is publicly available on GitHub.com at
-<a href="https://github.com/rr-mrc-bsu/reproducible-research">https://github.com/rr-mrc-bsu/reproducible-research</a>.
-A pre-build version is hosted as static html website using <strong>GitHub pages</strong> at
-<a href="https://rr-mrc-bsu.github.io/reproducible-research/">https://rr-mrc-bsu.github.io/reproducible-research/</a>.
-This structure allows to easily discuss changes using GitHub issues
-<a href="https://github.com/rr-mrc-bsu/reproducible-research/issues">https://github.com/rr-mrc-bsu/reproducible-research/issues</a>, organize
-further development using milestones and projects, contribute corrections or
-even entire chapters by creating pull requests, and to manage editions by
-GitHub releases.
-It also means that everybody - and yes, that does include you - can become a
-contributor by creating pull requests in the GitHub repository.
-Since the contents are thus evolving over time as long as there are active
-contributors to the project, the book is ‘living’.</p>
-<p>The overall purpose of the <em>Reproducible Research Compendium</em> is threefold:</p>
-<ol style="list-style-type: decimal">
-<li>Provide a platform for discussing aims and objectives as well as best
-practices for reproducible research with a clear focus on applications in
-biostatistics.</li>
-<li>Build-up a lasting compendium for knowledge sharing around various issues
-and methods for coping with them that may broadly be subsumed under the term
-‘reproducible research’.</li>
-<li>The book project itself acts as a learning-by-doing example for its
-contributors with the goal of anybody participating becoming knowlegable about
-organizing collaborative open-source [mostly coding] projects.</li>
-</ol>
-<p>The complete documentation for <strong>bookdown</strong> can be found at
-<a href="https://bookdown.org/yihui/bookdown/">https://bookdown.org/yihui/bookdown/</a>.
-Note that R is a prerequisite but only for building the book -
-the contents itself are completely language-agnostic.</p>
+</div>
+<div id="some-advice-on-using-build-automation-with-analysis-projects" class="section level2">
+<h2><span class="header-section-number">3.2</span> Some advice on using build automation with analysis projects</h2>
+<p>[todo]</p>
 
+</div>
 </div>
             </section>
 
           </div>
         </div>
       </div>
-
-<a href="intro.html" class="navigation navigation-next navigation-unique" aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+<a href="intro.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="references.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
     </div>
   </div>
 <script src="libs/gitbook-2.6.7/js/app.min.js"></script>

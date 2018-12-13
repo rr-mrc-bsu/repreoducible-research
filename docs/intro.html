@@ -25,7 +25,7 @@
 <meta name="author" content="cf. list of contributors at https://github.com/rr-mrc-bsu/reproducible-research/graphs/contributors">
 
 
-<meta name="date" content="2018-12-09">
+<meta name="date" content="2018-12-13">
 
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="apple-mobile-web-app-capable" content="yes">
@@ -33,7 +33,7 @@
   
   
 <link rel="prev" href="index.html">
-<link rel="next" href="references.html">
+<link rel="next" href="continuous-integration-and-build-automation.html">
 <script src="libs/jquery-2.2.3/jquery.min.js"></script>
 <link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
 <link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
@@ -68,7 +68,7 @@ a.sourceLine { text-indent: -1em; padding-left: 1em; }
 pre.numberSource a.sourceLine
   { position: relative; left: -4em; }
 pre.numberSource a.sourceLine::before
-  { content: attr(data-line-number);
+  { content: attr(title);
     position: relative; left: -1em; text-align: right; vertical-align: baseline;
     border: none; pointer-events: all; display: inline-block;
     -webkit-touch-callout: none; -webkit-user-select: none;
@@ -132,6 +132,12 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="divider"></li>
 <li class="chapter" data-level="1" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i><b>1</b> A ‘Living Book’ - aims and scope</a></li>
 <li class="chapter" data-level="2" data-path="intro.html"><a href="intro.html"><i class="fa fa-check"></i><b>2</b> Introduction</a></li>
+<li class="chapter" data-level="3" data-path="continuous-integration-and-build-automation.html"><a href="continuous-integration-and-build-automation.html"><i class="fa fa-check"></i><b>3</b> Continuous Integration and Build Automation</a><ul>
+<li class="chapter" data-level="3.1" data-path="continuous-integration-and-build-automation.html"><a href="continuous-integration-and-build-automation.html#build-automation-for-r-package-development"><i class="fa fa-check"></i><b>3.1</b> Build automation for R package development</a><ul>
+<li class="chapter" data-level="3.1.1" data-path="continuous-integration-and-build-automation.html"><a href="continuous-integration-and-build-automation.html#other-languages"><i class="fa fa-check"></i><b>3.1.1</b> Other languages</a></li>
+</ul></li>
+<li class="chapter" data-level="3.2" data-path="continuous-integration-and-build-automation.html"><a href="continuous-integration-and-build-automation.html#some-advice-on-using-build-automation-with-analysis-projects"><i class="fa fa-check"></i><b>3.2</b> Some advice on using build automation with analysis projects</a></li>
+</ul></li>
 <li class="chapter" data-level="" data-path="references.html"><a href="references.html"><i class="fa fa-check"></i>References</a></li>
 <li class="divider"></li>
 <li><a href="https://github.com/rstudio/bookdown" target="blank">Published with bookdown</a></li>
@@ -343,7 +349,7 @@ Figure 2.1: Here is a nice figure!
         </div>
       </div>
 <a href="index.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
-<a href="references.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+<a href="continuous-integration-and-build-automation.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
     </div>
   </div>
 <script src="libs/gitbook-2.6.7/js/app.min.js"></script>
