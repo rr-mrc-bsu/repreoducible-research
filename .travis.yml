@@ -13,4 +13,4 @@ before_script:
 
 script:
   - ./_build.sh
-  - ./_deploy.sh
+  - if: (branch = master) ./_deploy.sh
