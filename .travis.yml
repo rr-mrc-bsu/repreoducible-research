@@ -13,4 +13,4 @@ before_script:
 
 script:
   - ./_build.sh
-  - if: (branch = master) ./_deploy.sh
+  - if [ "$TRAVIS_BRANCH" == "master" ] && [ "$TRAVIS_EVENT_TYPE" == "pull_request" ]; then ./deploy.sh; fi
