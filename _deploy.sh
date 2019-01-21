@@ -1,3 +1,6 @@
+git config --global user.email "kevin.kunzmann@mrc-bsu.cam.ac.uk"
+git config --global user.name "TravisCI build"
+
 # clone the repository to the book-output directory
 git clone -b gh-pages \
   https://${GITHUB_PAT}@github.com/${TRAVIS_REPO_SLUG}.git \
