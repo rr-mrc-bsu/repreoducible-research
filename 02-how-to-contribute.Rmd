@@ -101,7 +101,7 @@ Therefore the books contributing guidelines require that no changes are
 made directly to the master branch.
 Instead, all work is done on separate feature branches, e.g., on 'my-cool-new-chapter'
 if you want to add a new chapter.
-To create this branch you run the follwoing git commands
+To create this branch you run the following git commands
 
 ```{bash, eval=FALSE}
 git branch my-cool-new-chapter
@@ -110,13 +110,14 @@ git checkout my-cool-new-chapter
 
 This creates the new branch and checks it out (activates it). 
 All changes that you now make to files in the directory only affect the 
-version of the book associated with your local branch 'my-cool-new-chapter'.
+version of the book associated with your local branch 'my-cool-new-chapter'
+(after you commit them, that is).
 
 
 
 ## Create a new chapter
 
-You may now add a new chapter simply by plaing a new numbered .Rmd file in
+You may now add a new chapter simply by placing a new numbered .Rmd file in
 the top level of the book projects directory, 
 e.g. the new file could be called '99-my-cool-new-chapter.Rmd'. 
 Do feel free to browse the other chapters of the book already present to learn 
@@ -134,7 +135,7 @@ the book without passing some automated checks, you may just as well check
 that everything is working locally before attempting to add your changes online.
 
 To compile the book you will need R and some packages.
-The easiest way to install everything is again via the command line
+The easiest way to install everything is again via the icommand line
 
 ```{bash, eval=FALSE}
 sudo apt-get install r-base r-base-dev 
@@ -154,7 +155,7 @@ which essentially runs the R command
 bookdown::render_book("index.Rmd")
 ```
 
-to build the book.
+to build the book and cleans up afterward.
 You should now see a new folder '_book/' and be able to open '_book/index.html'
 in your browser.
 This just opens the newly build version of the book locally.
@@ -167,7 +168,7 @@ changes to the repository.
 
 The repository should be configured in such a way as to ignore the _book/ folder
 that you created since this is just output.
-You can therefore simply add all changes and coommit them with a short description
+You can therefore simply add all changes and commit them with a short description
 of what you did
 
 ```{bash, eval=FALSE}
@@ -200,13 +201,13 @@ git push -u origin my-cool-new-chapter
 
 Switch to a browser and open [https://github.com/rr-mrc-bsu/reproducible-research](https://github.com/rr-mrc-bsu/reproducible-research).
 In the top/middle you then need to switch from the '<> Code' tab to the 
-Pull requests tab.
+pull requests tab.
 Create a new pull request by clicking on the button.
 This opens a panel where you can define your pull request. 
 A pull request always proposes to merge one branch onto another. 
 In our case we want to merge 'my-cool-new-chapter' onto 'master'. 
 That meas that we leave the 'base:' branch master as it stands by default. 
-However, in the rop-down menu for 'compare:' cou can now select you new branch.
+However, in the rop-down menu for 'compare:' you can now select you new branch.
 Note that the arrow between the two already indicates that the 'compare:' branch
 is supposed to be merged onto the 'base:' branch.
 In the panel below you will then see a git diff, i.e., a listing of all the 
@@ -227,7 +228,7 @@ build will be shown in your pull request.
 Even if the build script ran perfetly fine on your local machine the Travis
 build might fail if you introduced new dependencies without altering the
 Travis build configuration.
-For normal changes, the build should work without any errors. 
+For normal changes (only editing .Rmd files), the build should work without any errors. 
 The advantage of having a CI system is that anybody reviewing your changes 
 will immediately know that your pull request did not introduce any breaking 
 changes and that the book can still be compiled on the default minimal build system
@@ -247,8 +248,9 @@ This branch is special in that it only contains the generated output and not
 the corresponding source code.
 GitHub.com offers the possibility of hosting static html pages free of charge 
 via GitHub pages and the project is configured such that the contents of
-the gh-pages branch are used to populate the GitHub pages homepage of the project.
-This means that the version of the book displayed at [https://rr-mrc-bsu.github.io/reproducible-research/](https://rr-mrc-bsu.github.io/reproducible-research/) should automatically correspond to the version obtained from the last
+the gh-pages branch (feel free to inspect it) are used to populate the GitHub 
+pages homepage of the project.
+This means that the version of the book displayed at [https://rr-mrc-bsu.github.io/reproducible-research/](https://rr-mrc-bsu.github.io/reproducible-research/) should automatically corresponds to the version obtained from the last
 commit to the repositories master branch. 
 
 
