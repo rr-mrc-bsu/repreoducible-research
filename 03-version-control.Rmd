@@ -1,3 +1,3 @@
 # Version control
 
-This chapter is dedicated to versino contol
+This chapter is dedicated to version contol using git. Git is basically a convenient way of avoiding to rename your files file_V01.pdf, file_V02_comments.pdf, file_V02_comments_Bobschanges.pdf, etc. 
