@@ -1,3 +1,47 @@
-# Version control
+# Version control using git
 
-This chapter is dedicated to version contol using git. Git is basically a convenient way of avoiding to rename your files file_V01.pdf, file_V02_comments.pdf, file_V02_comments_Bobschanges.pdf, etc. 
+This chapter is dedicated to version contol using git. In essence, git is a convenient way to avoid a project folder with a bunch of files with names such as: code_V01.R, code_V02.R, code_V02_comments.R, code_V02_comments_revised.R, code_V02_comments_revised2.R. In larger projects with several collaborators it can quickly become a tedious task to keep track of your (and your collaborators') changes to files. Git simplifies this task by tracking changes to files, while at the same time allowing you to keep just one version of your files in the project folder. The default way of working with git is via the terminal. However, many code editors, such as Rstudio, have integrated git and allow you to work with git via point-and-click.
+
+## How to install git
+
+Before you can get started with git, we have to install it. To install git on linux Fedora the easiest option is to run the following line in your terminal:
+
+```{bash, eval=FALSE}
+$ sudo dnf install git-all
+```
+
+On a Debian-based distribution (such as Ubuntu), run the following line:
+
+```{bash, eval=FALSE}
+$ sudo apt install git-all
+```
+
+There is also an installer available on http://git-scm.com/download/linux. The easiest way to install git on macOS Mavericks (10.9) or above, is to simply run:
+
+```{bash, eval=FALSE}
+$ git --version
+```
+
+If git is not yet installed on your machine, this will prompt you to do so. You may also choose to run the macOS git installer available on http://git-scm.com/download/mac. To install git on Windows, download the installer from http://git-scm.com/download/win and run it on your machine to install.
+
+After installation of git it might be useful to change a few settings. If you might be collaborating on projects, it is very useful to set the username and email that git uses:
+
+```{bash, eval=FALSE}
+$ git config --global user.name "Victor Control"
+$ git config --global user.email vcontrol@example.com
+```
+
+On linux and macOS this a `~/.gitconfig` or `~/.config/git/config` file, while on Windows the `.gitconfig` file will be in the `$HOME` directory (usually `C:\Users\$USER`). Changes to this file (with the option --global) affect all repositories of the user. Projects settings are in the `.git/config` file in your project directory. Changes to this file are registered with the `--local` option. How to change settings for all users on a machine and the possible settings to change are described in https://git-scm.com/docs/git-config.
+
+## Git projects
+
+To initialise git for one of your projects you create a .git folder in the project folder. The easiest way of doing this is by using:
+
+```{bash, eval=FALSE}
+$ git init example-project
+```
+
+
+
+
+
