@@ -1,0 +1,16 @@
+---
+title: "Build automation"
+output: html
+---
+
+# Build automation
+
+Most research projects consist of several different connected components. For example, the end product might be a manuscipt, which depends on intermediate components such as a data analysis script and an R package. In this case, the manuscript depends on the data analysis script, which in turn depends on the R package. In practice, such a hierarchy means that everytime a file changes, all files down the hierarchy have to be updated as well. In the previous example, we might make an adjustment in the R package, which might change the outcome of the data analysis, so we'd have to re-run the script. The outcome of the data analysis might change the manuscript, so we'd have to re-compile it. In large projects, this quickly becomes very tedious and difficult to maintain by hand. Luckily there is software available to streamline this process.
+
+## Data analysis pipeline
+
+Consider the example from the previous section. The hierarchy of files might look something like this: r-package.tar.gz > analysis.R > manuscript.Rnw. So a change higher up the hierarchy might change the downstream files. So we ideally we would like to write a shell script that re-runs/compiles everytime such a change occurs.
+
+## Make
+
+
