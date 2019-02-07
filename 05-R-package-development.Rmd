@@ -1,0 +1,20 @@
+---
+title: "R package development"
+output: html
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+# R package development
+
+## Continuous integration
+
+
+## Unit testing
+
+
+
+## Documentation
+

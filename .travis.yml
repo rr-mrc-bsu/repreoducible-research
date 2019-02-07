@@ -1,11 +1,16 @@
 # R for travis: see documentation at https://docs.travis-ci.com/user/languages/r
 
-language: R
 sudo: false
 notifications:
   email: false
 
+language: r
+pandoc_version: 1.19.2.1
+
+before_script:
+  - chmod +x ./_build.sh
+  - chmod +x ./_deploy.sh
+
 script:
-  - "Rscript -e 'bookdown::gitbook()'"
-  - "Rscript -e 'bookdown::pdf_book()'"
-  - "Rscript -e 'bookdown::epub_book()'"
+  - ./_build.sh
+  - if [ "$TRAVIS_BRANCH" == "master" ] && [ "$TRAVIS_EVENT_TYPE" == "push" ]; then ./_deploy.sh; fi
