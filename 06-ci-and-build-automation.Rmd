@@ -1,12 +1,23 @@
+```{r settings, include=FALSE}
+knitr::opts_knit$set(base.dir=".")
+knitr::opts_chunk$set(fig.align='center', echo=FALSE, fig.path="Figures/", 
+               cache=FALSE)
+```
+
+```{r diagrams, include=FALSE}
+library(diagram)
+knitr::read_chunk("Code/diagrams.R")
+```
+
 # Build automation
 
 Large projects can be a pain to manage. Small changes may break your software, 
-or may deem your previously obtained data analysis results useless. Build 
-automation refers to a collection of processes that atempt to automate as many 
-steps as possible. Automation can be done on several levels. Here, we will 
-mainly discuss two ways of build automation: automating your project pipeline 
-using Makefiles and automating software checks using continuous integratino 
-tools.
+or may deem your previously obtained analysis results useless. Build 
+automation refers to a collection of tools that atempt to automate steps
+in your workflow, thereby simplifying your the whole process. Automation can be 
+done on several levels. Here, we will mainly discuss two facets of build 
+automation: automating your project pipeline using Makefiles and automatically 
+building and checking your software using continuous integration tools.
 
 ## Makefiles
 
@@ -19,17 +30,19 @@ downstream in the hierarchy should be updated as well. In the previous example,
 we might adjust a function in the R package, which might change the outcome of 
 the data analysis, and as a result, we'd have to re-run the data analysis 
 script. The outcome of the data analysis might change the manuscript, so we'd 
-have to re-compile that as well. In large projects, this quickly becomes very 
-tedious and difficult to maintain by hand. Luckily there is software available 
-to streamline this process.
+have to re-compile that as well. In large projects, this quickly becomes tedious
+and difficult to maintain by hand. Luckily there is software available to 
+streamline this process.
 
-Consider the previous example. The hierarchy of files may be represented as: 
-r-package.tar.gz > analysis.R > manuscript.Rnw. A change higher up the hierarchy
-might change the downstream files. Ideally, we would like to have a command that re-runs/compiles the different files everytime an upstream change is made. In 
-our example, we would like to recompile the manuscript.Rnw file if something in 
-the analysis.R file changes. And similarilly, if the R package changes, the 
-analysis.R file should be re-run. This is exactly what the GNU software Make 
+Consider the more complicated example in Figure \@ref(fig:workflow-diagram). 
+Re-running, -building, and -compiling all the files after we made a change to 
+the functions.R file would be a tedious task. Ideally, we would like to have a 
+command that re-runs/compiles/builds the different files everytime an upstream 
+change is made. This is exactly what the GNU software Make 
 does.
+
+```{r workflow-diagram, fig.cap="Example project workflow"}
+```
 
 ## Continuous integration
 
