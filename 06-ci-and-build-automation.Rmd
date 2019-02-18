@@ -14,10 +14,10 @@ knitr::read_chunk("Code/diagrams.R")
 Large projects can be a pain to manage. Small changes may break your software, 
 or may deem your previously obtained analysis results useless. Build 
 automation refers to a collection of tools that atempt to automate steps
-in your workflow, thereby simplifying your the whole process. Automation can be 
-done on several levels. Here, we will mainly discuss two facets of build 
-automation: automating your project pipeline using Makefiles and automatically 
-building and checking your software using continuous integration tools.
+in your workflow, thereby simplifying your the whole process. Many processes may
+be automated, but here we will discuss two facets of build automation: 
+project pipeline automation using Makefiles and automatic builds and checks of
+your software using continuous integration tools.
 
 ## Makefiles
 
@@ -34,15 +34,40 @@ have to re-compile that as well. In large projects, this quickly becomes tedious
 and difficult to maintain by hand. Luckily there is software available to 
 streamline this process.
 
-Consider the more complicated example in Figure \@ref(fig:workflow-diagram). 
-Re-running, -building, and -compiling all the files after we made a change to 
-the functions.R file would be a tedious task. Ideally, we would like to have a 
-command that re-runs/compiles/builds the different files everytime an upstream 
-change is made. This is exactly what the GNU software Make 
-does.
+Consider the more complicated example in Figure \@ref(fig:workflow-diagram) with 
+the following corresponding project directory:
+
+```{bash example-directory, eval=FALSE, echo=TRUE}
+example-project
+|-- rpackage
+|   |-- DESCRIPTION
+|   |-- functions.R
+|-- code
+|   |-- analysis.R
+|   |-- simulation.R
+|-- docs
+|   |-- manuscript.Rnw
+|   |-- presentation.Rnw
+|   |-- refs.bib
+```
 
 ```{r workflow-diagram, fig.cap="Example project workflow"}
 ```
+
+Re-running, -building, and -compiling all the files after we made a change to 
+the anyone of the intermediate files would be a tedious task. Ideally, we would
+like to have a command that re-runs/compiles/builds the different files 
+everytime an upstream change is made. This is exactly what the GNU software Make 
+does. Make works through a Makefile, a file that describes how a target file,
+depends on its dependencies, and how these in turn on their dependencies, and so
+on. If a Makefile is run, a file is compiled if any of its dependencies has 
+changed since the last time the file was compiled. In other words, the Makefile
+starts at the top of the hierarchy and updates a file if its creation time is 
+older than the creation time of its dependencies. In our example in Figure
+\@ref(fig:workflow-diagram), if we make a change to the functions.R file, we
+trigger the recompilation of the recompilation of the r-package.tar.gz file, 
+which in turn triggers a rerunning of the analysis.R and simulation.R scripts,
+and so on, until all files are up to date again.
 
 ## Continuous integration
 
