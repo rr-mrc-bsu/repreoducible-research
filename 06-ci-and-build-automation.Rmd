@@ -38,17 +38,18 @@ Consider the more complicated example in Figure \@ref(fig:workflow-diagram) with
 the following corresponding project directory:
 
 ```{bash example-directory, eval=FALSE, echo=TRUE}
-example-project
-|-- rpackage
-|   |-- DESCRIPTION
-|   |-- functions.R
-|-- code
-|   |-- analysis.R
-|   |-- simulation.R
-|-- docs
-|   |-- manuscript.Rnw
-|   |-- presentation.Rnw
-|   |-- refs.bib
+./
+├── rpackage
+│   ├── DESCRIPTION
+│   └── functions.R
+├── code
+│   ├── analysis.R
+│   └── simulation.R
+├── docs
+│   ├── manuscript.Rnw
+│   ├── presentation.Rnw
+│   └── refs.bib
+└── README.md
 ```
 
 ```{r workflow-diagram, fig.cap="Example project workflow"}
