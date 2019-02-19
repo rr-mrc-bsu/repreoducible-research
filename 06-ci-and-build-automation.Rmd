@@ -1,7 +1,5 @@
 ```{r settings, include=FALSE}
-knitr::opts_knit$set(base.dir=".")
-knitr::opts_chunk$set(fig.align='center', echo=FALSE, fig.path="Figures/", 
-               cache=FALSE)
+knitr::opts_chunk$set(fig.align='center', echo=FALSE, cache=FALSE)
 ```
 
 ```{r diagrams, include=FALSE}
