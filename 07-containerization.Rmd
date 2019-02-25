@@ -1,0 +1,92 @@
+# Dependency management
+
+Reproducible research, in the narrow sense in which it is defined in this
+book, ultimately means that an entire analysis - however complicated -
+can be repeated at the push of a button (or the command line equivalent:
+typing 'make') to yield the exact same figures, tables, files, or reports when
+aplied to the exact same data.
+In mathematical terms, one could go as far as requriing that an analysis must
+act as a function on data: there may very well be two data sets that produce
+the same output but the same input data must always produce the same analysis
+results.
+The core tools for achieving this are certainly literate programming, which
+allows to closer integrate documentation and code from a documentation-first
+perspective, and any form of build automation/workflow management system 
+(GNU make, snakemake, CWL, etc.).
+
+It is certainly worthwhile to take a step back here and reflect on the 
+complexity of the approach that was put forward so far.
+None of the steps suggested is excessively complex or requires a particularly
+deep understanding of 'the command line' but in combination a sizeable
+stack of software dependencies has piled up:
+
+1. On the base layer, there is the operating system itself.
+2. The analysis is conducted by interacting with the operating system, ideally,
+ via some form of terminal and shell.
+3. Next, a workflow management system or build system like GNU make, snakemake,
+or CWL-runner should be used to 'tie everything together'
+4. Version control softwae (usually git) is required to ensure integrity of the
+ project
+5. Usually some form of output is to be produced and the most reliable way to
+preserve digital documents at the moment seems to be .pdf.
+Note that changes in html/browser support may lead to different depiction of the
+same html file over the years! 
+To create this output one will typically rely on some form of literate programming which has further dependencies. 
+In the case of Rmarkdown and pdf output that would be R + pandoc + LaTeX.
+6. Finally, the analysis itself will require even more complex software (R packages, python modules). 
+In a scientific context there might also be bleeding edge software with no
+stabel release at all, which needs to be build from source.
+
+All in all, this software stack is incredibly complex even for the simplest of
+analyses!
+Over time, each of these component layers might change/be updated at different
+pace or the developmet might simply cease.
+This situation can be pictured as a completed analysis being a delicate 
+skyscraper: the moment it is finished it starts to slowly crumble away. 
+Even if all all scripts and report files were preserved exactly in the state 
+they were in when the analysis was conducted, 
+the slowly evolving software ecosystem around them will still change over time
+and it might very well be that the excat same code would produce different results, or much more likely, simply stop working at some point.
+
+It is thus not enough to simply maintain a versioned repository of all analysis
+scripts.
+Rather, complete reproducibility also requires a perfect snapshot of the
+software environment at the time of execution to be preserved for future 
+execution - a time capsule of code if you will.
+A good first step in this direction is certainly to report as many version 
+numbers of software used as possible.
+This approach, however, is cumbersome, error prone and ultimately futile since
+users are typically not even aware of the phletora of low level software they
+implicitly rely on. 
+A better approach would be to define explicitly the computing environment 
+required for the intended computation and to preserve an exact 'image' of this
+environemnt which can then be replicated at a later point in time to re-run the
+analysis in it's original environment.
+
+
+
+## Virtual machines 
+
+[bla]
+
+
+
+## Containers
+
+[blub]
+
+
+
+### Docker
+
+
+### Singularity
+
+
+## Containers and workflow management
+
+* running GNU make inside a container
+* snakemake + singularity
+
+## Containerization vs. package managers
+
