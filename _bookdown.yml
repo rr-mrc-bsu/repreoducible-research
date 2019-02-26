@@ -4,3 +4,4 @@ language:
   ui:
     chapter_name: ""
 output_dir: "_book"
+new_session: yes
