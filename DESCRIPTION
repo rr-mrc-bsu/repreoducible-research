@@ -1,2 +1,2 @@
 Type: Website
-Depends: bookdown
+Depends: bookdown, diagram
