@@ -72,7 +72,7 @@ Consider the toy example in https://github.com/rr-mrc-bsu/containerization-examp
 
 Let's sort throught the individual files and folder one by one.
 Any well-organized repository should contain `README.md`, `LICENSE`,  and `.gitignore` files.
-Their respective roles are described in the git chapter [REFERENCE].
+Their respective roles are described in the git chapter [write chapter, REFERENCE].
 
 The `.travis.yml` configuration file contains the configuration of the 
 continuous integration system (here: Travis-CI) linked to the repository.
@@ -87,7 +87,7 @@ chapter \ref(chpt-workflow-automation).
 These files can be used to organize complex workflows using either
 GNU make (in simpler cases) or snakemake (more sophisticated). 
 We will discuss how these tow common workflow automation systems can be used 
-together with containers at the end of this chapter in section [REFERENCE].
+together with containers at the end of this chapter in section \@ref(sct-container-workflow-manager).
 
 Finally, the Rmarkdown file `r-and-python.Rmd` and the `docker` folder are the
 elements of the example repository most important to the contents of this 
@@ -98,9 +98,9 @@ As the file name suggests, the analysis relies on both R as well as python
 as well as a potentially large number of packages/modules for these languages.
 In fact, the file contains both R as well as python code.
 To learn more about the language agnostic nature of Rmarkdown and especially
-python/R interoperability, see ???????.
+python/R interoperability, see [write chapter, REFERENCE].
 The `docker`-folder contains a build script `docker/build` and a `dockerfile`.
-We will return to this folder in section \@ref(#sec-docker).
+We will return to this folder in section \@ref(sct-docker).
 Before learning more about containers, it is a good idea to have a rough
 understanding of so called 'virtual machines'.
 
@@ -115,12 +115,15 @@ To achieve this, a virtual machine acts as intermediate layer between the host
 system (and its hardware) and the guest operating system.
 I.e., all low-level operatons of the guest system are mapped through the
 virtual machine and the host operating system to the host hardware.
-A common software for running virtual machines is VirtualBox [LINK] which can, 
+A common software for running virtual machines is 
+[VirtualBox](https://www.virtualbox.org/) which can, 
 e.g., be used to run an Ubuntu linux from within a Windows system.
 When using virtual machines for reproducible reseach, 
 care should be taken to make the process of creating the virtual machine 
-as transparent as possible (e.g., using Vagrant).
-We strongly discourage installing a full-fledged Ubuntu system within 
+as transparent as possible.
+Command line tools like [Vagrant](https://www.vagrantup.com/) are much better
+suited for theses use cases.
+We strongly discourage setting up a full-fledged Ubuntu system within 
 VirtualBox and installing required software manually from within the virtual
 machine since this process is itself not reproducible.
 A virtual machine created in this way may render a particular piece of code
@@ -131,14 +134,14 @@ Instead, the reproducible research community is mainly embracing containers
 to create portable computing environments.
 For our purposes, containers can bee seen as a more leightweight alternative
 to virtual machines.
-Snakemake [REFERENCE] for instance supports running workflows where individual
+Snakemake [write chapter, REFERENCE] for instance supports running workflows where individual
 steps are executed in their respective individual containers.
-A more technical explanation of the differences between virtual machines and
-containers can be found [here ???].
-In a nutshell, we may see container images as lightweight portable pieces of 
-software which can be used to spawn container instances thus creating a portable
-computing environment by simply distributing the respective container image
-file.
+
+> In a nutshell, we may see container images as lightweight portable pieces of 
+> software which can be used to spawn container instances thus creating a 
+> **portable computing environment** by simply distributing the respective 
+> container image file.
+
 If all dependencies of a particular analysis or an individual step in a larger
 workflow are contained in a container image, 
 these dependencies will be available in any instance spawned from the image.
@@ -146,57 +149,61 @@ By far the most common container software is Docker.
 
 
 
-### Docker {#sec-docker}
+### Docker {#sct-docker}
 
-Docker constitutes the de-facto standard in terms of container software and
+[Docker](https://www.docker.com/) constitutes the de-facto standard in 
+terms of container software and
 hugely contributed to popularizing the concept of containerization in recent
 years.
-As most of the tools discussed in this book, Docker was not initially designed 
-with reproducibility in mind but rather to enable the fast spinning up of 
-leightweight application containers to handle web-services etc.
+As most of the tools discussed in this book, Docker was nnever designed 
+with reproducibility in mind but rather to enable the fast spinning-up of 
+leightweight application containers to handle web-services etc. ('micro virtualization').
 
-Since it is the de-facto standard, Docker is well documented.
-While Docker Inc. is a private firm, the docker community edition is an open
-source project and available free of charge.
-The company behind Docker als runs an online repository, dockerhub, 
-for docker images which can be seen as the GitHub/GitLab of docker images.
-Dockerhub can be used free of charge and thus enables the storage and sharing of
-custom container images via the www.
+Since it is the de-facto standard, Docker is very well documented and t
+he docker community edition is an open source project and available free of 
+charge.
+The company behind Docker als runs an online repository, [Docker Hub](https://www.docker.com/products/docker-hub), 
+for docker images which can be seen as the GitHub/GitLab equivalent for docker images.
+Docker Hub can be used free of charge and thus enables the storage and sharing of
+custom container images via the world wide web.
 
-A major drawback of Docker is, that it was never intended as a user-space application but mainly as a tool for webserver administrators.
-As such it required root access to operate.
+A major drawback of Docker is, that it was never intended as a user-space application but mainly as a tool for server administrators.
+As such it requires root access to operate.
 While this is fine for buidling containers from so called `dockerfiles` 
 (cf. `docker/dockerfile` in the exampel repository), 
 the execution of an analysis should not require root access of the user.
+This is especially important when computations are conducted on shared 
+resource like HPC systems where users do not have root access.
 
 
 
 ### Singularity
 
-Only relatively recently, the singularity container software was introduces
-to address this issue.
-Initially, singularity targeted high-performance-cluster sytems on which
-users typically do not have root access.
-Containers which can be run without root access would therefore enable HPC
-users to locally build container images which they could then use to run
-analyses on a high-performance cluster.
-A guiding pricipal in the development of singularity was to maintain compatibility with docker containers, i.e., singularity can be used to run
+Only relatively recently, the [singularity](https://www.sylabs.io/) 
+container software was introduced to address this issue.
+Singularity was created exactly with HPC sytems and reproducibility in 
+science in mind (see [this](https://www.youtube.com/watch?v=DA87Ba2dpNM) video].
+It does not require root access to run (but to build container images!) and
+thus enables HPC users to locally build container images which they can then use
+to run analyses on a high-performance cluster.
+A guiding pricipal in the development of singularity was to maintain
+compatibility with docker containers, i.e., singularity can be used to run
 standard docker containers.
-Since singularity is still rather a niche product and community help for
-docker is much easier to get online, 
-we thus propose to use Docker to build the actual container image from 
-dockerfile but to use singularity for execution of the container.
+Since singularity is still rather a niche product,
+community help for docker is much easier to get online, 
+and dockerhub is arguably the safest (and cheapest) place to store and 
+distribute container images
+we still propose to use Docker for building the actual container images.
 
 
 
 ## The dockerfile
 
-A `dockerfile` contains a recipe for a docker container image.
-The complete reference of the syntax of dockerfiles can be found here ????.
+A `dockerfile` contains the 'recipe' for building a docker container image.
+The complete reference of the syntax of dockerfiles can be found [here](https://docs.docker.com/engine/reference/builder/).
 For our purposes, only a few commands will suffice to set up a docker container
-that contains all dependencies needed to render the Rmarkdown file `r-and-python.Rmd`.
-In fact, the entire contents of `docker/dockerfile` for the example project
-boils down to:
+that contains all dependencies needed to render the Rmarkdown file `r-and-python.Rmd` of the example project.
+In fact, the entire contents of `docker/dockerfile` boil down to:
 ```
 FROM rocker/verse:latest
 
@@ -216,74 +223,111 @@ RUN sudo pip3 install -U pandas matplotlib
 Only three statements are used.
 
 1. The `FROM` statement indicates the basis of the container. 
-This allows to build on existing containers which may then bemodified or 
+This allows to build on existing containers which may then be modified or 
 extended to save time and storage space since images are composed of individual
-layers. By re-using previous layers using `FROM`, the respective layer must only
+layers. 
+By re-using previous layers with `FROM` the respective layer must only
 be saved once per container repository.
-Here, the container is derived from the latest version of `rocker/verse`,
-a relatively large container consisting of stable debian linux system with 
+Here, the container is derived from the latest version of 
+[`rocker/verse`](https://www.rocker-project.org/),
+a relatively large container consisting of a stable debian linux system with 
 R, Rstudio, the tidyverse packges, 
 and all software required to render Rmarkdownr reports (LaTeX) pre-installed.
 2. The `MAINTAINER` field simplycontains an email address to complain to.
 3. The `RUN` statement can be used to execute commmands inside the container 
 during the build.
 Here we use it to update the distibution package manager before installing
-a the R package `reticulate` which enables interoperability between R and 
+the R package `reticulate` which enables interoperability between R and 
 python before installing python, pandas and matplotlib.
 
-We will now build the container image loclly. 
-To that end, clone the example repository to your local filesystem (cf. ???)
+For more information on using R and python together, see [TODO; REFERENCE].
+
+We will now build the container image locally. 
+To that end, clone the example repository to your local filesystem 
+(cf. [TODO; REFERENCE GIT])
 and `cd` to the example repository.
-Inside the docker folder invoke
+```bash
+git clone https://github.com/rr-mrc-bsu/containerization-example
+cd containerization-example/docker
+```
+
+Next, [install docker](https://docs.docker.com/install/) and execute the
+build script in `docker/`
 ```bash
 sudo docker build --no-cache -t mycontainer .
 ```
 Note that you require root access to build the container!
 This command will trigger the build process (and take a while). 
-Afterwards, a success message is displayed together with a unique sha256
-hash value for the container image.
-This hash value can later be used to uniuely identify a particular verions of
+Afterwards, a success message is displayed together with a unique [sha256
+hash](https://en.wikipedia.org/wiki/SHA-2) value for the container image.
+This hash value can later be used to uniquely identify a particular versions of
 a container (similar to git commit hashes, cf. ???).
-Should you have a dockerhub account you could then push the image 
+Should you have a Docker Hub account you could then push the image 
 by
 ```bash
 docker push yourname/mycontainer
 ```
-to make it available on the www.
 Otherwise, the image is only available locally.
-Note that the image (and its hash) is extremely important to guarantee 
-reproducibility.
-Simply rebuilding the container from at a later timepoint from the `dockerfile`
-could use newer, updated external dependencies since everything would be 
-rebuild starting from the base image 'rocker/verse'.
+Note that having access to the image (or at least its exact hash) 
+is extremely important to guarantee  reproducibility.
+Simply rebuilding the image from the same dockerfile at a later timepoint 
+will almost always result in a slightly different image when the build is 
+configured to use the most recent package sources and versions of the software
+required.
+To avoid this, one may take steps to specify the software versions explicitly
+in the dockerfile but this never guarantees reproducible builds due to the
+many uncontrollable external dependencies.
+Still, keeping the dockerfile is important, since it may be seen as a 
+guide as to how a similar computing environment can be set up manually at a 
+later timepoint.
+Even if there are reasons not to use singularity to re-run an analysis, 
+as good dockerfile might be the best way to specify software dependencies.
+
+[TODO link to continuous integration for dockerfiles]
+
+Switch back to the top level of the containerization-example folder now.
+```bash
+cd ..
+```
 
 
 
-## Containers and workflow management
+## Containers and workflow management {#sct-container-workflow-manager}
 
-A major advantage of singularity over docker over virtual machine is the ease
+A major advantage of singularity over docker over virtual machines is the ease
 with which singularity enables execution of commands **inside of a docker container instance** but **within the host file system**, i.e., in contrast to
 docker, one does not need to manually mount a particular directory when starting a container but simply may invoke
 ```
-singularity exec ??? touch test
+singularity exec docker://kkmann/rr-containerization-example touch test
 ```
-to execute the command `touch test` in an instance of the container image 
-??? but **with the host filesystem**.
-This means that after executing this line in a shell, a new file 'test' 
+to execute the command `touch test` in an instance of the publicly built 
+container image but **within the host filesystem**.
+This means that after executing the line in a shell, a new file 'test' 
 should have been created in the current working directory.
 The touch command, however, was not executed in the host system but within
 the container!
+This example is obviously useless since `touch` is just as well available in the
+host shell but it immediately demonstrates the ease of using singularity with 
+th host file system!
 
-Just as well, we may also invoke GNU make inside the container, i.e., we
-can render the Rmarkdown file in our container by
-```
-singularity exec ??? make
+A much more useful application in our context is executing GNU make in a 
+container!
+This means that we can render the Rmarkdown file in our container by
+```bash
+singularity exec docker://kkmann/rr-containerization-example make
 ```
 Since all dependencies are pre-installed in the container image, 
 this command only depends on the verson of singularity and the exact container
-image which can be frozen by specifying a particular hash value
+image.
+To query the exact sha256 hash value, use `docker images`
+```bash
+docker images --digest | grep containerization
 ```
-singularity exec ???@sha256:??? make
+which will list the locally available corresponding container images and there
+exact hash values.
+To re-use a particular version, one may then invoke, e.g.,
+```
+singularity exec docker://kkmann/rr-containerization-example@sha256:5225e53f934d749bf3017f140e5169b0d2eadc0512799b89c2f854a2d002d0c4 make
 ```
 
 
