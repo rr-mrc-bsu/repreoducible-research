@@ -1,8 +1,0 @@
-# New Chapter test {#newchapter}
-
-[taken from bookdown template!]
-
-
-
-![Hello world !](./Figures/funny_mouse.jpg)
-

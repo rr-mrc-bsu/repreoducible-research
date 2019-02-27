@@ -255,14 +255,39 @@ Note that the image (and its hash) is extremely important to guarantee
 reproducibility.
 Simply rebuilding the container from at a later timepoint from the `dockerfile`
 could use newer, updated external dependencies since everything would be 
-rebuild starting from rocker/verse.
-
+rebuild starting from the base image 'rocker/verse'.
 
 
 
 ## Containers and workflow management
 
-* running GNU make inside a container
+A major advantage of singularity over docker over virtual machine is the ease
+with which singularity enables execution of commands **inside of a docker container instance** but **within the host file system**, i.e., in contrast to
+docker, one does not need to manually mount a particular directory when starting a container but simply may invoke
+```
+singularity exec ??? touch test
+```
+to execute the command `touch test` in an instance of the container image 
+??? but **with the host filesystem**.
+This means that after executing this line in a shell, a new file 'test' 
+should have been created in the current working directory.
+The touch command, however, was not executed in the host system but within
+the container!
+
+Just as well, we may also invoke GNU make inside the container, i.e., we
+can render the Rmarkdown file in our container by
+```
+singularity exec ??? make
+```
+Since all dependencies are pre-installed in the container image, 
+this command only depends on the verson of singularity and the exact container
+image which can be frozen by specifying a particular hash value
+```
+singularity exec ???@sha256:??? make
+```
+
+
+
 * snakemake + singularity
 
 ## Containerization vs. package managers
