@@ -1,0 +1,440 @@
+# Dependency management
+
+Reproducible research, in the narrow sense in which it is defined in this
+book, ultimately means that an entire analysis - however complicated -
+can be repeated at the push of a button (or the command line equivalent:
+typing 'make') to yield the exact same figures, tables, files, or reports when
+aplied to the exact same data.
+In mathematical terms, one could go as far as requriing that an analysis must
+act as a function on data: there may very well be two data sets that produce
+the same output but the same input data must always produce the same analysis
+results.
+The core tools for achieving this are certainly literate programming, which
+allows to closer integrate documentation and code from a documentation-first
+perspective, and any form of build automation/workflow management system 
+(GNU make, snakemake, CWL, etc.).
+
+It is certainly worthwhile to take a step back here and reflect on the 
+complexity of the approach that was put forward so far.
+None of the steps suggested is excessively complex or requires a particularly
+deep understanding of 'the command line' but in combination a sizeable
+stack of software dependencies has piled up:
+
+1. On the base layer, there is the operating system itself.
+2. The analysis is conducted by interacting with the operating system, ideally,
+ via some form of terminal and shell.
+3. Next, a workflow management system or build system like GNU make, snakemake,
+or CWL-runner should be used to 'tie everything together'
+4. Version control softwae (usually git) is required to ensure integrity of the
+ project
+5. Usually some form of output is to be produced and the most reliable way to
+preserve digital documents at the moment seems to be .pdf.
+Note that changes in html/browser support may lead to different depiction of the
+same html file over the years! 
+To create this output one will typically rely on some form of literate programming which has further dependencies. 
+In the case of Rmarkdown and pdf output that would be R + pandoc + LaTeX.
+6. Finally, the analysis itself will require even more complex software (R packages, python modules). 
+In a scientific context there might also be bleeding edge software with no
+stabel release at all, which needs to be build from source.
+
+All in all, this software stack is incredibly complex even for the simplest of
+analyses!
+Over time, each of these component layers might change/be updated at different
+pace or the developmet might simply cease.
+This situation can be pictured as a completed analysis being a delicate 
+skyscraper: the moment it is finished it starts to slowly crumble away.
+[picture lening tower of pisa]
+Even if all all scripts and report files were preserved exactly in the state 
+they were in when the analysis was conducted, 
+the slowly evolving software ecosystem around them will still change over time
+and it might very well be that the excat same code would produce different results, or much more likely, simply stop working at some point.
+
+It is thus not enough to simply maintain a versioned repository of all analysis
+scripts.
+Rather, complete reproducibility also requires a perfect snapshot of the
+software environment at the time of execution to be preserved for future 
+execution - a time capsule of code if you will.
+A good first step in this direction is certainly to report as many version 
+numbers of software used as possible.
+This approach, however, is cumbersome, error prone and ultimately futile since
+users are typically not even aware of the phletora of low level software they
+implicitly rely on. 
+A better approach would be to define explicitly the computing environment 
+required for the intended computation and to preserve an exact 'image' of this
+environemnt which can then be replicated at a later point in time to re-run the
+analysis in it's original environment.
+
+
+
+## Example problem
+
+Consider the toy example in https://github.com/rr-mrc-bsu/containerization-example. 
+
+Let's sort throught the individual files and folder one by one.
+Any well-organized repository should contain `README.md`, `LICENSE`,  and `.gitignore` files.
+Their respective roles are described in the git chapter [write chapter, REFERENCE].
+
+The `.travis.yml` configuration file contains the configuration of the 
+continuous integration system (here: Travis-CI) linked to the repository.
+Continuous integration services allow automatic builds/checks of the code in
+a repository and greatly facilitate quality checking of new pull requests.
+To avoid a lengthly configuration file, the folder `.travis` contains further
+scripts which are referenced from the actual Travis configuration file.
+For details on continuous integration, see chapter \@ref(chptr-continuous-integration).
+
+The `Makefile` and the `Snakemake`-file are explained in more detail in 
+chapter \ref(chpt-workflow-automation). 
+These files can be used to organize complex workflows using either
+GNU make (in simpler cases) or snakemake (more sophisticated). 
+We will discuss how these tow common workflow automation systems can be used 
+together with containers at the end of this chapter in section \@ref(sct-container-workflow-manager).
+
+Finally, the Rmarkdown file `r-and-python.Rmd` and the `docker` folder are the
+elements of the example repository most important to the contents of this 
+chapter.
+Assume that `r-and-python.Rmd` contains an important analysis which we want to
+render fully reproducible.
+As the file name suggests, the analysis relies on both R as well as python
+as well as a potentially large number of packages/modules for these languages.
+In fact, the file contains both R as well as python code.
+To learn more about the language agnostic nature of Rmarkdown and especially
+python/R interoperability, see [write chapter, REFERENCE].
+The `docker`-folder contains a build script `docker/build` and a `dockerfile`.
+We will return to this folder in section \@ref(sct-docker).
+Before learning more about containers, it is a good idea to have a rough
+understanding of so called 'virtual machines'.
+
+
+
+## Virtual machines and containers
+
+A virtual machines are (software) emulations of entire computer systems.
+As such they allow running various guest operating systems from withing a
+single host system, e.g., Linux within Windows or vice versa.
+To achieve this, a virtual machine acts as intermediate layer between the host
+system (and its hardware) and the guest operating system.
+I.e., all low-level operatons of the guest system are mapped through the
+virtual machine and the host operating system to the host hardware.
+A common software for running virtual machines is 
+[VirtualBox](https://www.virtualbox.org/) which can, 
+e.g., be used to run an Ubuntu linux from within a Windows system.
+When using virtual machines for reproducible reseach, 
+care should be taken to make the process of creating the virtual machine 
+as transparent as possible.
+Command line tools like [Vagrant](https://www.vagrantup.com/) are much better
+suited for theses use cases.
+We strongly discourage setting up a full-fledged Ubuntu system within 
+VirtualBox and installing required software manually from within the virtual
+machine since this process is itself not reproducible.
+A virtual machine created in this way may render a particular piece of code
+reproducible but can itself not easily be recreated to the exact same 
+specifications.
+
+Instead, the reproducible research community is mainly embracing containers
+to create portable computing environments.
+For our purposes, containers can bee seen as a more leightweight alternative
+to virtual machines.
+Snakemake [write chapter, REFERENCE] for instance supports running workflows where individual
+steps are executed in their respective individual containers.
+
+> In a nutshell, we may see container images as lightweight portable pieces of 
+> software which can be used to spawn container instances thus creating a 
+> **portable computing environment** by simply distributing the respective 
+> container image file.
+
+If all dependencies of a particular analysis or an individual step in a larger
+workflow are contained in a container image, 
+these dependencies will be available in any instance spawned from the image.
+By far the most common container software is Docker.
+
+
+
+### Docker {#sct-docker}
+
+[Docker](https://www.docker.com/) constitutes the de-facto standard in 
+terms of container software and
+hugely contributed to popularizing the concept of containerization in recent
+years.
+As most of the tools discussed in this book, Docker was nnever designed 
+with reproducibility in mind but rather to enable the fast spinning-up of 
+leightweight application containers to handle web-services etc. ('micro virtualization').
+
+Since it is the de-facto standard, Docker is very well documented and t
+he docker community edition is an open source project and available free of 
+charge.
+The company behind Docker als runs an online repository, [Docker Hub](https://www.docker.com/products/docker-hub), 
+for docker images which can be seen as the GitHub/GitLab equivalent for docker images.
+Docker Hub can be used free of charge and thus enables the storage and sharing of
+custom container images via the world wide web.
+
+A major drawback of Docker is, that it was never intended as a user-space application but mainly as a tool for server administrators.
+As such it requires root access to operate.
+While this is fine for buidling containers from so called `dockerfiles` 
+(cf. `docker/dockerfile` in the exampel repository), 
+the execution of an analysis should not require root access of the user.
+This is especially important when computations are conducted on shared 
+resource like HPC systems where users do not have root access.
+
+
+
+### Singularity
+
+Only relatively recently, the [singularity](https://www.sylabs.io/) 
+container software was introduced to address this issue.
+Singularity was created exactly with HPC sytems and reproducibility in 
+science in mind (see [this](https://www.youtube.com/watch?v=DA87Ba2dpNM) video].
+It does not require root access to run (but to build container images!) and
+thus enables HPC users to locally build container images which they can then use
+to run analyses on a high-performance cluster.
+A guiding pricipal in the development of singularity was to maintain
+compatibility with docker containers, i.e., singularity can be used to run
+standard docker containers.
+Since singularity is still rather a niche product,
+community help for docker is much easier to get online, 
+and dockerhub is arguably the safest (and cheapest) place to store and 
+distribute container images
+we still propose to use Docker for building the actual container images.
+
+
+
+## The dockerfile
+
+A `dockerfile` contains the 'recipe' for building a docker container image.
+The complete reference of the syntax of dockerfiles can be found [here](https://docs.docker.com/engine/reference/builder/).
+For our purposes, only a few commands will suffice to set up a docker container
+that contains all dependencies needed to render the Rmarkdown file `r-and-python.Rmd` of the example project.
+In fact, the entire contents of `docker/dockerfile` boil down to:
+```
+FROM rocker/verse:latest
+
+MAINTAINER blameme@ihavenoclue.co.uk
+
+# update apt
+RUN sudo apt-get update
+
+# install required R packages
+RUN R -e "install.packages('reticulate')"
+
+# install python
+RUN sudo apt-get install -y python3-pip python3-dev python3-tk
+RUN sudo pip3 install -U pip
+RUN sudo pip3 install -U pandas matplotlib
+```
+Only three statements are used.
+
+1. The `FROM` statement indicates the basis of the container. 
+This allows to build on existing containers which may then be modified or 
+extended to save time and storage space since images are composed of individual
+layers. 
+By re-using previous layers with `FROM` the respective layer must only
+be saved once per container repository.
+Here, the container is derived from the latest version of 
+[`rocker/verse`](https://www.rocker-project.org/),
+a relatively large container consisting of a stable debian linux system with 
+R, Rstudio, the tidyverse packges, 
+and all software required to render Rmarkdownr reports (LaTeX) pre-installed.
+2. The `MAINTAINER` field simplycontains an email address to complain to.
+3. The `RUN` statement can be used to execute commmands inside the container 
+during the build.
+Here we use it to update the distibution package manager before installing
+the R package `reticulate` which enables interoperability between R and 
+python before installing python, pandas and matplotlib.
+
+For more information on using R and python together, see [TODO; REFERENCE].
+
+We will now build the container image locally. 
+To that end, clone the example repository to your local filesystem 
+(cf. [TODO; REFERENCE GIT])
+and `cd` to the example repository.
+```bash
+git clone https://github.com/rr-mrc-bsu/containerization-example
+cd containerization-example/docker
+```
+
+Next, [install docker](https://docs.docker.com/install/) and execute the
+build script in `docker/`
+```bash
+sudo docker build --no-cache -t mycontainer .
+```
+Note that you require root access to build the container!
+This command will trigger the build process (and take a while). 
+Afterwards, a success message is displayed together with a unique [sha256
+hash](https://en.wikipedia.org/wiki/SHA-2) value for the container image.
+This hash value can later be used to uniquely identify a particular versions of
+a container (similar to git commit hashes, cf. ???).
+Should you have a Docker Hub account you could then push the image 
+by
+```bash
+docker push yourname/mycontainer
+```
+Otherwise, the image is only available locally.
+Note that having access to the image (or at least its exact hash) 
+is extremely important to guarantee  reproducibility.
+Simply rebuilding the image from the same dockerfile at a later timepoint 
+will almost always result in a slightly different image when the build is 
+configured to use the most recent package sources and versions of the software
+required.
+To avoid this, one may take steps to specify the software versions explicitly
+in the dockerfile but this never guarantees reproducible builds due to the
+many uncontrollable external dependencies.
+Still, keeping the dockerfile is important, since it may be seen as a 
+guide as to how a similar computing environment can be set up manually at a 
+later timepoint.
+Even if there are reasons not to use singularity to re-run an analysis, 
+as good dockerfile might be the best way to specify software dependencies.
+
+[TODO link to continuous integration for dockerfiles]
+
+Switch back to the top level of the containerization-example folder now.
+```bash
+cd ..
+```
+
+A major advantage of singularity over docker over virtual machines is the ease
+with which singularity enables execution of commands **inside of a docker container instance** but **within the host file system**, i.e., in contrast to
+docker, one does not need to manually mount a particular directory when starting a container but simply may invoke
+```
+singularity exec docker://kkmann/rr-containerization-example touch test
+```
+to execute the command `touch test` in an instance of the publicly built 
+container image but **within the host filesystem**.
+This means that after executing the line in a shell, a new file 'test' 
+should have been created in the current working directory.
+The touch command, however, was not executed in the host system but within
+the container!
+This example is obviously useless since `touch` is just as well available in the
+host shell but it immediately demonstrates the ease of using singularity with 
+the host file system!
+
+
+
+## Containers and workflow management {#sct-container-workflow-manager}
+
+### GNU make
+
+A much more useful application in our context is executing GNU make in a 
+container!
+This means that we can render the Rmarkdown file in our container by
+```bash
+singularity exec docker://kkmann/rr-containerization-example make
+```
+Since all dependencies are pre-installed in the container image, 
+this command only depends on the verson of singularity and the exact container
+image.
+To query the exact sha256 hash value, use `docker images`
+```bash
+docker images --digest | grep containerization
+```
+which will list the locally available corresponding container images and there
+exact hash values.
+To re-use a particular version, one may then invoke, e.g.,
+```
+singularity exec docker://kkmann/rr-containerization-example@sha256:5225e53f934d749bf3017f140e5169b0d2eadc0512799b89c2f854a2d002d0c4 make
+```
+
+### Snakemake
+
+Snakemake is a much more powerful tool whe it comes to complex workflows since
+it supports cluster execution and more flexible rule definitions 
+(cf chapter [TODO, REFERENCE]).
+It is also designed with reproducibility in mind and thus allows to run either
+specific rules or an entire workflow using singularity.
+The contents of the `Snakefile` in the containerization-example folder are
+```
+singularity:
+    "docker://kkmann/rr-containerization-example@sha256:5225e53f934d749bf3017f140e5169b0d2eadc0512799b89c2f854a2d002d0c4"
+
+rule build_report:
+    input:
+        "r-and-python.Rmd"
+    output:
+        "r-and-python.html"
+    shell:
+        """
+        Rscript -e "rmarkdown::render(\\"{input}\\")"
+        """
+```
+The first line specifies the singularity container to use.
+Here, the publicly available image from dockerhub is used with a particular
+hash value.
+One could just as well point to a local image as well though.
+Such a global singularity parameter will run every rule of the workflow in the
+same default container.
+It is also possible to specify custom containers on a per-rule basis by
+specifying the `singularity` parameter of the rule.
+```
+rule build_report:
+    input:
+        "r-and-python.Rmd"
+    output:
+        "r-and-python.html"
+    singularity:
+        "docker://kkmann/rr-containerization-example@sha256:5225e53f934d749bf3017f140e5169b0d2eadc0512799b89c2f854a2d002d0c4"
+    shell:
+        """
+        Rscript -e "rmarkdown::render(\\"{input}\\")"
+        """
+```
+This will override potential gloabl singularity container settings (cf. [REFERENE SINGULARITY CHAPTER]).
+
+
+
+## Containerization vs. package managers
+
+The approach to dependency management presented in this chapter might be
+considered a bit overpowered for some use cases.
+The main reason why we chose to demonstrate what we consider the 'gold-standard'
+of dependency management over more language/environment specific approaches
+is to is to showcase how simple it actually is.
+As long as you are capabale of running a few simple commands in a linux 
+command line you are good to go.
+The container-based approach to dependency managemnt is also the most generic
+in that it is capable of managing arbitrary dependencies -
+as long as your computing environment can be set up on a linux operating system
+you are good to go!
+It does not matter which (or even how many different) programming languages 
+you use, how much messy custom research software you need.
+As long as you are able to install it to a plain linux system there is no
+environment that cannot be mapped to a container (or several!).
+Still, for completeness' sake, a few different, potentially more accessible
+methods for partial dependency management will be discussed as 'honorable
+mentions' in the following.
+
+
+### R only - wrap everything up in a package
+
+In case your entire workflow is R-based, it might be worthwhile to 
+write an R packge for your analysis.
+This essentially relies on R's package management system to resolve 
+dependencies (in this case: R packages only).
+An R analysis package tends to not contain much code in the `R/` folder, 
+but rather encapsulates any analyses in vignettes.
+[TODO: elaborate on this idea, example repository]
+
+
+### R only - packrat
+
+[TODO]
+
+
+## Caveats
+
+Depending on your perspective, there are a few restrictions to a container-based
+dependency management approach.
+
+1. **Licensing:** Reproducibility and the open-source philosophy are closely connected in that true reproducibility requires the
+software dependencies to be openly available.
+If the required dependencies cannot be installed in a container that  may be distributed openly, results will not be reproducible by everybody.
+For instance, while the SAS system for statistical analyses can be used inside
+containers, licensing and license consts may be a major obstacle in doing so.
+2. **Containers are linux based:** 
+The effective restriciton to open-source software also restricts the choice
+of container operating systems. 
+In practice, containers are almost exclusively linux based. 
+In case of, e.g., Windows dependencies, this means that the less flexible 
+approach via virtual machines might be required to encapsulate the
+analysis environment.
+
+While these restrictions might be seen as caveats, in fact, they can also be
+seen as an encouragement to conducting research in a more open (as in 
+open-source-software-based) way.
