@@ -1,4 +1,4 @@
-# Build automation
+# Build automation {#chptr-workflow-automation}
 
 Large projects can be a pain to manage. Small changes may break your software, 
 or may deem your previously obtained data analysis results useless. Build 
