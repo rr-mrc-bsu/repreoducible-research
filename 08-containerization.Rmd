@@ -290,10 +290,6 @@ Switch back to the top level of the containerization-example folder now.
 cd ..
 ```
 
-
-
-## Containers and workflow management {#sct-container-workflow-manager}
-
 A major advantage of singularity over docker over virtual machines is the ease
 with which singularity enables execution of commands **inside of a docker container instance** but **within the host file system**, i.e., in contrast to
 docker, one does not need to manually mount a particular directory when starting a container but simply may invoke
@@ -308,7 +304,13 @@ The touch command, however, was not executed in the host system but within
 the container!
 This example is obviously useless since `touch` is just as well available in the
 host shell but it immediately demonstrates the ease of using singularity with 
-th host file system!
+the host file system!
+
+
+
+## Containers and workflow management {#sct-container-workflow-manager}
+
+### GNU make
 
 A much more useful application in our context is executing GNU make in a 
 container!
@@ -330,9 +332,109 @@ To re-use a particular version, one may then invoke, e.g.,
 singularity exec docker://kkmann/rr-containerization-example@sha256:5225e53f934d749bf3017f140e5169b0d2eadc0512799b89c2f854a2d002d0c4 make
 ```
 
+### Snakemake
+
+Snakemake is a much more powerful tool whe it comes to complex workflows since
+it supports cluster execution and more flexible rule definitions 
+(cf chapter [TODO, REFERENCE]).
+It is also designed with reproducibility in mind and thus allows to run either
+specific rules or an entire workflow using singularity.
+The contents of the `Snakefile` in the containerization-example folder are
+```
+singularity:
+    "docker://kkmann/rr-containerization-example@sha256:5225e53f934d749bf3017f140e5169b0d2eadc0512799b89c2f854a2d002d0c4"
+
+rule build_report:
+    input:
+        "r-and-python.Rmd"
+    output:
+        "r-and-python.html"
+    shell:
+        """
+        Rscript -e "rmarkdown::render(\\"{input}\\")"
+        """
+```
+The first line specifies the singularity container to use.
+Here, the publicly available image from dockerhub is used with a particular
+hash value.
+One could just as well point to a local image as well though.
+Such a global singularity parameter will run every rule of the workflow in the
+same default container.
+It is also possible to specify custom containers on a per-rule basis by
+specifying the `singularity` parameter of the rule.
+```
+rule build_report:
+    input:
+        "r-and-python.Rmd"
+    output:
+        "r-and-python.html"
+    singularity:
+        "docker://kkmann/rr-containerization-example@sha256:5225e53f934d749bf3017f140e5169b0d2eadc0512799b89c2f854a2d002d0c4"
+    shell:
+        """
+        Rscript -e "rmarkdown::render(\\"{input}\\")"
+        """
+```
+This will override potential gloabl singularity container settings (cf. [REFERENE SINGULARITY CHAPTER]).
 
 
-* snakemake + singularity
 
 ## Containerization vs. package managers
 
+The approach to dependency management presented in this chapter might be
+considered a bit overpowered for some use cases.
+The main reason why we chose to demonstrate what we consider the 'gold-standard'
+of dependency management over more language/environment specific approaches
+is to is to showcase how simple it actually is.
+As long as you are capabale of running a few simple commands in a linux 
+command line you are good to go.
+The container-based approach to dependency managemnt is also the most generic
+in that it is capable of managing arbitrary dependencies -
+as long as your computing environment can be set up on a linux operating system
+you are good to go!
+It does not matter which (or even how many different) programming languages 
+you use, how much messy custom research software you need.
+As long as you are able to install it to a plain linux system there is no
+environment that cannot be mapped to a container (or several!).
+Still, for completeness' sake, a few different, potentially more accessible
+methods for partial dependency management will be discussed as 'honorable
+mentions' in the following.
+
+
+### R only - wrap everything up in a package
+
+In case your entire workflow is R-based, it might be worthwhile to 
+write an R packge for your analysis.
+This essentially relies on R's package management system to resolve 
+dependencies (in this case: R packages only).
+An R analysis package tends to not contain much code in the `R/` folder, 
+but rather encapsulates any analyses in vignettes.
+[TODO: elaborate on this idea, example repository]
+
+
+### R only - packrat
+
+[TODO]
+
+
+## Caveats
+
+Depending on your perspective, there are a few restrictions to a container-based
+dependency management approach.
+
+1. **Licensing:** Reproducibility and the open-source philosophy are closely connected in that true reproducibility requires the
+software dependencies to be openly available.
+If the required dependencies cannot be installed in a container that  may be distributed openly, results will not be reproducible by everybody.
+For instance, while the SAS system for statistical analyses can be used inside
+containers, licensing and license consts may be a major obstacle in doing so.
+2. **Containers are linux based:** 
+The effective restriciton to open-source software also restricts the choice
+of container operating systems. 
+In practice, containers are almost exclusively linux based. 
+In case of, e.g., Windows dependencies, this means that the less flexible 
+approach via virtual machines might be required to encapsulate the
+analysis environment.
+
+While these restrictions might be seen as caveats, in fact, they can also be
+seen as an encouragement to conducting research in a more open (as in 
+open-source-software-based) way.
