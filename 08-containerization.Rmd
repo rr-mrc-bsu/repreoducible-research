@@ -145,6 +145,13 @@ steps are executed in their respective individual containers.
 If all dependencies of a particular analysis or an individual step in a larger
 workflow are contained in a container image, 
 these dependencies will be available in any instance spawned from the image.
+Two excellent videos on the 'what is a container'/'containers versus virtual machines' 
+issues are: 
+
+* Ben Corrie, 'what is a container?': https://www.youtube.com/watch?v=EnJ7qX9fkcU
+* Steve Tegeler, 'containers and VMs - a practical comparison' 
+https://www.youtube.com/watch?v=EnJ7qX9fkcU
+
 By far the most common container software is Docker.
 
 
