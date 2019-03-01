@@ -25,7 +25,7 @@
 <meta name="author" content="cf. list of contributors at https://github.com/rr-mrc-bsu/reproducible-research/graphs/contributors">
 
 
-<meta name="date" content="2019-02-28">
+<meta name="date" content="2019-03-01">
 
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="apple-mobile-web-app-capable" content="yes">
@@ -107,10 +107,11 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 <li class="chapter" data-level="1" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i><b>1</b> A ‘Living Book’ - aims and scope</a></li>
 <li class="chapter" data-level="2" data-path="how-to-contribute.html"><a href="how-to-contribute.html"><i class="fa fa-check"></i><b>2</b> How to contribute</a><ul>
 <li class="chapter" data-level="2.1" data-path="how-to-contribute.html"><a href="how-to-contribute.html#before-you-start"><i class="fa fa-check"></i><b>2.1</b> Before you start</a></li>
-<li class="chapter" data-level="2.2" data-path="how-to-contribute.html"><a href="how-to-contribute.html#getting-the-books-source-code"><i class="fa fa-check"></i><b>2.2</b> Getting the book’s source code</a></li>
-<li class="chapter" data-level="2.3" data-path="how-to-contribute.html"><a href="how-to-contribute.html#creating-a-new-branch-for-your-changes"><i class="fa fa-check"></i><b>2.3</b> Creating a new ‘branch’ for your changes</a></li>
-<li class="chapter" data-level="2.4" data-path="how-to-contribute.html"><a href="how-to-contribute.html#create-a-new-chapter"><i class="fa fa-check"></i><b>2.4</b> Create a new chapter</a></li>
-<li class="chapter" data-level="2.5" data-path="how-to-contribute.html"><a href="how-to-contribute.html#publishing-your-changes"><i class="fa fa-check"></i><b>2.5</b> Publishing your changes</a></li>
+<li class="chapter" data-level="2.2" data-path="how-to-contribute.html"><a href="how-to-contribute.html#cloning-getting-the-books-source-code"><i class="fa fa-check"></i><b>2.2</b> Cloning: Getting the book’s source code</a></li>
+<li class="chapter" data-level="2.3" data-path="how-to-contribute.html"><a href="how-to-contribute.html#creating-a-new-branch"><i class="fa fa-check"></i><b>2.3</b> Creating a new ‘branch’</a></li>
+<li class="chapter" data-level="2.4" data-path="how-to-contribute.html"><a href="how-to-contribute.html#creating-a-new-chapter"><i class="fa fa-check"></i><b>2.4</b> Creating a new chapter</a></li>
+<li class="chapter" data-level="2.5" data-path="how-to-contribute.html"><a href="how-to-contribute.html#committing-your-changes"><i class="fa fa-check"></i><b>2.5</b> Committing your changes</a></li>
+<li class="chapter" data-level="2.6" data-path="how-to-contribute.html"><a href="how-to-contribute.html#publishing-your-changes"><i class="fa fa-check"></i><b>2.6</b> Publishing your changes</a></li>
 </ul></li>
 <li class="chapter" data-level="3" data-path="version-control.html"><a href="version-control.html"><i class="fa fa-check"></i><b>3</b> Version control</a></li>
 <li class="chapter" data-level="4" data-path="r-package-development.html"><a href="r-package-development.html"><i class="fa fa-check"></i><b>4</b> R package development</a><ul>
@@ -168,48 +169,78 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 <div id="how-to-contribute" class="section level1">
 <h1><span class="header-section-number">2</span> How to contribute</h1>
 <p>Since this book is a collaborative effort, the most important thing is enabling people to contribute! This chapter is a hands-on tutorial and does not go into the details of the required steps. Each of the techniques will be explained in more detail in the subsequent chapters.</p>
+<hr />
 <div id="before-you-start" class="section level2">
 <h2><span class="header-section-number">2.1</span> Before you start</h2>
-<p>In the following we will assume that you are working on a Linux machine. In fact, using an open source operating system such as Linux is already the first step towards reproducibility since everybody else is free (also as in ‘free of charge’) to use the exact same operating that you are running. Windows or MacOS on the other hand might not be available to everybody. A great way to get started with Linux is <a href="https://www.ubuntu.com/download/desktop">Ubuntu</a> and the easiest way to install it on an existing Windows or MacOS machine might be via a virtual machine. Detailed instructions on how to do so can be found <a href="https://www.wikihow.com/Install-Ubuntu-on-VirtualBox">here</a>.</p>
+<p>In the following we will assume that you are working on a Linux or MacOS machine. The instructions are similar for Windows users, but we do not discuss the details here. Using an open source operating system such as Linux is preferable since all collaborators are able to use the exact same operating system that you are running.</p>
+<p>A great way to get started with Linux is <a href="https://www.ubuntu.com/download/desktop">Ubuntu</a> and the easiest way to install it on an existing Windows or MacOS machine might be via a virtual machine. Detailed instructions on how to do so can be found <a href="https://www.wikihow.com/Install-Ubuntu-on-VirtualBox">here</a>.</p>
+<hr />
 </div>
-<div id="getting-the-books-source-code" class="section level2">
-<h2><span class="header-section-number">2.2</span> Getting the book’s source code</h2>
+<div id="cloning-getting-the-books-source-code" class="section level2">
+<h2><span class="header-section-number">2.2</span> Cloning: Getting the book’s source code</h2>
 <p>The book is compiled from a collection of R markdown files which is a special text file format that allows to combine code and text within the same file as well as basic markup<a href="#fn1" class="footnoteRef" id="fnref1"><sup>1</sup></a>. The motivation behind markdown is to separate the content entirely from the layout and stick to an absolute minimum number of markups (e.g. headings, enumeration, hyperlinks) to be able to compile the document to as many different output formats as possible. The actual compilation will be done in ‘pandoc’ and will be explained later [ref].</p>
-<p>A very important pillar of reproducibility is version control, i.e., some mechanism to keep track of changing files over time and enabling roll-backs to previous versions. For more details on why version control is so important in reproducible research and how to implement it, cf. [ref: version control chapter]. For now, we will just focus on how to install and use a specific program, git, to obtain the source code for the book and make changes to it. Assuming that you have a linux system running (we will assume an Ubuntu installation) you will need to install the version control system git [link to chapter]. The easiest way to do this is via the command line package manager ‘apt’. Open a terminal window and execute the command</p>
+<p>A very important pillar of reproducibility is version control, i.e., some mechanism to keep track of changing files over time and enabling roll-backs to previous versions. For more details on why version control is so important in reproducible research and how to implement it, cf. [ref: version control chapter]. For now, we will just focus on how to install and use a specific program, <strong>git</strong>, to obtain the source code for the book and make changes to it. Assuming that you have a linux (we will assume an Ubuntu installation) or MacOS system running, you will need to install the version control system git [link to chapter]. The easiest way to do this is via the command line package manager ‘apt’ on linux (‘homebrew’ is the equivalent for MacOS).</p>
+<p>On <strong>linux</strong>, open a terminal window and execute the command</p>
 <div class="sourceCode"><pre class="sourceCode bash"><code class="sourceCode bash"><span class="fu">sudo</span> apt -y install git</code></pre></div>
+<p>On <strong>MacOS</strong>, the following command will prompt git installation if it is not already installed</p>
+<div class="sourceCode"><pre class="sourceCode bash"><code class="sourceCode bash"><span class="fu">git</span> --version</code></pre></div>
 <p>This will download and install all required packages from the official repository.</p>
-<p>You may now ‘clone’ the online repository of the book from its GitHub.com website: [<a href="https://github.com/rr-mrc-bsu/reproducible-research" class="uri">https://github.com/rr-mrc-bsu/reproducible-research</a>] (<a href="https://github.com/rr-mrc-bsu/reproducible-research" class="uri">https://github.com/rr-mrc-bsu/reproducible-research</a>). Here ‘cloning’ does exactly what it says: it downloads an exact copy of the entire source code including its complete history of previous changes to your local computer to work on. Assuming that you have a terminal window opened and the working directory is your home directory ‘~’ you clone the repository by invoking</p>
+<p>You may now ‘clone’ the online repository of the book from its GitHub.com website: <a href="https://github.com/rr-mrc-bsu/reproducible-research" class="uri">https://github.com/rr-mrc-bsu/reproducible-research</a>. Here ‘cloning’ does exactly what it says: it downloads an exact copy of the entire source code including its complete history of previous changes to your local computer to work on.</p>
+<p>Assuming that you have a terminal window opened and the working directory is your home directory ‘~’ you clone the repository by invoking</p>
 <div class="sourceCode"><pre class="sourceCode bash"><code class="sourceCode bash"><span class="fu">git</span> clone https://github.com/rr-mrc-bsu/reproducible-research.git</code></pre></div>
 <p>This will create a new folder ‘reproducible-research’ in your current working directory and download all necessary files. You should then change the working directory to the new folder via</p>
 <div class="sourceCode"><pre class="sourceCode bash"><code class="sourceCode bash"><span class="bu">cd</span> reproducible-research</code></pre></div>
+<p>Note that the source code only needs to be cloned <strong>once</strong>. After you have a local copy of the source code, you should ensure that this is kept up to date by ‘pulling’ from the remote master branch. This ensures that you are editing the most up-to-date version of the project.</p>
+<p>The following command copies the remote master branch to your local device (this need not be done if you have just cloned the source code)</p>
+<div class="sourceCode"><pre class="sourceCode bash"><code class="sourceCode bash"><span class="fu">git</span> pull origin master</code></pre></div>
+<hr />
 </div>
-<div id="creating-a-new-branch-for-your-changes" class="section level2">
-<h2><span class="header-section-number">2.3</span> Creating a new ‘branch’ for your changes</h2>
-<p>By default your git repository will now be on its ‘master’ branch. You may verify that via</p>
+<div id="creating-a-new-branch" class="section level2">
+<h2><span class="header-section-number">2.3</span> Creating a new ‘branch’</h2>
+<p>Branches are different variants of the source code that may exist in parallel and one major job of git is making it possible to bring these branches together.</p>
+<p>By default your git repository will now be on its ‘master’ branch.</p>
+<p>You may verify that via</p>
 <div class="sourceCode"><pre class="sourceCode bash"><code class="sourceCode bash"><span class="fu">git</span> status</code></pre></div>
-<p>Branches are just different variants of the source code that may exist in parallel and one major job of git is making it possible to bring these branches together. The master branch is special in that it is usually considered the current ‘best’ variant of a project. For most smaller projects, a single master branch might be sufficient but things do get a bit hairy when many people could potentially change this common master branch at the same time. Also, for this book project, each time the master branch in the online repository changes, the entire book is recompiled and published at <a href="https://rr-mrc-bsu.github.io/reproducible-research/" class="uri">https://rr-mrc-bsu.github.io/reproducible-research/</a>. Therefore the books contributing guidelines require that no changes are made directly to the master branch. Instead, all work is done on separate feature branches, e.g., on ‘my-cool-new-chapter’ if you want to add a new chapter. To create this branch you run the following git commands</p>
+<p>This is a useful command to check that you are never working on the master branch. For this project, we have envoked a branch protection rule meaning that you are not able to work on the local master and then push this directly to the remote master. Instead, you must first create a branch that you edit and then push back to the remote, before opening a pull request to merge with the remote master.</p>
+<p>The master branch is special in that it is usually considered the current ‘best’ variant of a project. For most smaller projects, a single master branch might be sufficient but things do get a bit hairy when many people could potentially change this common master branch at the same time. Also, for this book project, each time the master branch in the online repository changes, the entire book is recompiled and published at <a href="https://rr-mrc-bsu.github.io/reproducible-research/" class="uri">https://rr-mrc-bsu.github.io/reproducible-research/</a>. Therefore the books contributing guidelines require that no changes are made directly to the master branch. Instead, all work is done on separate feature branches, e.g., on ‘my-cool-new-chapter’ if you want to add a new chapter.</p>
+<p>To create this branch you run the following git commands</p>
 <div class="sourceCode"><pre class="sourceCode bash"><code class="sourceCode bash"><span class="fu">git</span> branch my-cool-new-chapter
 <span class="fu">git</span> checkout my-cool-new-chapter</code></pre></div>
 <p>This creates the new branch and checks it out (activates it). All changes that you now make to files in the directory only affect the version of the book associated with your local branch ‘my-cool-new-chapter’ (after you commit them, that is).</p>
+<p>Of course, you can always check that you are on your new branch using</p>
+<div class="sourceCode"><pre class="sourceCode bash"><code class="sourceCode bash"><span class="fu">git</span> status</code></pre></div>
+<hr />
 </div>
-<div id="create-a-new-chapter" class="section level2">
-<h2><span class="header-section-number">2.4</span> Create a new chapter</h2>
+<div id="creating-a-new-chapter" class="section level2">
+<h2><span class="header-section-number">2.4</span> Creating a new chapter</h2>
 <p>You may now add a new chapter simply by placing a new numbered .Rmd file in the top level of the book projects directory, e.g. the new file could be called ‘99-my-cool-new-chapter.Rmd’. Do feel free to browse the other chapters of the book already present to learn more about the R markdown syntax used to write the book. Note that although R markdown relies on R to compile the files, the contents of the file may not contain any R code at all. For more details on R markdown see [link chapter].</p>
 <p>Once the new chapter file is created and you added some content you should check whether the altered book still compiles without errors. This is critically important for any piece of source code since even small changes might break the entire thing. Since you will not be able to incorporate you changes in the online version of the book without passing some automated checks, you may just as well check that everything is working locally before attempting to add your changes online.</p>
-<p>To compile the book you will need R and some packages. The easiest way to install everything is again via the icommand line</p>
+<p>To compile the book you will need R and some packages. The easiest way to install everything is again via the icommand line.</p>
+<p>Linux users should envoke</p>
 <div class="sourceCode"><pre class="sourceCode bash"><code class="sourceCode bash"><span class="fu">sudo</span> apt-get install r-base r-base-dev 
+<span class="ex">Rscript</span> -e <span class="st">&#39;install.packages(&quot;bookdown&quot;)&#39;</span></code></pre></div>
+<p>Whilst MacOS users should use the following, which installs XCode CLT and homebrew prior to the installation of R (if XCode and/or homebrew are already installed you will see a message warning and you can skip these steps)</p>
+<div class="sourceCode"><pre class="sourceCode bash"><code class="sourceCode bash"><span class="ex">xcode-select</span> --install
+<span class="ex">/usr/bin/ruby</span> -e <span class="st">&quot;</span><span class="va">$(</span><span class="ex">curl</span> -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install<span class="va">)</span><span class="st">&quot;</span>
+<span class="ex">brew</span> install r
 <span class="ex">Rscript</span> -e <span class="st">&#39;install.packages(&quot;bookdown&quot;)&#39;</span></code></pre></div>
 <p>You may then attempt to build the new book with your new chapter by invoking the build script</p>
 <div class="sourceCode"><pre class="sourceCode bash"><code class="sourceCode bash"><span class="fu">bash</span> _build.sh</code></pre></div>
 <p>which essentially runs the R command</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">bookdown<span class="op">::</span><span class="kw">render_book</span>(<span class="st">&quot;index.Rmd&quot;</span>)</code></pre></div>
-<p>to build the book and cleans up afterward. You should now see a new folder ’_book/‘and be able to open’_book/index.html’ in your browser. This just opens the newly build version of the book locally. Make sure that everything is as you want it to be. Next you will want to ‘commit’ your changes to your local ‘my-cool-new-chapter’ branch. Commiting means that you store your changes in the git repository thus creating a snapshot in time that you may always return to irrespective of any further changes to the repository.</p>
+<p>to build the book and cleans up afterward. You should now see a new folder ’_book/‘and be able to open’_book/index.html’ in your browser. This just opens the newly build version of the book locally. Make sure that everything is as you want it to be.</p>
+<hr />
+</div>
+<div id="committing-your-changes" class="section level2">
+<h2><span class="header-section-number">2.5</span> Committing your changes</h2>
+<p>Next you will want to ‘commit’ your changes to your local ‘my-cool-new-chapter’ branch. Commiting means that you store your changes in the git repository thus creating a snapshot in time that you may always return to irrespective of any further changes to the repository.</p>
 <p>The repository should be configured in such a way as to ignore the _book/ folder that you created since this is just output. You can therefore simply add all changes and commit them with a short description of what you did</p>
 <div class="sourceCode"><pre class="sourceCode bash"><code class="sourceCode bash"><span class="fu">git</span> add -A
 <span class="fu">git</span> commit -m <span class="st">&quot;added cool new chapter&quot;</span></code></pre></div>
+<hr />
 </div>
 <div id="publishing-your-changes" class="section level2">
-<h2><span class="header-section-number">2.5</span> Publishing your changes</h2>
+<h2><span class="header-section-number">2.6</span> Publishing your changes</h2>
 <p>Changes to the master branch in the online repository are organized as pull requests. This is a feature on GitHub.com that allows you to publicly propose merging a branch back to master. Usually this is straight-forward to do since the master branch will change very slowly (cf. [ref merge conflicts]). The pull request will then have to be reviewed by at least one other collaborator to the repository before you are able to actually merge the changes into the master branch - only at that point are they actually integrated in the published book.</p>
 <p>To do so, you first have to be a contributor to the project [TODO: explain how to do that without being a contributor / how to become one]. Next, you will need to push your local branch to the online repository via</p>
 <div class="sourceCode"><pre class="sourceCode bash"><code class="sourceCode bash"><span class="fu">git</span> push -u origin my-cool-new-chapter</code></pre></div>

@@ -126,7 +126,7 @@
   \postauthor{\par}
       \predate{\centering\large\emph}
   \postdate{\par}
-    \date{2019-02-28}
+    \date{2019-03-01}
 
 \usepackage{booktabs}
 
@@ -190,21 +190,26 @@ enabling people to contribute! This chapter is a hands-on tutorial and
 does not go into the details of the required steps. Each of the
 techniques will be explained in more detail in the subsequent chapters.
 
+\begin{center}\rule{0.5\linewidth}{\linethickness}\end{center}
+
 \section{Before you start}\label{before-you-start}
 
-In the following we will assume that you are working on a Linux machine.
-In fact, using an open source operating system such as Linux is already
-the first step towards reproducibility since everybody else is free
-(also as in `free of charge') to use the exact same operating that you
-are running. Windows or MacOS on the other hand might not be available
-to everybody. A great way to get started with Linux is
+In the following we will assume that you are working on a Linux or MacOS
+machine. The instructions are similar for Windows users, but we do not
+discuss the details here. Using an open source operating system such as
+Linux is preferable since all collaborators are able to use the exact
+same operating system that you are running.
+
+A great way to get started with Linux is
 \href{https://www.ubuntu.com/download/desktop}{Ubuntu} and the easiest
 way to install it on an existing Windows or MacOS machine might be via a
 virtual machine. Detailed instructions on how to do so can be found
 \href{https://www.wikihow.com/Install-Ubuntu-on-VirtualBox}{here}.
 
-\section{Getting the book's source
-code}\label{getting-the-books-source-code}
+\begin{center}\rule{0.5\linewidth}{\linethickness}\end{center}
+
+\section{Cloning: Getting the book's source
+code}\label{cloning-getting-the-books-source-code}
 
 The book is compiled from a collection of R markdown files which is a
 special text file format that allows to combine code and text within the
@@ -224,16 +229,27 @@ some mechanism to keep track of changing files over time and enabling
 roll-backs to previous versions. For more details on why version control
 is so important in reproducible research and how to implement it, cf.
 {[}ref: version control chapter{]}. For now, we will just focus on how
-to install and use a specific program, git, to obtain the source code
-for the book and make changes to it. Assuming that you have a linux
-system running (we will assume an Ubuntu installation) you will need to
-install the version control system git {[}link to chapter{]}. The
-easiest way to do this is via the command line package manager `apt'.
-Open a terminal window and execute the command
+to install and use a specific program, \textbf{git}, to obtain the
+source code for the book and make changes to it. Assuming that you have
+a linux (we will assume an Ubuntu installation) or MacOS system running,
+you will need to install the version control system git {[}link to
+chapter{]}. The easiest way to do this is via the command line package
+manager `apt' on linux (`homebrew' is the equivalent for MacOS).
+
+On \textbf{linux}, open a terminal window and execute the command
 
 \begin{Shaded}
 \begin{Highlighting}[]
 \FunctionTok{sudo}\NormalTok{ apt -y install git}
+\end{Highlighting}
+\end{Shaded}
+
+On \textbf{MacOS}, the following command will prompt git installation if
+it is not already installed
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{git}\NormalTok{ --version}
 \end{Highlighting}
 \end{Shaded}
 
@@ -242,13 +258,14 @@ repository.
 
 You may now `clone' the online repository of the book from its
 GitHub.com website:
-{[}\url{https://github.com/rr-mrc-bsu/reproducible-research}{]}
-(\url{https://github.com/rr-mrc-bsu/reproducible-research}). Here
+\url{https://github.com/rr-mrc-bsu/reproducible-research}. Here
 `cloning' does exactly what it says: it downloads an exact copy of the
 entire source code including its complete history of previous changes to
-your local computer to work on. Assuming that you have a terminal window
-opened and the working directory is your home directory
-`\textasciitilde{}' you clone the repository by invoking
+your local computer to work on.
+
+Assuming that you have a terminal window opened and the working
+directory is your home directory `\textasciitilde{}' you clone the
+repository by invoking
 
 \begin{Shaded}
 \begin{Highlighting}[]
@@ -266,11 +283,32 @@ change the working directory to the new folder via
 \end{Highlighting}
 \end{Shaded}
 
-\section{\texorpdfstring{Creating a new `branch' for your
-changes}{Creating a new branch for your changes}}\label{creating-a-new-branch-for-your-changes}
+Note that the source code only needs to be cloned \textbf{once}. After
+you have a local copy of the source code, you should ensure that this is
+kept up to date by `pulling' from the remote master branch. This ensures
+that you are editing the most up-to-date version of the project.
 
-By default your git repository will now be on its `master' branch. You
-may verify that via
+The following command copies the remote master branch to your local
+device (this need not be done if you have just cloned the source code)
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{git}\NormalTok{ pull origin master}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{center}\rule{0.5\linewidth}{\linethickness}\end{center}
+
+\section{\texorpdfstring{Creating a new
+`branch'}{Creating a new branch}}\label{creating-a-new-branch}
+
+Branches are different variants of the source code that may exist in
+parallel and one major job of git is making it possible to bring these
+branches together.
+
+By default your git repository will now be on its `master' branch.
+
+You may verify that via
 
 \begin{Shaded}
 \begin{Highlighting}[]
@@ -278,20 +316,26 @@ may verify that via
 \end{Highlighting}
 \end{Shaded}
 
-Branches are just different variants of the source code that may exist
-in parallel and one major job of git is making it possible to bring
-these branches together. The master branch is special in that it is
-usually considered the current `best' variant of a project. For most
-smaller projects, a single master branch might be sufficient but things
-do get a bit hairy when many people could potentially change this common
-master branch at the same time. Also, for this book project, each time
-the master branch in the online repository changes, the entire book is
-recompiled and published at
-\url{https://rr-mrc-bsu.github.io/reproducible-research/}. Therefore the
-books contributing guidelines require that no changes are made directly
-to the master branch. Instead, all work is done on separate feature
-branches, e.g., on `my-cool-new-chapter' if you want to add a new
-chapter. To create this branch you run the following git commands
+This is a useful command to check that you are never working on the
+master branch. For this project, we have envoked a branch protection
+rule meaning that you are not able to work on the local master and then
+push this directly to the remote master. Instead, you must first create
+a branch that you edit and then push back to the remote, before opening
+a pull request to merge with the remote master.
+
+The master branch is special in that it is usually considered the
+current `best' variant of a project. For most smaller projects, a single
+master branch might be sufficient but things do get a bit hairy when
+many people could potentially change this common master branch at the
+same time. Also, for this book project, each time the master branch in
+the online repository changes, the entire book is recompiled and
+published at \url{https://rr-mrc-bsu.github.io/reproducible-research/}.
+Therefore the books contributing guidelines require that no changes are
+made directly to the master branch. Instead, all work is done on
+separate feature branches, e.g., on `my-cool-new-chapter' if you want to
+add a new chapter.
+
+To create this branch you run the following git commands
 
 \begin{Shaded}
 \begin{Highlighting}[]
@@ -305,7 +349,17 @@ changes that you now make to files in the directory only affect the
 version of the book associated with your local branch
 `my-cool-new-chapter' (after you commit them, that is).
 
-\section{Create a new chapter}\label{create-a-new-chapter}
+Of course, you can always check that you are on your new branch using
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{git}\NormalTok{ status}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{center}\rule{0.5\linewidth}{\linethickness}\end{center}
+
+\section{Creating a new chapter}\label{creating-a-new-chapter}
 
 You may now add a new chapter simply by placing a new numbered .Rmd file
 in the top level of the book projects directory, e.g.~the new file could
@@ -325,11 +379,27 @@ everything is working locally before attempting to add your changes
 online.
 
 To compile the book you will need R and some packages. The easiest way
-to install everything is again via the icommand line
+to install everything is again via the icommand line.
+
+Linux users should envoke
 
 \begin{Shaded}
 \begin{Highlighting}[]
 \FunctionTok{sudo}\NormalTok{ apt-get install r-base r-base-dev }
+\ExtensionTok{Rscript}\NormalTok{ -e }\StringTok{'install.packages("bookdown")'}
+\end{Highlighting}
+\end{Shaded}
+
+Whilst MacOS users should use the following, which installs XCode CLT
+and homebrew prior to the installation of R (if XCode and/or homebrew
+are already installed you will see a message warning and you can skip
+these steps)
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\ExtensionTok{xcode-select}\NormalTok{ --install}
+\ExtensionTok{/usr/bin/ruby}\NormalTok{ -e }\StringTok{"}\VariableTok{$(}\ExtensionTok{curl}\NormalTok{ -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install}\VariableTok{)}\StringTok{"}
+\ExtensionTok{brew}\NormalTok{ install r}
 \ExtensionTok{Rscript}\NormalTok{ -e }\StringTok{'install.packages("bookdown")'}
 \end{Highlighting}
 \end{Shaded}
@@ -354,11 +424,17 @@ which essentially runs the R command
 to build the book and cleans up afterward. You should now see a new
 folder '\_book/`and be able to open'\_book/index.html' in your browser.
 This just opens the newly build version of the book locally. Make sure
-that everything is as you want it to be. Next you will want to `commit'
-your changes to your local `my-cool-new-chapter' branch. Commiting means
-that you store your changes in the git repository thus creating a
-snapshot in time that you may always return to irrespective of any
-further changes to the repository.
+that everything is as you want it to be.
+
+\begin{center}\rule{0.5\linewidth}{\linethickness}\end{center}
+
+\section{Committing your changes}\label{committing-your-changes}
+
+Next you will want to `commit' your changes to your local
+`my-cool-new-chapter' branch. Commiting means that you store your
+changes in the git repository thus creating a snapshot in time that you
+may always return to irrespective of any further changes to the
+repository.
 
 The repository should be configured in such a way as to ignore the
 \_book/ folder that you created since this is just output. You can
@@ -371,6 +447,8 @@ description of what you did
 \FunctionTok{git}\NormalTok{ commit -m }\StringTok{"added cool new chapter"}
 \end{Highlighting}
 \end{Shaded}
+
+\begin{center}\rule{0.5\linewidth}{\linethickness}\end{center}
 
 \section{Publishing your changes}\label{publishing-your-changes}
 
