@@ -104,14 +104,17 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 <li><a href="./">A Reproducible Research Compendium</a></li>
 
 <li class="divider"></li>
-<li class="chapter" data-level="1" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i><b>1</b> A ‘Living Book’ - aims and scope</a></li>
-<li class="chapter" data-level="2" data-path="how-to-contribute.html"><a href="how-to-contribute.html"><i class="fa fa-check"></i><b>2</b> How to contribute</a><ul>
-<li class="chapter" data-level="2.1" data-path="how-to-contribute.html"><a href="how-to-contribute.html#before-you-start"><i class="fa fa-check"></i><b>2.1</b> Before you start</a></li>
-<li class="chapter" data-level="2.2" data-path="how-to-contribute.html"><a href="how-to-contribute.html#cloning-getting-the-books-source-code"><i class="fa fa-check"></i><b>2.2</b> Cloning: Getting the book’s source code</a></li>
-<li class="chapter" data-level="2.3" data-path="how-to-contribute.html"><a href="how-to-contribute.html#creating-a-new-branch"><i class="fa fa-check"></i><b>2.3</b> Creating a new ‘branch’</a></li>
-<li class="chapter" data-level="2.4" data-path="how-to-contribute.html"><a href="how-to-contribute.html#creating-a-new-chapter"><i class="fa fa-check"></i><b>2.4</b> Creating a new chapter</a></li>
-<li class="chapter" data-level="2.5" data-path="how-to-contribute.html"><a href="how-to-contribute.html#committing-your-changes"><i class="fa fa-check"></i><b>2.5</b> Committing your changes</a></li>
-<li class="chapter" data-level="2.6" data-path="how-to-contribute.html"><a href="how-to-contribute.html#publishing-your-changes"><i class="fa fa-check"></i><b>2.6</b> Publishing your changes</a></li>
+<li class="chapter" data-level="1" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i><b>1</b> A ‘Living Book’ - aims and scope</a><ul>
+<li class="chapter" data-level="1.1" data-path="index.html"><a href="index.html#other-rescources"><i class="fa fa-check"></i><b>1.1</b> Other rescources</a></li>
+<li class="chapter" data-level="1.2" data-path="index.html"><a href="index.html#our-definition-of-reproducible-research"><i class="fa fa-check"></i><b>1.2</b> Our definition of ‘Reproducible Research’</a></li>
+</ul></li>
+<li class="chapter" data-level="2" data-path="chptr-how-to-contribute.html"><a href="chptr-how-to-contribute.html"><i class="fa fa-check"></i><b>2</b> How to contribute</a><ul>
+<li class="chapter" data-level="2.1" data-path="chptr-how-to-contribute.html"><a href="chptr-how-to-contribute.html#before-you-start"><i class="fa fa-check"></i><b>2.1</b> Before you start</a></li>
+<li class="chapter" data-level="2.2" data-path="chptr-how-to-contribute.html"><a href="chptr-how-to-contribute.html#cloning-getting-the-books-source-code"><i class="fa fa-check"></i><b>2.2</b> Cloning: Getting the book’s source code</a></li>
+<li class="chapter" data-level="2.3" data-path="chptr-how-to-contribute.html"><a href="chptr-how-to-contribute.html#creating-a-new-branch"><i class="fa fa-check"></i><b>2.3</b> Creating a new ‘branch’</a></li>
+<li class="chapter" data-level="2.4" data-path="chptr-how-to-contribute.html"><a href="chptr-how-to-contribute.html#creating-a-new-chapter"><i class="fa fa-check"></i><b>2.4</b> Creating a new chapter</a></li>
+<li class="chapter" data-level="2.5" data-path="chptr-how-to-contribute.html"><a href="chptr-how-to-contribute.html#committing-your-changes"><i class="fa fa-check"></i><b>2.5</b> Committing your changes</a></li>
+<li class="chapter" data-level="2.6" data-path="chptr-how-to-contribute.html"><a href="chptr-how-to-contribute.html#publishing-your-changes"><i class="fa fa-check"></i><b>2.6</b> Publishing your changes</a></li>
 </ul></li>
 <li class="chapter" data-level="3" data-path="chptr-version-control.html"><a href="chptr-version-control.html"><i class="fa fa-check"></i><b>3</b> Version control</a></li>
 <li class="chapter" data-level="4" data-path="chptr-literate-programming.html"><a href="chptr-literate-programming.html"><i class="fa fa-check"></i><b>4</b> Literate Programming</a></li>
@@ -172,7 +175,7 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
           <div class="page-inner">
 
             <section class="normal" id="section-">
-<div id="how-to-contribute" class="section level1">
+<div id="chptr-how-to-contribute" class="section level1">
 <h1><span class="header-section-number">2</span> How to contribute</h1>
 <p>Since this book is a collaborative effort, the most important thing is enabling people to contribute! This chapter is a hands-on tutorial and does not go into the details of the required steps. Each of the techniques will be explained in more detail in the subsequent chapters.</p>
 <hr />
@@ -235,6 +238,7 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 <p>which essentially runs the R command</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">bookdown<span class="op">::</span><span class="kw">render_book</span>(<span class="st">&quot;index.Rmd&quot;</span>)</code></pre></div>
 <p>to build the book and cleans up afterward. You should now see a new folder ’_book/‘and be able to open’_book/index.html’ in your browser. This just opens the newly build version of the book locally. Make sure that everything is as you want it to be.</p>
+<p>The complete documentation for <strong>bookdown</strong> can be found at <a href="https://bookdown.org/yihui/bookdown/" class="uri">https://bookdown.org/yihui/bookdown/</a>.</p>
 <hr />
 </div>
 <div id="committing-your-changes" class="section level2">
@@ -243,6 +247,7 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 <p>The repository should be configured in such a way as to ignore the _book/ folder that you created since this is just output. You can therefore simply add all changes and commit them with a short description of what you did</p>
 <div class="sourceCode"><pre class="sourceCode bash"><code class="sourceCode bash"><span class="fu">git</span> add -A
 <span class="fu">git</span> commit -m <span class="st">&quot;added cool new chapter&quot;</span></code></pre></div>
+<p>The complete documentation for <strong>bookdown</strong> can be found at <a href="https://bookdown.org/yihui/bookdown/" class="uri">https://bookdown.org/yihui/bookdown/</a>.</p>
 <hr />
 </div>
 <div id="publishing-your-changes" class="section level2">
@@ -259,7 +264,7 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 <div class="footnotes">
 <hr />
 <ol start="1">
-<li id="fn1"><p>Markups are simple meta information on text such as ‘this is a headline’ etc. If you are familiar with LaTeX you are already a markup professional since LaTeX supports a huge number of different markup expressions. HTML is also a markup language.<a href="how-to-contribute.html#fnref1">↩</a></p></li>
+<li id="fn1"><p>Markups are simple meta information on text such as ‘this is a headline’ etc. If you are familiar with LaTeX you are already a markup professional since LaTeX supports a huge number of different markup expressions. HTML is also a markup language.<a href="chptr-how-to-contribute.html#fnref1">↩</a></p></li>
 </ol>
 </div>
             </section>

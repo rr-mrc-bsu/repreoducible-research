@@ -1,4 +1,4 @@
-# How to contribute
+# How to contribute {#chptr-how-to-contribute}
 
 Since this book is a collaborative effort, the most important thing is 
 enabling people to contribute!
@@ -224,6 +224,9 @@ in your browser.
 This just opens the newly build version of the book locally.
 Make sure that everything is as you want it to be.
 
+The complete documentation for **bookdown** can be found at 
+[https://bookdown.org/yihui/bookdown/](https://bookdown.org/yihui/bookdown/).
+
 ---
 
 ## Committing your changes
@@ -244,6 +247,11 @@ of what you did
 git add -A
 git commit -m "added cool new chapter"
 ```
+
+The complete documentation for **bookdown** can be found at 
+[https://bookdown.org/yihui/bookdown/](https://bookdown.org/yihui/bookdown/). 
+
+
 
 ---
 

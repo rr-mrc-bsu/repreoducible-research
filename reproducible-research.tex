@@ -178,12 +178,87 @@ threefold:
   coding{]} projects.
 \end{enumerate}
 
-The complete documentation for \textbf{bookdown} can be found at
-\url{https://bookdown.org/yihui/bookdown/}. Note that R is a
-prerequisite but only for building the book - the contents itself are
-completely language-agnostic.
+We are committed to making the contribution process as easy as possible
+while at the same time requiring contributors to comply with a set of
+best-practices for open online collaborative coding. To ease the
+transition, see chapter \ref{chptr-how-to-contribute}. Please do feel
+free to post any question, suggestions, or feedback via the
+\href{(https://github.com/rr-mrc-bsu/reproducible-research/issues)}{GitHub
+issue system}!
 
-\chapter{How to contribute}\label{how-to-contribute}
+\section{Other rescources}\label{other-rescources}
+
+Interest in reproducibility for quantitative (and qualitative!) research
+is rapidly increasing. The perspectives are probably almost as diverse,
+if not more diverse, than the number of scientific fields. While many
+techniques and tools might be applicable across quantitative fields,
+definitions, conventions, and implementation details may vary widely.
+Before continuing with our take on the subject, we would therefore like
+to point out similar projects and resources. Please let us know if you
+feel that we should include your project here!
+
+\begin{itemize}
+\tightlist
+\item
+  \textbf{The Turing Way:}
+  \url{https://github.com/alan-turing-institute/the-turing-way}, an
+  initiative by the Alan Turing national institute for data science and
+  artificial intelligence.
+\end{itemize}
+
+{[}statement on sharing citing policy our license?{]}
+
+\section{\texorpdfstring{Our definition of `Reproducible
+Research'}{Our definition of Reproducible Research}}\label{our-definition-of-reproducible-research}
+
+At the core of the scientific method stands the idea that evidence
+gathered from experience can be used to refute hypotheses. By
+eliminating all hypotheses not compatible with the experimental data,
+the remaining explanation (alternative hypotheses) must be accepted.
+
+In order to convince fellow scientists - and ultimately the society at
+large - of ones findings, experiments must be replicable in the sense
+that anybody interested in validating the results could set up the same
+or a similar experiment, again collect data, and - agreeing on the
+methods used - would need to reach the same qualitative conclusions.
+Obviously, replicability of results remains a promise up to the point
+that somebody actually attempts to do so. Often, replication studies are
+not realistic due to the high associated costs. Just think about the
+effort of building an entirely new particle accelerator like CERN just
+to replicate its findings! In medical research replication already plays
+a major role in the approval of new drugs since the FDA usually requires
+convincing evidence from two independently conducted randomized clinical
+trials to approve a new substance {[}REFERNCE{]}.
+
+An important caveat in the notion of replication is the fact that one
+needs to agree on the methods before being truely able to replicate
+results by collecting new data. Since nowadays most analyses of
+empirical data require relatively complex statistical merthods which in
+turn rely on numerical computation on a computer system, just describing
+the exact method of getting from the input data to the analysis results
+- be it figures, numbers, tables - is daunting. Anybody with experience
+in computer-based analyses is familiar with the fact that these are
+essentially chaotic: Even the smallest change (missed comma in script)
+may lead to a catastrophic error or even worse, altered results without
+raising and error! A necessary but not sufficient prerequisite of
+replicability is thus reproducibility of results, i.e., the capability
+to get the exact same results from the exact same inputs. This might
+sound like the most natural and self-evident thing but in practice
+merely reproducing the results in many scientific papers is not possible
+{[}REFS{]}.
+
+These considerations lead us to the same schematic definition of
+reprodcibility as put forward in
+\href{https://github.com/alan-turing-institute/the-turing-way/blob/master/chapters/reproducibility.md\#the-turing-way-definition-of-reproducibility}{The
+Turing Way}.
+
+{[}TODO: nice table graph here{]}
+
+We feel that reproducibility of scientific results should be the bare
+minimum standard to strive for and want to collaborativel explore and
+advocated techniques, tools, and best-practises for getting there.
+
+\chapter{How to contribute}\label{chptr-how-to-contribute}
 
 Since this book is a collaborative effort, the most important thing is
 enabling people to contribute! This chapter is a hands-on tutorial and
@@ -426,6 +501,9 @@ folder '\_book/`and be able to open'\_book/index.html' in your browser.
 This just opens the newly build version of the book locally. Make sure
 that everything is as you want it to be.
 
+The complete documentation for \textbf{bookdown} can be found at
+\url{https://bookdown.org/yihui/bookdown/}.
+
 \begin{center}\rule{0.5\linewidth}{\linethickness}\end{center}
 
 \section{Committing your changes}\label{committing-your-changes}
@@ -447,6 +525,9 @@ description of what you did
 \FunctionTok{git}\NormalTok{ commit -m }\StringTok{"added cool new chapter"}
 \end{Highlighting}
 \end{Shaded}
+
+The complete documentation for \textbf{bookdown} can be found at
+\url{https://bookdown.org/yihui/bookdown/}.
 
 \begin{center}\rule{0.5\linewidth}{\linethickness}\end{center}
 
@@ -708,7 +789,7 @@ referenced from the actual Travis configuration file. For details on
 continuous integration, see chapter \ref{chptr-continuous-integration}.
 
 The \texttt{Makefile} and the \texttt{Snakemake} files are explained in
-more detail in chapter \ref(chpt-workflow-automation). These files can
+more detail in chapter \ref{chpt-workflow-automation}. These files can
 be used to organize complex workflows using either GNU make (in simpler
 cases) or snakemake (more sophisticated, cluster integration). We will
 discuss how these two common workflow automation systems can be used

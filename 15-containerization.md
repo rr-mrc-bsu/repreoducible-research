@@ -90,7 +90,7 @@ scripts which are referenced from the actual Travis configuration file.
 For details on continuous integration, see chapter \@ref(chptr-continuous-integration).
 
 The `Makefile` and the `Snakemake` files are explained in more detail in 
-chapter \ref(chpt-workflow-automation). 
+chapter \@ref(chpt-workflow-automation). 
 These files can be used to organize complex workflows using either
 GNU make (in simpler cases) or snakemake (more sophisticated, 
 cluster integration). 
