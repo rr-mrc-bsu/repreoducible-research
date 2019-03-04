@@ -7,23 +7,23 @@ required steps.
 Each of the techniques will be explained in more detail in the subsequent 
 chapters.
 
+---
 
 
 ## Before you start
 
-In the following we will assume that you are working on a Linux machine. 
-In fact, using an open source operating system such as Linux is already the
-first step towards reproducibility since everybody else is free (also as in
-'free of charge') to use the exact same operating that you are running.
-Windows or MacOS on the other hand might not be available to everybody.
+In the following we will assume that you are working on a Linux or MacOS machine. 
+The instructions are similar for Windows users, but we do not discuss the details here. 
+Using an open source operating system such as Linux is preferable since all 
+collaborators are able to use the exact same operating system that you are running. 
+
 A great way to get started with Linux is [Ubuntu](https://www.ubuntu.com/download/desktop)
 and the easiest way to install it on an existing Windows or MacOS machine might be
-via a virtual machine.
-Detailed instructions on how to do so can be found [here](https://www.wikihow.com/Install-Ubuntu-on-VirtualBox).
+via a virtual machine. Detailed instructions on how to do so can be found [here](https://www.wikihow.com/Install-Ubuntu-on-VirtualBox). 
 
+---
 
-
-## Getting the book's source code
+## Cloning: Getting the book's source code
 
 The book is compiled from a collection of R markdown files which is a
 special text file format that allows to combine code and text within the same 
@@ -40,25 +40,35 @@ mechanism to keep track of changing files over time and enabling roll-backs
 to previous versions.
 For more details on why version control is so important in reproducible 
 research and how to implement it, cf. [ref: version control chapter].
-For now, we will just focus on how to install and use a specific program, git,
+For now, we will just focus on how to install and use a specific program, **git**,
 to obtain the source code for the book and make changes to it.
-Assuming that you have a linux system running (we will assume an Ubuntu installation)
-you will need to install the version control system git [link to chapter].
-The easiest way to do this is via the command line package manager 'apt'.
-Open a terminal window and execute the command
+Assuming that you have a linux (we will assume an Ubuntu installation) or 
+MacOS system running, you will need to install the version control system 
+git [link to chapter]. The easiest way to do this is via the command line package 
+manager 'apt' on linux ('homebrew' is the equivalent for MacOS).
+
+On **linux**, open a terminal window and execute the command
 
 ```{bash, eval=FALSE}
 sudo apt -y install git
+```
+
+On **MacOS**, the following command will prompt git installation 
+if it is not already installed
+
+```{bash, eval=FALSE}
+git --version
 ```
 
 This will download and install all required packages from the official 
 repository.
 
 You may now 'clone' the online repository of the book from its GitHub.com
-website: [https://github.com/rr-mrc-bsu/reproducible-research] (https://github.com/rr-mrc-bsu/reproducible-research).
+website: [https://github.com/rr-mrc-bsu/reproducible-research](https://github.com/rr-mrc-bsu/reproducible-research).
 Here 'cloning' does exactly what it says: it downloads an exact copy of
 the entire source code including its complete history of previous changes to
 your local computer to work on.
+
 Assuming that you have a terminal window opened and the working directory is 
 your home directory '~' you clone the repository by invoking
 
@@ -74,21 +84,42 @@ You should then change the working directory to the new folder via
 cd reproducible-research
 ```
 
+Note that the source code only needs to be cloned **once**. 
+After you have a local copy of the source code, you should ensure that 
+this is kept up to date by 'pulling' from the remote master branch. 
+This ensures that you are editing the most up-to-date version of the project.
 
+The following command copies the remote master branch to your local device 
+(this need not be done if you have just cloned the source code)
 
-## Creating a new 'branch' for your changes
+```{bash, eval=FALSE}
+git pull origin master
+```
+
+---
+
+## Creating a new 'branch'
+
+Branches are different variants of the source code that may exist in 
+parallel and one major job of git is making it possible to bring these branches
+together.
 
 By default your git repository will now be on its 'master' branch.
+
 You may verify that via
 
 ```{bash, eval=FALSE}
 git status
 ```
 
+This is a useful command to check that you are never working on the master 
+branch. 
+For this project, we have envoked a branch protection rule meaning 
+that you are not able to work on the local master and then push this directly 
+to the remote master. 
+Instead, you must first create a branch that you edit and then push back 
+to the remote, before opening a pull request to merge with the remote master.
 
-Branches are just different variants of the source code that may exist in 
-parallel and one major job of git is making it possible to bring these branches
-together.
 The master branch is special in that it is usually considered the current 'best'
 variant of a project.
 For most smaller projects, a single master branch might be sufficient but things
@@ -101,6 +132,7 @@ Therefore the books contributing guidelines require that no changes are
 made directly to the master branch.
 Instead, all work is done on separate feature branches, e.g., on 'my-cool-new-chapter'
 if you want to add a new chapter.
+
 To create this branch you run the following git commands
 
 ```{bash, eval=FALSE}
@@ -113,9 +145,15 @@ All changes that you now make to files in the directory only affect the
 version of the book associated with your local branch 'my-cool-new-chapter'
 (after you commit them, that is).
 
+Of course, you can always check that you are on your new branch using
 
+```{bash, eval=FALSE}
+git status
+```
 
-## Create a new chapter
+---
+
+## Creating a new chapter
 
 You may now add a new chapter simply by placing a new numbered .Rmd file in
 the top level of the book projects directory, 
@@ -135,10 +173,23 @@ the book without passing some automated checks, you may just as well check
 that everything is working locally before attempting to add your changes online.
 
 To compile the book you will need R and some packages.
-The easiest way to install everything is again via the icommand line
+The easiest way to install everything is again via the icommand line.
+
+Linux users should envoke 
 
 ```{bash, eval=FALSE}
 sudo apt-get install r-base r-base-dev 
+Rscript -e 'install.packages("bookdown")'
+```
+
+Whilst MacOS users should use the following, which installs XCode CLT and homebrew 
+prior to the installation of R (if XCode and/or homebrew are already installed you 
+will see a message warning and you can skip these steps)
+
+```{bash, eval=FALSE}
+xcode-select --install
+/usr/bin/ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
+brew install r
 Rscript -e 'install.packages("bookdown")'
 ```
 
@@ -160,6 +211,11 @@ You should now see a new folder '_book/' and be able to open '_book/index.html'
 in your browser.
 This just opens the newly build version of the book locally.
 Make sure that everything is as you want it to be.
+
+---
+
+## Committing your changes
+
 Next you will want to 'commit' your changes to your local 
 'my-cool-new-chapter' branch.
 Commiting means that you store your changes in the git repository thus creating
@@ -176,7 +232,7 @@ git add -A
 git commit -m "added cool new chapter"
 ```
 
-
+---
 
 ## Publishing your changes
 

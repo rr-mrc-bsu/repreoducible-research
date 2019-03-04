@@ -68,7 +68,14 @@ analysis in it's original environment.
 
 ## Example problem
 
-Consider the toy example in https://github.com/rr-mrc-bsu/containerization-example. 
+Consider the toy example in 
+https://github.com/rr-mrc-bsu/containerization-example. 
+This example repository is build around a single R Markdown report
+(`r-and-python.Rmd`) highlighting how R and python can be integrated in a 
+single report.
+While this is still a fairly simple project in terms of dependencies
+(no custom source dependencies) it is complex enough to highlight the benefits
+of a containerized analysis.
 
 Let's sort throught the individual files and folder one by one.
 Any well-organized repository should contain `README.md`, `LICENSE`,  and `.gitignore` files.
@@ -82,24 +89,34 @@ To avoid a lengthly configuration file, the folder `.travis` contains further
 scripts which are referenced from the actual Travis configuration file.
 For details on continuous integration, see chapter \@ref(chptr-continuous-integration).
 
-The `Makefile` and the `Snakemake`-file are explained in more detail in 
+The `Makefile` and the `Snakemake` files are explained in more detail in 
 chapter \ref(chpt-workflow-automation). 
 These files can be used to organize complex workflows using either
-GNU make (in simpler cases) or snakemake (more sophisticated). 
-We will discuss how these tow common workflow automation systems can be used 
+GNU make (in simpler cases) or snakemake (more sophisticated, 
+cluster integration). 
+We will discuss how these two common workflow automation systems can be used 
 together with containers at the end of this chapter in section \@ref(sct-container-workflow-manager).
 
-Finally, the Rmarkdown file `r-and-python.Rmd` and the `docker` folder are the
+The folder `mnist` contains prepared data from the classical
+[mnist](http://yann.lecun.com/exdb/mnist/) digital handwritten data set.
+
+The R Markdown file `r-and-python.Rmd` and the `docker` folder are the
 elements of the example repository most important to the contents of this 
 chapter.
-Assume that `r-and-python.Rmd` contains an important analysis which we want to
-render fully reproducible.
-As the file name suggests, the analysis relies on both R as well as python
-as well as a potentially large number of packages/modules for these languages.
-In fact, the file contains both R as well as python code.
-To learn more about the language agnostic nature of Rmarkdown and especially
+The R Markdown file `r-and-python.Rmd` contains an example analysis using
+python and tensorflow + keras to do the heavy lifting for training a 
+deep neural network to classify the mnist example data (in digits 0 to 9).
+Some data wrangling and plotting is done using R though.
+Both R and python sessions interoperate using the 
+[**reticulate** package](https://github.com/rstudio/reticulate).
+To learn more about the language agnostic nature of R Markdown and especially
 python/R interoperability, see [write chapter, REFERENCE].
-The `docker`-folder contains a build script `docker/build` and a `dockerfile`.
+The analysis thus has a non-trivial set of dependencies in both R and python
+packages/modules,
+which we will manage by using a custom docker conatainer.
+The build instructions for this container are specified in 
+the `docker` folder which contains a build script 
+`docker/build` and a `dockerfile`.
 We will return to this folder in section \@ref(sct-docker).
 Before learning more about containers, it is a good idea to have a rough
 understanding of so called 'virtual machines'.
@@ -134,7 +151,8 @@ Instead, the reproducible research community is mainly embracing containers
 to create portable computing environments.
 For our purposes, containers can bee seen as a more leightweight alternative
 to virtual machines.
-Snakemake [write chapter, REFERENCE] for instance supports running workflows where individual
+Snakemake [write chapter, REFERENCE], for instance, supports running 
+workflows where individual
 steps are executed in their respective individual containers.
 
 > In a nutshell, we may see container images as lightweight portable pieces of 
@@ -145,6 +163,10 @@ steps are executed in their respective individual containers.
 If all dependencies of a particular analysis or an individual step in a larger
 workflow are contained in a container image, 
 these dependencies will be available in any instance spawned from the image.
+An excellent video explaining the concept of a container in more detail is: 
+
+* Ben Corrie, 'what is a container?': https://www.youtube.com/watch?v=EnJ7qX9fkcU
+
 By far the most common container software is Docker.
 
 
@@ -207,18 +229,18 @@ In fact, the entire contents of `docker/dockerfile` boil down to:
 ```
 FROM rocker/verse:latest
 
-MAINTAINER blameme@ihavenoclue.co.uk
+MAINTAINER Kevin Kunzmann kevin.kunzmann@mrc-bsu.cam.ac.uk
 
 # update apt
 RUN sudo apt-get update
 
-# install required R packages
-RUN R -e "install.packages('reticulate')"
-
-# install python
+# install python and required packages
 RUN sudo apt-get install -y python3-pip python3-dev python3-tk
 RUN sudo pip3 install -U pip
-RUN sudo pip3 install -U pandas matplotlib
+RUN sudo pip3 install numpy matplotlib tensorflow
+
+# install required R packages
+RUN R -e "install.packages('reticulate')"
 ```
 Only three statements are used.
 
@@ -238,25 +260,23 @@ and all software required to render Rmarkdownr reports (LaTeX) pre-installed.
 during the build.
 Here we use it to update the distibution package manager before installing
 the R package `reticulate` which enables interoperability between R and 
-python before installing python, pandas and matplotlib.
-
-For more information on using R and python together, see [TODO; REFERENCE].
+python before installing python and the required modules.
 
 We will now build the container image locally. 
 To that end, clone the example repository to your local filesystem 
-(cf. [TODO; REFERENCE GIT])
-and `cd` to the example repository.
+(cf. [TODO; REFERENCE GIT]).
 ```bash
 git clone https://github.com/rr-mrc-bsu/containerization-example
-cd containerization-example/docker
 ```
 
-Next, [install docker](https://docs.docker.com/install/) and execute the
-build script in `docker/`
+Next, [install docker](https://docs.docker.com/install/),
+`cd` to the docker subfolder of the example repository and build the container 
+via
 ```bash
+cd containerization-example/docker
 sudo docker build --no-cache -t mycontainer .
 ```
-Note that you require root access to build the container!
+Note that you do require root access to build the container!
 This command will trigger the build process (and take a while). 
 Afterwards, a success message is displayed together with a unique [sha256
 hash](https://en.wikipedia.org/wiki/SHA-2) value for the container image.
@@ -267,7 +287,9 @@ by
 ```bash
 docker push yourname/mycontainer
 ```
-Otherwise, the image is only available locally.
+These are essentially the steps executed in the `docker/build` script.
+WIthout making an image publicly available on dockerhub, 
+the image is only available locally.
 Note that having access to the image (or at least its exact hash) 
 is extremely important to guarantee  reproducibility.
 Simply rebuilding the image from the same dockerfile at a later timepoint 
@@ -285,14 +307,17 @@ as good dockerfile might be the best way to specify software dependencies.
 
 [TODO link to continuous integration for dockerfiles]
 
-Switch back to the top level of the containerization-example folder now.
+Switch back to the top level of the containerization example folder now.
 ```bash
 cd ..
 ```
 
 A major advantage of singularity over docker over virtual machines is the ease
-with which singularity enables execution of commands **inside of a docker container instance** but **within the host file system**, i.e., in contrast to
-docker, one does not need to manually mount a particular directory when starting a container but simply may invoke
+with which singularity enables execution of commands 
+**inside of a docker container instance** but **within the host file system**, 
+i.e., in contrast to
+docker, one does not need to manually mount a particular directory when starting a 
+container but simply may invoke
 ```
 singularity exec docker://kkmann/rr-containerization-example touch test
 ```
@@ -332,6 +357,7 @@ To re-use a particular version, one may then invoke, e.g.,
 singularity exec docker://kkmann/rr-containerization-example@sha256:5225e53f934d749bf3017f140e5169b0d2eadc0512799b89c2f854a2d002d0c4 make
 ```
 
+
 ### Snakemake
 
 Snakemake is a much more powerful tool whe it comes to complex workflows since
@@ -342,7 +368,7 @@ specific rules or an entire workflow using singularity.
 The contents of the `Snakefile` in the containerization-example folder are
 ```
 singularity:
-    "docker://kkmann/rr-containerization-example@sha256:5225e53f934d749bf3017f140e5169b0d2eadc0512799b89c2f854a2d002d0c4"
+    "docker://kkmann/rr-containerization-example@sha256:17414f63929b0283f82e70ded3ca9cd9b61f37e13fe3d103a2bdf24b9056114e"
 
 rule build_report:
     input:
@@ -369,7 +395,7 @@ rule build_report:
     output:
         "r-and-python.html"
     singularity:
-        "docker://kkmann/rr-containerization-example@sha256:5225e53f934d749bf3017f140e5169b0d2eadc0512799b89c2f854a2d002d0c4"
+        "docker://kkmann/rr-containerization-example@sha256:17414f63929b0283f82e70ded3ca9cd9b61f37e13fe3d103a2bdf24b9056114e"
     shell:
         """
         Rscript -e "rmarkdown::render(\\"{input}\\")"
