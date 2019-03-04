@@ -1,2 +1,2 @@
 Type: Website
-Depends: bookdown, diagram
+Depends: bookdown, DiagrammeR
