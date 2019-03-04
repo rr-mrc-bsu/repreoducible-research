@@ -187,20 +187,25 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 <p>It is thus not enough to simply maintain a versioned repository of all analysis scripts. Rather, complete reproducibility also requires a perfect snapshot of the software environment at the time of execution to be preserved for future execution - a time capsule of code if you will. A good first step in this direction is certainly to report as many version numbers of software used as possible. This approach, however, is cumbersome, error prone and ultimately futile since users are typically not even aware of the phletora of low level software they implicitly rely on. A better approach would be to define explicitly the computing environment required for the intended computation and to preserve an exact ‘image’ of this environemnt which can then be replicated at a later point in time to re-run the analysis in it’s original environment.</p>
 <div id="example-problem" class="section level2">
 <h2><span class="header-section-number">6.1</span> Example problem</h2>
-<p>Consider the toy example in <a href="https://github.com/rr-mrc-bsu/containerization-example" class="uri">https://github.com/rr-mrc-bsu/containerization-example</a>.</p>
+<p>Consider the toy example in <a href="https://github.com/rr-mrc-bsu/containerization-example" class="uri">https://github.com/rr-mrc-bsu/containerization-example</a>. This example repository is build around a single R Markdown report (<code>r-and-python.Rmd</code>) highlighting how R and python can be integrated in a single report. While this is still a fairly simple project in terms of dependencies (no custom source dependencies) it is complex enough to highlight the benefits of a containerized analysis.</p>
 <p>Let’s sort throught the individual files and folder one by one. Any well-organized repository should contain <code>README.md</code>, <code>LICENSE</code>, and <code>.gitignore</code> files. Their respective roles are described in the git chapter [write chapter, REFERENCE].</p>
 <p>The <code>.travis.yml</code> configuration file contains the configuration of the continuous integration system (here: Travis-CI) linked to the repository. Continuous integration services allow automatic builds/checks of the code in a repository and greatly facilitate quality checking of new pull requests. To avoid a lengthly configuration file, the folder <code>.travis</code> contains further scripts which are referenced from the actual Travis configuration file. For details on continuous integration, see chapter <a href="chptr-continuous-integration.html#chptr-continuous-integration">7</a>.</p>
-<p>The <code>Makefile</code> and the <code>Snakemake</code>-file are explained in more detail in chapter (chpt-workflow-automation). These files can be used to organize complex workflows using either GNU make (in simpler cases) or snakemake (more sophisticated). We will discuss how these tow common workflow automation systems can be used together with containers at the end of this chapter in section <a href="dependency-management.html#sct-container-workflow-manager">6.4</a>.</p>
-<p>Finally, the Rmarkdown file <code>r-and-python.Rmd</code> and the <code>docker</code> folder are the elements of the example repository most important to the contents of this chapter. Assume that <code>r-and-python.Rmd</code> contains an important analysis which we want to render fully reproducible. As the file name suggests, the analysis relies on both R as well as python as well as a potentially large number of packages/modules for these languages. In fact, the file contains both R as well as python code. To learn more about the language agnostic nature of Rmarkdown and especially python/R interoperability, see [write chapter, REFERENCE]. The <code>docker</code>-folder contains a build script <code>docker/build</code> and a <code>dockerfile</code>. We will return to this folder in section <a href="dependency-management.html#sct-docker">6.2.1</a>. Before learning more about containers, it is a good idea to have a rough understanding of so called ‘virtual machines’.</p>
+<p>The <code>Makefile</code> and the <code>Snakemake</code> files are explained in more detail in chapter (chpt-workflow-automation). These files can be used to organize complex workflows using either GNU make (in simpler cases) or snakemake (more sophisticated, cluster integration). We will discuss how these two common workflow automation systems can be used together with containers at the end of this chapter in section <a href="dependency-management.html#sct-container-workflow-manager">6.4</a>.</p>
+<p>The folder <code>mnist</code> contains prepared data from the classical <a href="http://yann.lecun.com/exdb/mnist/">mnist</a> digital handwritten data set.</p>
+<p>The R Markdown file <code>r-and-python.Rmd</code> and the <code>docker</code> folder are the elements of the example repository most important to the contents of this chapter. The R Markdown file <code>r-and-python.Rmd</code> contains an example analysis using python and tensorflow + keras to do the heavy lifting for training a deep neural network to classify the mnist example data (in digits 0 to 9). Some data wrangling and plotting is done using R though. Both R and python sessions interoperate using the <a href="https://github.com/rstudio/reticulate"><strong>reticulate</strong> package</a>. To learn more about the language agnostic nature of R Markdown and especially python/R interoperability, see [write chapter, REFERENCE]. The analysis thus has a non-trivial set of dependencies in both R and python packages/modules, which we will manage by using a custom docker conatainer. The build instructions for this container are specified in the <code>docker</code> folder which contains a build script <code>docker/build</code> and a <code>dockerfile</code>. We will return to this folder in section <a href="dependency-management.html#sct-docker">6.2.1</a>. Before learning more about containers, it is a good idea to have a rough understanding of so called ‘virtual machines’.</p>
 </div>
 <div id="virtual-machines-and-containers" class="section level2">
 <h2><span class="header-section-number">6.2</span> Virtual machines and containers</h2>
 <p>A virtual machines are (software) emulations of entire computer systems. As such they allow running various guest operating systems from withing a single host system, e.g., Linux within Windows or vice versa. To achieve this, a virtual machine acts as intermediate layer between the host system (and its hardware) and the guest operating system. I.e., all low-level operatons of the guest system are mapped through the virtual machine and the host operating system to the host hardware. A common software for running virtual machines is <a href="https://www.virtualbox.org/">VirtualBox</a> which can, e.g., be used to run an Ubuntu linux from within a Windows system. When using virtual machines for reproducible reseach, care should be taken to make the process of creating the virtual machine as transparent as possible. Command line tools like <a href="https://www.vagrantup.com/">Vagrant</a> are much better suited for theses use cases. We strongly discourage setting up a full-fledged Ubuntu system within VirtualBox and installing required software manually from within the virtual machine since this process is itself not reproducible. A virtual machine created in this way may render a particular piece of code reproducible but can itself not easily be recreated to the exact same specifications.</p>
-<p>Instead, the reproducible research community is mainly embracing containers to create portable computing environments. For our purposes, containers can bee seen as a more leightweight alternative to virtual machines. Snakemake [write chapter, REFERENCE] for instance supports running workflows where individual steps are executed in their respective individual containers.</p>
+<p>Instead, the reproducible research community is mainly embracing containers to create portable computing environments. For our purposes, containers can bee seen as a more leightweight alternative to virtual machines. Snakemake [write chapter, REFERENCE], for instance, supports running workflows where individual steps are executed in their respective individual containers.</p>
 <blockquote>
 <p>In a nutshell, we may see container images as lightweight portable pieces of software which can be used to spawn container instances thus creating a <strong>portable computing environment</strong> by simply distributing the respective container image file.</p>
 </blockquote>
-<p>If all dependencies of a particular analysis or an individual step in a larger workflow are contained in a container image, these dependencies will be available in any instance spawned from the image. By far the most common container software is Docker.</p>
+<p>If all dependencies of a particular analysis or an individual step in a larger workflow are contained in a container image, these dependencies will be available in any instance spawned from the image. An excellent video explaining the concept of a container in more detail is:</p>
+<ul>
+<li>Ben Corrie, ‘what is a container?’: <a href="https://www.youtube.com/watch?v=EnJ7qX9fkcU" class="uri">https://www.youtube.com/watch?v=EnJ7qX9fkcU</a></li>
+</ul>
+<p>By far the most common container software is Docker.</p>
 <div id="sct-docker" class="section level3">
 <h3><span class="header-section-number">6.2.1</span> Docker</h3>
 <p><a href="https://www.docker.com/">Docker</a> constitutes the de-facto standard in terms of container software and hugely contributed to popularizing the concept of containerization in recent years. As most of the tools discussed in this book, Docker was nnever designed with reproducibility in mind but rather to enable the fast spinning-up of leightweight application containers to handle web-services etc. (‘micro virtualization’).</p>
@@ -217,35 +222,34 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 <p>A <code>dockerfile</code> contains the ‘recipe’ for building a docker container image. The complete reference of the syntax of dockerfiles can be found <a href="https://docs.docker.com/engine/reference/builder/">here</a>. For our purposes, only a few commands will suffice to set up a docker container that contains all dependencies needed to render the Rmarkdown file <code>r-and-python.Rmd</code> of the example project. In fact, the entire contents of <code>docker/dockerfile</code> boil down to:</p>
 <pre><code>FROM rocker/verse:latest
 
-MAINTAINER blameme@ihavenoclue.co.uk
+MAINTAINER Kevin Kunzmann kevin.kunzmann@mrc-bsu.cam.ac.uk
 
 # update apt
 RUN sudo apt-get update
 
-# install required R packages
-RUN R -e &quot;install.packages(&#39;reticulate&#39;)&quot;
-
-# install python
+# install python and required packages
 RUN sudo apt-get install -y python3-pip python3-dev python3-tk
 RUN sudo pip3 install -U pip
-RUN sudo pip3 install -U pandas matplotlib</code></pre>
+RUN sudo pip3 install numpy matplotlib tensorflow
+
+# install required R packages
+RUN R -e &quot;install.packages(&#39;reticulate&#39;)&quot;</code></pre>
 <p>Only three statements are used.</p>
 <ol style="list-style-type: decimal">
 <li>The <code>FROM</code> statement indicates the basis of the container. This allows to build on existing containers which may then be modified or extended to save time and storage space since images are composed of individual layers. By re-using previous layers with <code>FROM</code> the respective layer must only be saved once per container repository. Here, the container is derived from the latest version of <a href="https://www.rocker-project.org/"><code>rocker/verse</code></a>, a relatively large container consisting of a stable debian linux system with R, Rstudio, the tidyverse packges, and all software required to render Rmarkdownr reports (LaTeX) pre-installed.</li>
 <li>The <code>MAINTAINER</code> field simplycontains an email address to complain to.</li>
-<li>The <code>RUN</code> statement can be used to execute commmands inside the container during the build. Here we use it to update the distibution package manager before installing the R package <code>reticulate</code> which enables interoperability between R and python before installing python, pandas and matplotlib.</li>
+<li>The <code>RUN</code> statement can be used to execute commmands inside the container during the build. Here we use it to update the distibution package manager before installing the R package <code>reticulate</code> which enables interoperability between R and python before installing python and the required modules.</li>
 </ol>
-<p>For more information on using R and python together, see [TODO; REFERENCE].</p>
-<p>We will now build the container image locally. To that end, clone the example repository to your local filesystem (cf. [TODO; REFERENCE GIT]) and <code>cd</code> to the example repository.</p>
-<div class="sourceCode"><pre class="sourceCode bash"><code class="sourceCode bash"><span class="fu">git</span> clone https://github.com/rr-mrc-bsu/containerization-example
-<span class="bu">cd</span> containerization-example/docker</code></pre></div>
-<p>Next, <a href="https://docs.docker.com/install/">install docker</a> and execute the build script in <code>docker/</code></p>
-<div class="sourceCode"><pre class="sourceCode bash"><code class="sourceCode bash"><span class="fu">sudo</span> docker build --no-cache -t mycontainer .</code></pre></div>
-<p>Note that you require root access to build the container! This command will trigger the build process (and take a while). Afterwards, a success message is displayed together with a unique <a href="https://en.wikipedia.org/wiki/SHA-2">sha256 hash</a> value for the container image. This hash value can later be used to uniquely identify a particular versions of a container (similar to git commit hashes, cf. ???). Should you have a Docker Hub account you could then push the image by</p>
+<p>We will now build the container image locally. To that end, clone the example repository to your local filesystem (cf. [TODO; REFERENCE GIT]).</p>
+<div class="sourceCode"><pre class="sourceCode bash"><code class="sourceCode bash"><span class="fu">git</span> clone https://github.com/rr-mrc-bsu/containerization-example</code></pre></div>
+<p>Next, <a href="https://docs.docker.com/install/">install docker</a>, <code>cd</code> to the docker subfolder of the example repository and build the container via</p>
+<div class="sourceCode"><pre class="sourceCode bash"><code class="sourceCode bash"><span class="bu">cd</span> containerization-example/docker
+<span class="fu">sudo</span> docker build --no-cache -t mycontainer .</code></pre></div>
+<p>Note that you do require root access to build the container! This command will trigger the build process (and take a while). Afterwards, a success message is displayed together with a unique <a href="https://en.wikipedia.org/wiki/SHA-2">sha256 hash</a> value for the container image. This hash value can later be used to uniquely identify a particular versions of a container (similar to git commit hashes, cf. ???). Should you have a Docker Hub account you could then push the image by</p>
 <div class="sourceCode"><pre class="sourceCode bash"><code class="sourceCode bash"><span class="ex">docker</span> push yourname/mycontainer</code></pre></div>
-<p>Otherwise, the image is only available locally. Note that having access to the image (or at least its exact hash) is extremely important to guarantee reproducibility. Simply rebuilding the image from the same dockerfile at a later timepoint will almost always result in a slightly different image when the build is configured to use the most recent package sources and versions of the software required. To avoid this, one may take steps to specify the software versions explicitly in the dockerfile but this never guarantees reproducible builds due to the many uncontrollable external dependencies. Still, keeping the dockerfile is important, since it may be seen as a guide as to how a similar computing environment can be set up manually at a later timepoint. Even if there are reasons not to use singularity to re-run an analysis, as good dockerfile might be the best way to specify software dependencies.</p>
+<p>These are essentially the steps executed in the <code>docker/build</code> script. WIthout making an image publicly available on dockerhub, the image is only available locally. Note that having access to the image (or at least its exact hash) is extremely important to guarantee reproducibility. Simply rebuilding the image from the same dockerfile at a later timepoint will almost always result in a slightly different image when the build is configured to use the most recent package sources and versions of the software required. To avoid this, one may take steps to specify the software versions explicitly in the dockerfile but this never guarantees reproducible builds due to the many uncontrollable external dependencies. Still, keeping the dockerfile is important, since it may be seen as a guide as to how a similar computing environment can be set up manually at a later timepoint. Even if there are reasons not to use singularity to re-run an analysis, as good dockerfile might be the best way to specify software dependencies.</p>
 <p>[TODO link to continuous integration for dockerfiles]</p>
-<p>Switch back to the top level of the containerization-example folder now.</p>
+<p>Switch back to the top level of the containerization example folder now.</p>
 <div class="sourceCode"><pre class="sourceCode bash"><code class="sourceCode bash"><span class="bu">cd</span> ..</code></pre></div>
 <p>A major advantage of singularity over docker over virtual machines is the ease with which singularity enables execution of commands <strong>inside of a docker container instance</strong> but <strong>within the host file system</strong>, i.e., in contrast to docker, one does not need to manually mount a particular directory when starting a container but simply may invoke</p>
 <pre><code>singularity exec docker://kkmann/rr-containerization-example touch test</code></pre>
@@ -266,7 +270,7 @@ RUN sudo pip3 install -U pandas matplotlib</code></pre>
 <h3><span class="header-section-number">6.4.2</span> Snakemake</h3>
 <p>Snakemake is a much more powerful tool whe it comes to complex workflows since it supports cluster execution and more flexible rule definitions (cf chapter [TODO, REFERENCE]). It is also designed with reproducibility in mind and thus allows to run either specific rules or an entire workflow using singularity. The contents of the <code>Snakefile</code> in the containerization-example folder are</p>
 <pre><code>singularity:
-    &quot;docker://kkmann/rr-containerization-example@sha256:5225e53f934d749bf3017f140e5169b0d2eadc0512799b89c2f854a2d002d0c4&quot;
+    &quot;docker://kkmann/rr-containerization-example@sha256:17414f63929b0283f82e70ded3ca9cd9b61f37e13fe3d103a2bdf24b9056114e&quot;
 
 rule build_report:
     input:
@@ -284,7 +288,7 @@ rule build_report:
     output:
         &quot;r-and-python.html&quot;
     singularity:
-        &quot;docker://kkmann/rr-containerization-example@sha256:5225e53f934d749bf3017f140e5169b0d2eadc0512799b89c2f854a2d002d0c4&quot;
+        &quot;docker://kkmann/rr-containerization-example@sha256:17414f63929b0283f82e70ded3ca9cd9b61f37e13fe3d103a2bdf24b9056114e&quot;
     shell:
         &quot;&quot;&quot;
         Rscript -e &quot;rmarkdown::render(\\&quot;{input}\\&quot;)&quot;
