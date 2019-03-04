@@ -43,7 +43,7 @@ the following corresponding project directory:
 [to do: make diagram with DiagrammeR]
 
 <div class="figure">
-<img src="06-build-automation_files/figure-epub3/workflow-diagram-1.png" alt="Example project workflow"  />
+<img src="10-build-automation_files/figure-epub3/workflow-diagram-1.png" alt="Example project workflow"  />
 <p class="caption">(\#fig:workflow-diagram)Example project workflow</p>
 </div>
 
