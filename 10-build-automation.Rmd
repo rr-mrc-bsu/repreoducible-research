@@ -38,27 +38,31 @@ A directory containing the example above might look something like this:
 |   
 |   # markdown files for reports and documents
 ├── docs
-│   ├── data-preparation.Rmd
-│   ├── analysis.Rmd
-│   └── manuscript.Rmd
+│   ├── analysis.Rmd # an intermediate analysis report
+│   ├── manuscript.Rmd # the eventual manuscript
+│   └── presentation.Rmd # a conference presentation with intermediate results
 |
 |   # additional R scripts for stuff that is too ugly/long running for .Rmd
 ├── scripts
-│   └── simulation.R
+│   ├── load-data.R
+│   ├── data-preparation.R # the file that prepares our data
+│   └── simulation.R # a small simulation study for in the manuscript
 |   
 ├── .gitignore # define what we ignore in this repository
 ├── .travis.yml # cf. chapter 'continuous integration'
 ├── DESCRIPTION # makes Travis-CI believe this is an R package, cf. chapter 'continuous integration'
 ├── Makefile # actual makefile defining the individual build steps
+├── build-automation-example.Rproj # makes it easier to work in Rstudio
 └── README.md # describes the project, this is shown on a Github repo
+
 ```
 Actually, this is the project in our example repository. The dependencies 
 between the files in our project may be represented in a flowchart something like this:
 ```{r example-project-flowchart, eval=TRUE, echo=FALSE}
 library(DiagrammeR)
 grViz("digraph rmarkdown {
-'iris.csv' -> 'data-preparation.Rmd'
-'data-preparation.Rmd' -> 'analysis.Rmd'
+'iris.csv' -> 'data-preparation.R'
+'data-preparation.R' -> 'analysis.Rmd'
 'simulation.R' -> 'manuscript.Rmd'
 'analysis.Rmd' -> 'manuscript.Rmd'
 }", height=200)
@@ -70,13 +74,14 @@ like to have a command that re-runs/compiles/builds the different files
 everytime an upstream change is made. This is exactly what the GNU software Make
 does. Make works through a Makefile, a file that describes how a target file,
 depends on its dependencies, and how these in turn on their dependencies, and so
-on. 
+on.
 
 ## Makefile
-If a Makefile is run, a file is compiled if any of its dependencies has 
+If a Makefile is run with the command `make`, a file is compiled if any of its
+dependencies have 
 changed since the last time the file was compiled. In other words, the Makefile
-starts at the top of the hierarchy and updates a file if its creation time is 
-older than the creation time of its dependencies. A Makefile is composed of a 
+starts at the top of the hierarchy and rebuilds a file if it was created time
+before any of its dependencies. A Makefile is composed of a 
 number of rules. Each rule is composed of a target, its prerequisites, and a
 recipe. Each target is separated from its prerequisites by a colon. The recipe
 starts on a new line with a tab:
@@ -87,23 +92,10 @@ target: prerequisite1 prerequisite2
 ```
 In the simplest case, the target is a file, and the prerequisites are the files
 on which it depends. The recipte then describes how one would create the target
-from the prerequisites. In the example above, we could for example write:
-```{bash general-makefile, eval=FALSE, echo=TRUE}
-analysis.html: analysis.Rmd iris.csv
-    Rscript -e "rmarkdown::render(\
-	input       = 'docs/analysis.Rmd',\
-	output_file = 'analysis.html',\
-	output_dir  = 'docs',\
-	params      = list(datafile='../data/iris.csv', outputpath = '../output')"
-```
-
+from the prerequisites. 
 
 In our example in Figure
-\@ref(fig:workflow-diagram), if we make a change to the functions.R file, we
-trigger the recompilation of the recompilation of the r-package.tar.gz file, 
-which in turn triggers a rerunning of the analysis.R and simulation.R scripts,
-and so on, until all files are up to date again.
-
+\@ref(example-project-flowchart), a Makefile could look something like this:
 ```{bash example-makefile, eval=FALSE, echo=TRUE}
 all: docs/manuscript.pdf docs/analysis.html
 
@@ -128,3 +120,9 @@ docs/analysis.html: data/iris.rds docs/analysis.Rmd
 	params      = list(datafile    = '../output/iris_mod.rds', 
 	                   outputpath  = '../output'))"
 ```
+This might seem daunting at first, but don't worry we'll go over the file part
+by part.
+
+## Pattern rules
+
+## Automatic variables
