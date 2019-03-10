@@ -1,0 +1,17 @@
+Metadata-Version: 2.1
+Name: alexanderbuchholz
+Version: 0.0.1
+Summary: A small example package that illustrates testing based on the RWMH sampler
+Home-page: https://github.com/rr-mrc-bsu/reproducible-research/10-python-example-package/rwsampler
+Author: Alexander Buchholz
+Author-email: ab2603@cam.ac.uk
+License: UNKNOWN
+Description: # RWSAMPER
+        This is a small exampler of how to build a python package including testing. 
+        We illustrate this using the random walk sampler. 
+        
+Platform: UNKNOWN
+Classifier: Programming Language :: Python :: 3
+Classifier: License :: OSI Approved :: MIT License
+Classifier: Operating System :: OS Independent
+Description-Content-Type: text/markdown

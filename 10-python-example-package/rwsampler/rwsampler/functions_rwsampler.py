@@ -1,7 +1,9 @@
 import numpy as np
 from scipy.stats import multivariate_normal
 
-def proposaldist(xcurrent, scale=0.1):
+xstartdummy = np.array([1., 1.])
+
+def proposaldist(xcurrent, scale=0.1, seed=None):
     """
         A random work proposal. 
         Takes as input the current state of the chain and 
@@ -9,6 +11,10 @@ def proposaldist(xcurrent, scale=0.1):
         the scale parameters controls the magnitude of 
         the random walk
     """
+    # test the sampling
+    if seed is not None: 
+        np.random.seed(seed)
+    
     d = xcurrent.size
     xproposed = xcurrent + np.random.normal(size=d)*scale
     return(xproposed)
@@ -28,8 +34,11 @@ def logposterior(xcurrent):
     lp = multivariate_normal.logpdf(xcurrent, mean=mu, cov=Sigma)
     return(lp)
 
-def samplechain(xstart, logposterior, tchain=1000, scale=0.1):
+def samplechain(xstart, logposterior, tchain=1000, scale=0.1, seedmaster=None):
     res_dict = {"stateschain" : [xstart],  "acceptance": []}
+    if seedmaster is not None: 
+        np.random.seed(seedmaster)
+
     for tstep in range(tchain):
         xcurrent = res_dict["stateschain"][-1]
         xproposed = proposaldist(xcurrent, scale=scale)
@@ -52,5 +61,5 @@ if __name__ == '__main__':
     import seaborn as sns
     plt.plot(np.array(res_dict["stateschain"])[:,0]); plt.show()
     sns.kdeplot(np.array(res_dict["stateschain"])[:,0]); plt.show()
-    # import ipdb; ipdb.set_trace()
+    
 

@@ -14,10 +14,10 @@ https://packaging.python.org/tutorials/packaging-projects/
 
 write an mcmc sampler: make a package and write test
 
-# Unit testing
+## Unit testing
 https://python-packaging.readthedocs.io/en/latest/testing.html
 TODO:
 testing random code: fix the seed
 use unittest on the package
 
-# jupyter notebook?
+## jupyter notebook?
