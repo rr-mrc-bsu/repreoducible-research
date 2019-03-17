@@ -10,7 +10,7 @@
 [todo]
 
 
-## Digintal Object Identifiers - DOI {#sct-doi}
+## Digital Object Identifiers - DOI {#sct-doi}
 
 [todo]
 
