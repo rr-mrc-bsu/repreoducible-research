@@ -109,7 +109,7 @@
 \usepackage{titling}
 
 % Create subtitle command for use in maketitle
-\newcommand{\subtitle}[1]{
+\providecommand{\subtitle}[1]{
   \posttitle{
     \begin{center}\large#1\end{center}
     }
@@ -126,7 +126,7 @@
   \postauthor{\par}
       \predate{\centering\large\emph}
   \postdate{\par}
-    \date{2019-03-04}
+    \date{2019-03-17}
 
 \usepackage{booktabs}
 
@@ -789,11 +789,11 @@ referenced from the actual Travis configuration file. For details on
 continuous integration, see chapter \ref{chptr-continuous-integration}.
 
 The \texttt{Makefile} and the \texttt{Snakemake} files are explained in
-more detail in chapter \ref{chpt-workflow-automation}. These files can
-be used to organize complex workflows using either GNU make (in simpler
-cases) or snakemake (more sophisticated, cluster integration). We will
-discuss how these two common workflow automation systems can be used
-together with containers at the end of this chapter in section
+more detail in chapter ???. These files can be used to organize complex
+workflows using either GNU make (in simpler cases) or snakemake (more
+sophisticated, cluster integration). We will discuss how these two
+common workflow automation systems can be used together with containers
+at the end of this chapter in section
 \ref{sct-container-workflow-manager}.
 
 The folder \texttt{mnist} contains prepared data from the classical

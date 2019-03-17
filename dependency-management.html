@@ -25,7 +25,7 @@
 <meta name="author" content="cf. list of contributors at https://github.com/rr-mrc-bsu/reproducible-research/graphs/contributors">
 
 
-<meta name="date" content="2019-03-04">
+<meta name="date" content="2019-03-17">
 
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="apple-mobile-web-app-capable" content="yes">
@@ -194,7 +194,7 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 <p>Consider the toy example in <a href="https://github.com/rr-mrc-bsu/containerization-example" class="uri">https://github.com/rr-mrc-bsu/containerization-example</a>. This example repository is build around a single R Markdown report (<code>r-and-python.Rmd</code>) highlighting how R and python can be integrated in a single report. While this is still a fairly simple project in terms of dependencies (no custom source dependencies) it is complex enough to highlight the benefits of a containerized analysis.</p>
 <p>Let’s sort throught the individual files and folder one by one. Any well-organized repository should contain <code>README.md</code>, <code>LICENSE</code>, and <code>.gitignore</code> files. Their respective roles are described in the git chapter [write chapter, REFERENCE].</p>
 <p>The <code>.travis.yml</code> configuration file contains the configuration of the continuous integration system (here: Travis-CI) linked to the repository. Continuous integration services allow automatic builds/checks of the code in a repository and greatly facilitate quality checking of new pull requests. To avoid a lengthly configuration file, the folder <code>.travis</code> contains further scripts which are referenced from the actual Travis configuration file. For details on continuous integration, see chapter <a href="chptr-continuous-integration.html#chptr-continuous-integration">7</a>.</p>
-<p>The <code>Makefile</code> and the <code>Snakemake</code> files are explained in more detail in chapter <a href="#chpt-workflow-automation"><strong>??</strong></a>. These files can be used to organize complex workflows using either GNU make (in simpler cases) or snakemake (more sophisticated, cluster integration). We will discuss how these two common workflow automation systems can be used together with containers at the end of this chapter in section <a href="dependency-management.html#sct-container-workflow-manager">6.4</a>.</p>
+<p>The <code>Makefile</code> and the <code>Snakemake</code> files are explained in more detail in chapter ???. These files can be used to organize complex workflows using either GNU make (in simpler cases) or snakemake (more sophisticated, cluster integration). We will discuss how these two common workflow automation systems can be used together with containers at the end of this chapter in section <a href="dependency-management.html#sct-container-workflow-manager">6.4</a>.</p>
 <p>The folder <code>mnist</code> contains prepared data from the classical <a href="http://yann.lecun.com/exdb/mnist/">mnist</a> digital handwritten data set.</p>
 <p>The R Markdown file <code>r-and-python.Rmd</code> and the <code>docker</code> folder are the elements of the example repository most important to the contents of this chapter. The R Markdown file <code>r-and-python.Rmd</code> contains an example analysis using python and tensorflow + keras to do the heavy lifting for training a deep neural network to classify the mnist example data (in digits 0 to 9). Some data wrangling and plotting is done using R though. Both R and python sessions interoperate using the <a href="https://github.com/rstudio/reticulate"><strong>reticulate</strong> package</a>. To learn more about the language agnostic nature of R Markdown and especially python/R interoperability, see [write chapter, REFERENCE]. The analysis thus has a non-trivial set of dependencies in both R and python packages/modules, which we will manage by using a custom docker conatainer. The build instructions for this container are specified in the <code>docker</code> folder which contains a build script <code>docker/build</code> and a <code>dockerfile</code>. We will return to this folder in section <a href="dependency-management.html#sct-docker">6.2.1</a>. Before learning more about containers, it is a good idea to have a rough understanding of so called ‘virtual machines’.</p>
 </div>
@@ -359,8 +359,8 @@ gitbook.start({
 "size": 2
 },
 "edit": {
-"link": null,
-"text": null
+"link": "https://github.com/rr-mrc-bsu/reproducible-research/blob/master/15-containerization.Rmd",
+"text": "Edit"
 },
 "history": {
 "link": null,
