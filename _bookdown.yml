@@ -5,3 +5,4 @@ language:
     chapter_name: ""
 output_dir: "_book"
 new_session: yes
+edit: https://github.com/rr-mrc-bsu/reproducible-research/blob/master/%s
