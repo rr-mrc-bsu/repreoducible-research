@@ -1,4 +1,4 @@
-# Dependency management
+# Dependency management {#chptr-dependency-management}
 
 Reproducible research, in the narrow sense in which it is defined in this
 book, ultimately means that an entire analysis - however complicated -

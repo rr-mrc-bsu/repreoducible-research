@@ -1,96 +1,230 @@
 # Build automation {#chptr-workflow-automation}
 
-Large projects can be a pain to manage. Small changes may break your software, 
-or may deem your previously obtained analysis results useless. Build 
-automation refers to a collection of tools that atempt to automate steps
-in your workflow, thereby simplifying your the whole process. Many processes may
-be automated, but here we will mainly discuss build automation using Makefiles. 
+Nowadays, data analysis projects, at their core, are often highly complex
+software pipelines.
+I.e., the data flows through multiple steps of pre-processing, analysis,
+post-proessing, and reporting.
+Often, different software tools implemented in a multitude of programming
+languages are combined in such pipelines.
+In theory, it should be possible to reproduce an analysis with a
+given set of software versions and a clear description of the required
+steps.
+In practice, however, such a protocol-based approach is often infeasible
+due to the follwoing reasons:
 
-## Makefiles
+1. **User-intervention-hell:** Any kind of required user interaction 
+(e.g. 'go to the web page and download X to folder y') introduces the potential
+of an unclear description or user errors during reproduction. 
+A fully reproducible analysis should therefore eliminate any user interaction 
+(start to end automation).
+2. **Dependency-hell:** Software is a notoriously chaotic system. 
+Even small changes may break a system entirely, or may lead to drastically 
+different results. 
+This means, that it is almost impossible to re-create the exact same
+computational environment even with a realtively detailed specification
+of the software used.
 
-Most research projects consist of several different connected components. 
-For example, the end product might be a manuscipt, which depends on intermediate
-components such as a data analysis script and an R package. In this case, 
-the manuscript depends on the data analysis script, which in turn depends on the
-R package. Such a hierarchy implies that every time a file changes, all files 
-downstream in the hierarchy should be updated as well. In the previous example, 
-we might adjust a function in the R package, which might change the outcome of 
-the data analysis, and as a result, we'd have to re-run the data analysis 
-script. The outcome of the data analysis might change the manuscript, so we'd 
-have to re-compile that as well. In large projects, this quickly becomes tedious
-and difficult to maintain by hand. Luckily there is software available to 
-streamline this process.
+In this chapter, we will discuss solutions to addressing the 
+user-intervention hell via build automation tools.
+You can thik of these toola as ways of glueing together arbitrary tool via the
+Unix command line to create reproducible workflows without requiring any
+user interaction.
+The second issue, dependency-hell, is addressed in Chapter 
+\@ref(chptr-dependency-management).
 
-Consider the more complicated example in Figure \@ref(fig:workflow-diagram) with 
-the following corresponding project directory:
 
-```{bash example-directory, eval=FALSE, echo=TRUE}
-./
-├── rpackage
-│   ├── DESCRIPTION
-│   └── functions.R
-├── code
-│   ├── analysis.R
-│   └── simulation.R
-├── docs
-│   ├── manuscript.Rnw
-│   ├── presentation.Rnw
-│   └── refs.bib
+
+## Example problem
+
+To make things more tangible, consider the following example.
+Feel free to clone the 
+[example repository](https://github.com/rr-mrc-bsu/build-automation-example)
+via
+```bash
+git clone https://github.com/rr-mrc-bsu/build-automation-example
+```
+There are a bunch of file in the repository that are not directly related to
+this chapter.
+Feel free to ignore both the `DESCRIPTION` as well as the `.travis.yml` file
+for now. 
+In case you want to learn more about these, cf. Chapter 
+\@ref(chptr-continuous-integration).
+The remaining folder structure is 
+```bash
+├── data 
+│   └── iris.csv
+|
+├── reports
+│   ├── data-preparation.Rmd
+│   └── analysis.Rmd
+|
+├── scripts
+│   └── load-data.R
+|   
+├── .gitignore
+├── Makefile
 └── README.md
 ```
+The `.gitignore`-file is explained in Chapter \@ref(chptr-version-control),
+the `README.md` simply containes some general information about the repository.
+The remainder of the repository could serve as template for organizing more
+complex analyses involving multiple steps.
+Here, the `data` folder holds a .csv version of the famous 'iris' data set 
+[???].
+Note that it will not always be possible to publish the data together with the
+analysis due to data protection regulation or technical considerations (size?).
+Whenever feasible, having data and analysis code in the same repository 
+drastically increases robustness since the analysis does not depend on the
+availability (and unchanged integrity) of an external data source.
+Furthermore, the `reports`-folder contains two separate .Rmd files with a 
+data preparation report and an analysis report.
+Often, however, it will not be practical to have the entire code in the 
+corresponding .Rmd files.
+For very long / technical code this would severely clutter the respective .Rmd
+file and distract from the actual analysis goal.
+In these cases, or if parts of the code are extremely long-running, 
+it might be sensible to put these code sections in an external script.
+In this example, the actual code for loading the data was put in 
+`scripts/load-data.R`.
 
-[to do: make diagram with DiagrammeR]
-
-```{r workflow-diagram, fig.cap="Example project workflow", message=FALSE, echo=FALSE}
+In this example analysis, the final objective is to compile the `analysis.pdf`
+report which, however, depends on files generated during the compilatin of the
+`data-preparation.Rmd` report, which in tun depends on the external script
+`load-data.R`.
+This simple workflow can be visualized by the graphi in 
+Figure \@ref(fig:workflow)
+```{r workflow, fig.cap="Example project workflow", message=FALSE, echo=FALSE}
 library(diagram)
 openplotmat()
-par(mar=c(1, 1, 1, 1))
-openplotmat()
-elpos <- coordinates(c(2, 1, 2, 2, 2, 1))
-fromto <- matrix(c(1, 3, 2, 3, 3, 4, 3, 5, 4, 6, 5, 7, 6, 8, 6, 9, 7, 8, 7, 9,
-                   10, 8, 10, 9), ncol=2, byrow=TRUE)
+elpos  <- coordinates(c(1, 1, 1, 1, 3, 1, 1))
+fromto <- matrix(
+    c(1, 2,
+      2, 3,
+      3, 4, 
+      4, 5, 
+      4, 6, 
+      4, 7, 
+      5, 8,
+      8, 9
+    ), 
+    ncol = 2, byrow = TRUE
+)
 nr <- nrow(fromto)
-arrpos <- matrix(ncol=2, nrow=nr)
-for(i in 1:nr) {
-    arrpos[i, ] <- straightarrow(to=elpos[fromto[i, 2], ],
-                                 from=elpos[fromto[i, 1], ], lwd=2, arr.pos=0.6,
-                                 arr.length=0.5)
+arrpos <- matrix(ncol = 2, nrow = nr)
+for (i in 1:nr) {
+    arrpos[i, ] <- straightarrow(
+        from = elpos[fromto[i, 1], ],
+        to   = elpos[fromto[i, 2], ],
+        lwd = 2, arr.pos = .8, arr.length = 0.5)
 }
-textrect(elpos[1, ], 0.15, 0.05, lab="functions.R", box.col="gray",
-         shadow.col="grey", shadow.size=0, cex=1.5)
-textrect(elpos[2, ], 0.15, 0.05, lab="DESCRIPTION", box.col="gray",
-         shadow.col="grey", shadow.size=0, cex=1.5)
-textellipse(elpos[3, ], 0.2, 0.1, lab="r-package.tar.gz", box.col="orange",
-            shadow.col="darkgreen", shadow.size=0, cex=1.5)
-textrect(elpos[4, ], 0.15, 0.05, lab="analysis.R", box.col="gray",
-         shadow.col="darkblue", shadow.size=0, cex=1.5)
-textrect(elpos[5, ], 0.15, 0.05, lab="simulation.R", box.col="gray",
-         shadow.col="darkblue", shadow.size=0, cex=1.5)
-textrect(elpos[6, ], 0.15, 0.05, lab="results1.csv", box.col="gray",
-         shadow.col="darkblue", shadow.size=0, cex=1.5)
-textrect(elpos[7, ], 0.15, 0.05, lab="results2.csv", box.col="gray",
-         shadow.col="darkblue", shadow.size=0, cex=1.5)
-textellipse(elpos[8, ], 0.2, 0.1, lab="manuscript.Rnw", box.col="orange",
-            shadow.col="red", shadow.size=0, cex=1.5)
-textellipse(elpos[9, ], 0.2, 0.1, lab="presentation.Rnw", box.col="orange",
-            shadow.col="red", shadow.size=0, cex=1.5)
-textrect(elpos[10, ], 0.15, 0.05, lab="refs.bib", box.col="gray",
-         shadow.col="darkblue", shadow.size=0, cex=1.5)
+cex_ <- .66
+rmd_box <- function(id, label) {
+    textrect(
+        elpos[id, ], 
+        0.15, 0.04, 
+        lab         = label, 
+        box.col     = "gray",
+        shadow.col  = "grey", 
+        shadow.size = 0, 
+        cex         = cex_
+    )
+}
+rmd_box(2, "load-data.R")
+rmd_box(4, "data-preparation.Rmd")
+rmd_box(8, "analysis.Rmd")
+
+data_ell <- function(id, label) {
+    textellipse(
+        elpos[id, ], 
+        0.15, 0.04, 
+        lab         = label, 
+        box.col     = "red",
+        shadow.col  = "red", 
+        shadow.size = 0, 
+        cex         = cex_
+    )
+}
+data_ell(1, "iris.csv")
+data_ell(3, "iris.rds")
+data_ell(5, "iris_mod.rds")
+data_ell(7, "data-preparation-figures.zip")
+
+output_rect <- function(id, label) {
+    textrect(
+        elpos[id, ], 
+        0.15, 0.04, 
+        lab         = label, 
+        box.col     = "green",
+        shadow.col  = "green", 
+        shadow.size = 0, 
+        cex         = cex_
+    )
+}
+output_rect(6, "data-preparation.html")
+output_rect(9, "analysis.html")
 ```
 
-Re-running, -building, and -compiling all the files after we made a change to 
-the anyone of the intermediate files would be a tedious task. Ideally, we would
-like to have a command that re-runs/compiles/builds the different files 
-everytime an upstream change is made. This is exactly what the GNU software Make 
-does. Make works through a Makefile, a file that describes how a target file,
+A description of the required steps (assuming that the appropriate software
+is available!) could be:
+
+1. Create the output folder via
+```
+mkdir -p output
+```
+2. Load the raw data to `iris.rds` via
+```
+Rscript scripts/load-data.R data/iris.csv output/iris.rds
+```
+3. Compile the data preparation report via
+```
+Rscript -e "rmarkdown::render(\
+input       = 'reports/data-preparation.Rmd',\
+output_file = 'data-preparation.html',\
+output_dir  = 'output',\
+params      = list(datafile = '../output/iris.rds', outputpath = '../output')\
+)"
+```
+4. Rename the figures .zip folder
+```
+mv output/figures.zip output/data-preparation-figures.zip
+```
+5. Compile final analysis report
+```
+Rscript -e "rmarkdown::render(\
+input       = 'reports/analysis.Rmd',\
+output_file = 'analysis.html',\
+output_dir  = 'output',\
+params      = list(datafile = '../output/iris_mod.rds', outputpath = '../output')\
+)"
+```
+
+Obviously, there is no reason to have anybody type these instructions by hand.
+The simlest solution would thus be to combine this sequence of command line
+instructions in a bash file [example?].
+This works fine for a wide range of applications but may fall short in 
+cases where the pipeline might run for a prolonged time and 
+people might be interested in intermediate results as well (e.g. just compile
+the data-preparation report).
+Build automation tools may help with allowing a richer interaciton with a given
+workflow than a simple bash script.
+
+
+
+## GNU make
+
+Make works through a Makefile, a file that describes how a target file,
 depends on its dependencies, and how these in turn on their dependencies, and so
 on. If a Makefile is run, a file is compiled if any of its dependencies has 
 changed since the last time the file was compiled. In other words, the Makefile
 starts at the top of the hierarchy and updates a file if its creation time is 
 older than the creation time of its dependencies. In our example in Figure
-\@ref(fig:workflow-diagram), if we make a change to the functions.R file, we
+if we make a change to the functions.R file, we
 trigger the recompilation of the recompilation of the r-package.tar.gz file, 
 which in turn triggers a rerunning of the analysis.R and simulation.R scripts,
 and so on, until all files are up to date again.
 
 [add example Makefile]
+
+
+
+## Snakemake
