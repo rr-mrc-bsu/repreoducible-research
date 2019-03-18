@@ -1,0 +1,20 @@
+---
+title: "Python package development"
+output: html
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+# Python package development
+
+## Continuous integration
+I agree, Kevin, we should some content. 
+
+## Unit testing
+
+
+
+## Documentation
+

@@ -6,3 +6,5 @@ _book/*
 _bookdown_files/*
 .DS_Store
 *.aux
+*.rds
+*.log
