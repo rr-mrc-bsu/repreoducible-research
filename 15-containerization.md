@@ -5,7 +5,7 @@ book, ultimately means that an entire analysis - however complicated -
 can be repeated at the push of a button (or the command line equivalent:
 typing 'make') to yield the exact same figures, tables, files, or reports when
 aplied to the exact same data.
-In mathematical terms, one could go as far as requriing that an analysis must
+In mathematical terms, one could go as far as requiring that an analysis must
 act as a function on data: there may very well be two data sets that produce
 the same output but the same input data must always produce the same analysis
 results.
@@ -25,7 +25,7 @@ stack of software dependencies has piled up:
  via some form of terminal and shell.
 3. Next, a workflow management system or build system like GNU make, snakemake,
 or CWL-runner should be used to 'tie everything together'
-4. Version control softwae (usually git) is required to ensure integrity of the
+4. Version control software (usually git) is required to ensure integrity of the
  project
 5. Usually some form of output is to be produced and the most reliable way to
 preserve digital documents at the moment seems to be .pdf.
@@ -125,12 +125,12 @@ understanding of so called 'virtual machines'.
 
 ## Virtual machines and containers
 
-A virtual machines are (software) emulations of entire computer systems.
-As such they allow running various guest operating systems from withing a
+Virtual machines are (software) emulations of entire computer systems.
+As such they allow running various guest operating systems from within a
 single host system, e.g., Linux within Windows or vice versa.
 To achieve this, a virtual machine acts as intermediate layer between the host
 system (and its hardware) and the guest operating system.
-I.e., all low-level operatons of the guest system are mapped through the
+i.e., all low-level operatons of the guest system are mapped through the
 virtual machine and the host operating system to the host hardware.
 A common software for running virtual machines is 
 [VirtualBox](https://www.virtualbox.org/) which can, 
@@ -149,7 +149,7 @@ specifications.
 
 Instead, the reproducible research community is mainly embracing containers
 to create portable computing environments.
-For our purposes, containers can bee seen as a more leightweight alternative
+For our purposes, containers can bee seen as a more lightweight alternative
 to virtual machines.
 Snakemake [write chapter, REFERENCE], for instance, supports running 
 workflows where individual
@@ -177,14 +177,14 @@ By far the most common container software is Docker.
 terms of container software and
 hugely contributed to popularizing the concept of containerization in recent
 years.
-As most of the tools discussed in this book, Docker was nnever designed 
+As most of the tools discussed in this book, Docker was never designed 
 with reproducibility in mind but rather to enable the fast spinning-up of 
-leightweight application containers to handle web-services etc. ('micro virtualization').
+lightweight application containers to handle web-services etc. ('micro virtualization').
 
-Since it is the de-facto standard, Docker is very well documented and t
-he docker community edition is an open source project and available free of 
+Since it is the de-facto standard, Docker is very well documented and the
+docker community edition is an open source project and available free of 
 charge.
-The company behind Docker als runs an online repository, [Docker Hub](https://www.docker.com/products/docker-hub), 
+The company behind Docker also runs an online repository, [Docker Hub](https://www.docker.com/products/docker-hub), 
 for docker images which can be seen as the GitHub/GitLab equivalent for docker images.
 Docker Hub can be used free of charge and thus enables the storage and sharing of
 custom container images via the world wide web.
@@ -255,7 +255,7 @@ Here, the container is derived from the latest version of
 a relatively large container consisting of a stable debian linux system with 
 R, Rstudio, the tidyverse packges, 
 and all software required to render Rmarkdownr reports (LaTeX) pre-installed.
-2. The `MAINTAINER` field simplycontains an email address to complain to.
+2. The `MAINTAINER` field simply contains an email address to complain to.
 3. The `RUN` statement can be used to execute commmands inside the container 
 during the build.
 Here we use it to update the distibution package manager before installing
@@ -280,7 +280,7 @@ Note that you do require root access to build the container!
 This command will trigger the build process (and take a while). 
 Afterwards, a success message is displayed together with a unique [sha256
 hash](https://en.wikipedia.org/wiki/SHA-2) value for the container image.
-This hash value can later be used to uniquely identify a particular versions of
+This hash value can later be used to uniquely identify a particular version of
 a container (similar to git commit hashes, cf. ???).
 Should you have a Docker Hub account you could then push the image 
 by
@@ -412,15 +412,15 @@ considered a bit overpowered for some use cases.
 The main reason why we chose to demonstrate what we consider the 'gold-standard'
 of dependency management over more language/environment specific approaches
 is to is to showcase how simple it actually is.
-As long as you are capabale of running a few simple commands in a linux 
+As long as you are capable of running a few simple commands in a Linux 
 command line you are good to go.
 The container-based approach to dependency managemnt is also the most generic
 in that it is capable of managing arbitrary dependencies -
-as long as your computing environment can be set up on a linux operating system
+as long as your computing environment can be set up on a Linux operating system
 you are good to go!
 It does not matter which (or even how many different) programming languages 
 you use, how much messy custom research software you need.
-As long as you are able to install it to a plain linux system there is no
+As long as you are able to install it to a plain Linux system there is no
 environment that cannot be mapped to a container (or several!).
 Still, for completeness' sake, a few different, potentially more accessible
 methods for partial dependency management will be discussed as 'honorable
@@ -453,10 +453,10 @@ software dependencies to be openly available.
 If the required dependencies cannot be installed in a container that  may be distributed openly, results will not be reproducible by everybody.
 For instance, while the SAS system for statistical analyses can be used inside
 containers, licensing and license consts may be a major obstacle in doing so.
-2. **Containers are linux based:** 
-The effective restriciton to open-source software also restricts the choice
+2. **Containers are Linux based:** 
+The effective restriction to open-source software also restricts the choice
 of container operating systems. 
-In practice, containers are almost exclusively linux based. 
+In practice, containers are almost exclusively Linux based. 
 In case of, e.g., Windows dependencies, this means that the less flexible 
 approach via virtual machines might be required to encapsulate the
 analysis environment.
