@@ -1,7 +1,7 @@
 --- 
 title: "A Reproducible Research Compendium"
 author: "cf. list of contributors at https://github.com/rr-mrc-bsu/reproducible-research/graphs/contributors"
-date: "2019-03-18"
+date: "2019-03-19"
 site: bookdown::bookdown_site
 documentclass: book
 bibliography: [book.bib, packages.bib]
