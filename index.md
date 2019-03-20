@@ -1,13 +1,13 @@
 --- 
 title: "A Reproducible Research Compendium"
 author: "cf. list of contributors at https://github.com/rr-mrc-bsu/reproducible-research/graphs/contributors"
-date: "2019-03-19"
+date: "2019-03-20"
 site: bookdown::bookdown_site
 documentclass: book
 bibliography: [book.bib, packages.bib]
 biblio-style: apalike
 link-citations: yes
-description: "This compendium is inteded is intended to be a growing knowledge base on reproducible research and by writing it collaboratively acts as learning-by-doing example on modern collaborative coding workflows and version control."
+description: "This compendium is intended is intended to be a growing knowledge base on reproducible research and by writing it collaboratively acts as learning-by-doing example on modern collaborative coding workflows and version control."
 ---
 
 
@@ -17,8 +17,8 @@ description: "This compendium is inteded is intended to be a growing knowledge b
 # A 'Living Book' - aims and scope
 
 
-This book is a little different from your ususal statistics foliant -
-it is written entirely using **Markdown** and rendered to html, pdf, and epub
+This book is a little different from your usual statistics foliant -
+it is written entirely using **Markdown** and rendered to HTML, PDF, and EPUB
 publishing formats using the R package **bookdown**.
 Its entire Markdown source code is publicly available on GitHub.com at
 [https://github.com/rr-mrc-bsu/reproducible-research](https://github.com/rr-mrc-bsu/reproducible-research).
@@ -55,7 +55,7 @@ Please do feel free to post any question, suggestions, or feedback via the
 
 
 
-## Other rescources
+## Other resources
 
 Interest in reproducibility for quantitative (and qualitative!) research is 
 rapidly increasing.
@@ -95,13 +95,13 @@ Just think about the effort of building an entirely new particle accelerator
 like CERN just to replicate its findings!
 In medical research replication already plays a major role in the approval of
 new drugs since the FDA usually requires convincing evidence from two independently
-conducted randomized clinical trials to approve a new substance [REFERNCE].
+conducted randomized clinical trials to approve a new substance [REFERENCE].
 
 An important caveat in the notion of replication is the fact that one needs to
-agree on the methods before being truely able to replicate results by collecting
+agree on the methods before being truly able to replicate results by collecting
 new data.
 Since nowadays most analyses of empirical data require relatively complex 
-statistical merthods which in turn rely on numerical computation on a computer
+statistical methods which in turn rely on numerical computation on a computer
 system, 
 just describing the exact method of getting from the input data to the analysis
 results - be it figures, numbers, tables - is daunting.
@@ -115,11 +115,11 @@ results from the exact same inputs.
 This might sound like the most natural and self-evident thing but in practice 
 merely reproducing the results in many scientific papers is not possible [REFS].
 
-These considerations lead us to the same schematic definition of reprodcibility
+These considerations lead us to the same schematic definition of reproducibility
 as put forward in [The Turing Way](https://github.com/alan-turing-institute/the-turing-way/blob/master/chapters/reproducibility.md#the-turing-way-definition-of-reproducibility).
 
 [TODO: nice table graph here]
 
 We feel that reproducibility of scientific results should be the bare minimum
-standard to strive for and want to collaborativel explore and advocated techniques,
+standard to strive for and want to collaboratively explore and advocated techniques,
 tools, and best-practises for getting there.

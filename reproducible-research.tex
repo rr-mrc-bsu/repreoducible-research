@@ -126,7 +126,7 @@
   \postauthor{\par}
       \predate{\centering\large\emph}
   \postdate{\par}
-    \date{2019-03-19}
+    \date{2019-03-20}
 
 \usepackage{booktabs}
 
@@ -140,9 +140,9 @@
 \chapter{\texorpdfstring{A `Living Book' - aims and
 scope}{A Living Book - aims and scope}}\label{a-living-book---aims-and-scope}
 
-This book is a little different from your ususal statistics foliant - it
-is written entirely using \textbf{Markdown} and rendered to html, pdf,
-and epub publishing formats using the R package \textbf{bookdown}. Its
+This book is a little different from your usual statistics foliant - it
+is written entirely using \textbf{Markdown} and rendered to HTML, PDF,
+and EPUB publishing formats using the R package \textbf{bookdown}. Its
 entire Markdown source code is publicly available on GitHub.com at
 \url{https://github.com/rr-mrc-bsu/reproducible-research}. A pre-build
 version is hosted as static html website using \textbf{GitHub pages} at
@@ -186,7 +186,7 @@ free to post any question, suggestions, or feedback via the
 \href{(https://github.com/rr-mrc-bsu/reproducible-research/issues)}{GitHub
 issue system}!
 
-\section{Other rescources}\label{other-rescources}
+\section{Other resources}\label{other-resources}
 
 Interest in reproducibility for quantitative (and qualitative!) research
 is rapidly increasing. The perspectives are probably almost as diverse,
@@ -228,12 +228,12 @@ effort of building an entirely new particle accelerator like CERN just
 to replicate its findings! In medical research replication already plays
 a major role in the approval of new drugs since the FDA usually requires
 convincing evidence from two independently conducted randomized clinical
-trials to approve a new substance {[}REFERNCE{]}.
+trials to approve a new substance {[}REFERENCE{]}.
 
 An important caveat in the notion of replication is the fact that one
-needs to agree on the methods before being truely able to replicate
+needs to agree on the methods before being truly able to replicate
 results by collecting new data. Since nowadays most analyses of
-empirical data require relatively complex statistical merthods which in
+empirical data require relatively complex statistical methods which in
 turn rely on numerical computation on a computer system, just describing
 the exact method of getting from the input data to the analysis results
 - be it figures, numbers, tables - is daunting. Anybody with experience
@@ -248,14 +248,14 @@ merely reproducing the results in many scientific papers is not possible
 {[}REFS{]}.
 
 These considerations lead us to the same schematic definition of
-reprodcibility as put forward in
+reproducibility as put forward in
 \href{https://github.com/alan-turing-institute/the-turing-way/blob/master/chapters/reproducibility.md\#the-turing-way-definition-of-reproducibility}{The
 Turing Way}.
 
 {[}TODO: nice table graph here{]}
 
 We feel that reproducibility of scientific results should be the bare
-minimum standard to strive for and want to collaborativel explore and
+minimum standard to strive for and want to collaboratively explore and
 advocated techniques, tools, and best-practises for getting there.
 
 \chapter{How to contribute}\label{chptr-how-to-contribute}
@@ -1228,11 +1228,11 @@ also be seen as an encouragement to conducting research in a more open
 \chapter{Continuous Integration}\label{chptr-continuous-integration}
 
 Did you ever wonder what the green/yellow/red `badges' in some Readme.md
-files on, e.g., Github.com actually mean? How are they created, what are
+files on, e.g., GitHub.com actually mean? How are they created, what are
 they for and why should you care?
 
 This section will hopefully shed light on the meaning of some of these
-badges (those refering to a `build status') and you will learn how to
+badges (those referring to a `build status') and you will learn how to
 use these techniques for you own repositories. The key term here is
 `continuous integration' (CI) which refers to a concept in software
 development where all working copies (in git one would refer to
@@ -1241,14 +1241,14 @@ git terms: the master branch). The rationale being that
 frequent/continuous integration prevents diverging development branches.
 Since the philosophy of git is to create feature branches for small,
 contained changes of master which are to be merged back as soon as
-possible CI and git are a natural fit.
+possible, CI and git are a natural fit.
 
 In practice, however, frequent changes to master are dangerous. After
 all, the master branch should maintain the last at least working if not
 stable version of the project that other feature branches can be started
 from. It is thus crucial to prevent erroneous changes to be merged into
 the master branch too often. This means that CI requires some kind of
-automated quality checks that preemptively check for new bugs/problems
+automated quality checks that pre-emptively check for new bugs/problems
 before a pull request from a feature branch on master is executed. It is
 this particular aspect of CI that is most interesting to collaborative
 work on scientific coding projects - being able to automatically run
@@ -1256,22 +1256,22 @@ checks/tests on pull requests proposing changes to the master branch of
 the project.
 
 {[}Random thought: we should have an example repository for
-demonstraiting the different states of PRs etc. instead of just
-including pictures. Readers could then inspect the `frozen' repository
-directly and see the PRs etc.!{]}
+demonstrating the different states of PRs etc. instead of just including
+pictures. Readers could then inspect the `frozen' repository directly
+and see the PRs etc.!{]}
 
-To enable this kind of feature on Github, a cloud-based farm or build
+To enable this kind of feature on GitHub, a cloud-based farm or build
 servers is required where users can run build scripts in virtual
 machines and retrieve reports on the build status (0 worked, 1 failed).
 It is these build-statuses that the green/yellow/red badges report
-visually (yellow/gray being a pending build)! There are multiple
+visually (yellow/grey being a pending build)! There are multiple
 companies offering these services (within reasonable bounds) for free
 for public repositories and as of 2018 the free academic account for
 GitHub also enables free builds using TravisCI for private repositories.
 It must be stressed though that, since everything is running in the
 cloud, the same constraints as for storing data on GitHub servers apply
-to downloading or processing data in buildscripts for CI services.
-{[}point to Jenkins as on-premis solution{]}
+to downloading or processing data in build scripts for CI services.
+{[}point to Jenkins as on-premise solution{]}
 
 The obvious setting to use automated builds in is package development.
 This is by far the most common application and the current tools are
