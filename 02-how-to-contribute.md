@@ -42,12 +42,12 @@ For more details on why version control is so important in reproducible
 research and how to implement it, cf. [ref: version control chapter].
 For now, we will just focus on how to install and use a specific program, **git**,
 to obtain the source code for the book and make changes to it.
-Assuming that you have a linux (we will assume an Ubuntu installation) or 
+Assuming that you have a Linux (we will assume an Ubuntu installation) or 
 MacOS system running, you will need to install the version control system 
 git [link to chapter]. The easiest way to do this is via the command line package 
-manager 'apt' on linux ('homebrew' is the equivalent for MacOS).
+manager 'apt' on Linux ('homebrew' is the equivalent for MacOS).
 
-On **linux**, open a terminal window and execute the command
+On **Linux**, open a terminal window and execute the command
 
 
 ```bash
@@ -120,7 +120,7 @@ git status
 
 This is a useful command to check that you are never working on the master 
 branch. 
-For this project, we have envoked a branch protection rule meaning 
+For this project, we have invoked a branch protection rule meaning 
 that you are not able to work on the local master and then push this directly 
 to the remote master. 
 Instead, you must first create a branch that you edit and then push back 
@@ -181,9 +181,9 @@ the book without passing some automated checks, you may just as well check
 that everything is working locally before attempting to add your changes online.
 
 To compile the book you will need R and some packages.
-The easiest way to install everything is again via the icommand line.
+The easiest way to install everything is again via the command line.
 
-Linux users should envoke 
+Linux users should invoke 
 
 
 ```bash
@@ -218,7 +218,7 @@ which essentially runs the R command
 bookdown::render_book("index.Rmd")
 ```
 
-to build the book and cleans up afterward.
+to build the book and cleans up afterwards.
 You should now see a new folder '_book/' and be able to open '_book/index.html'
 in your browser.
 This just opens the newly build version of the book locally.
@@ -233,7 +233,7 @@ The complete documentation for **bookdown** can be found at
 
 Next you will want to 'commit' your changes to your local 
 'my-cool-new-chapter' branch.
-Commiting means that you store your changes in the git repository thus creating
+Committing means that you store your changes in the git repository thus creating
 a snapshot in time that you may always return to irrespective of any further
 changes to the repository.
 
@@ -284,8 +284,8 @@ Create a new pull request by clicking on the button.
 This opens a panel where you can define your pull request. 
 A pull request always proposes to merge one branch onto another. 
 In our case we want to merge 'my-cool-new-chapter' onto 'master'. 
-That meas that we leave the 'base:' branch master as it stands by default. 
-However, in the rop-down menu for 'compare:' you can now select you new branch.
+That means that we leave the 'base:' branch master as it stands by default. 
+However, in the drop-down menu for 'compare:' you can now select you new branch.
 Note that the arrow between the two already indicates that the 'compare:' branch
 is supposed to be merged onto the 'base:' branch.
 In the panel below you will then see a git diff, i.e., a listing of all the 
@@ -303,7 +303,7 @@ install all required software, download the repository and check whether the
 build script will still run without errors after merging you pull request.
 This process will take a few minutes and once it is completed the status of the
 build will be shown in your pull request.
-Even if the build script ran perfetly fine on your local machine the Travis
+Even if the build script ran perfectly fine on your local machine the Travis
 build might fail if you introduced new dependencies without altering the
 Travis build configuration.
 For normal changes (only editing .Rmd files), the build should work without any errors. 
@@ -312,7 +312,7 @@ will immediately know that your pull request did not introduce any breaking
 changes and that the book can still be compiled on the default minimal build system
 defined in the travis.yml file.
 
-Once another contributor has reviwed your changes and approved them, your are
+Once another contributor has reviewed your changes and approved them, your are
 then free to merge your pull request.
 Only this last action will actually change the master branch of the repository.
 This change will again trigger a build on Travis, this time for the newly merged
@@ -343,7 +343,7 @@ Simply visit the the book website at [https://rr-mrc-bsu.github.io/reproducible-
 Click the edit option at the top of the page:
 ![](Figures/alternative1.png)
 
-Which will take you to github. From here, click the 'edit this file' option:
+Which will take you to GitHub. From here, click the 'edit this file' option:
 ![](Figures/alternative2.png)
 
 This will open the source markdown in the browser, which you can directly edit.
