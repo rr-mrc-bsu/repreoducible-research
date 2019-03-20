@@ -13,6 +13,6 @@ be considered permanent WIP.
 
 We automatically deploy the last master commit of the book to 
 https://rr-mrc-bsu.github.io/reproducible-research/ - 
-feel free to browse or downlad as .pdf/.epub!
+feel free to browse or download as .pdf/.epub!
 
 In case of inquiries, please contact kevin.kunzmann@mrc-bsu.cam.ac.uk.
