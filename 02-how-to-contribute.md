@@ -10,7 +10,28 @@ chapters.
 ---
 
 
-## Before you start
+## Easy way (online)
+
+The easiest way to contribute is to visit the the book website at [https://rr-mrc-bsu.github.io/reproducible-research/](https://rr-mrc-bsu.github.io/reproducible-research/) and click on the chapter you would like to edit.
+
+Click the edit option at the top of the page:
+![](Figures/alternative1.png)
+
+Which will take you to GitHub. From here, click the 'edit this file' option:
+![](Figures/alternative2.png)
+
+This will open the source markdown in the browser, which you can directly edit.
+Once you have made your changes, at the bottom of the editing page add a  
+short description of the changes you have made and select 'Commit changes'.
+
+A pull request will be opened and a fellow contributor will check your changes  
+before they are published on the book website!
+
+
+
+## Proper way (git)
+
+### Before you start
 
 In the following we will assume that you are working on a Linux or MacOS machine. 
 The instructions are similar for Windows users, but we do not discuss the details here. 
@@ -23,7 +44,7 @@ via a virtual machine. Detailed instructions on how to do so can be found [here]
 
 ---
 
-## Cloning: Getting the book's source code
+### Cloning: Getting the book's source code
 
 The book is compiled from a collection of R markdown files which is a
 special text file format that allows to combine code and text within the same 
@@ -103,7 +124,7 @@ git pull origin master
 
 ---
 
-## Creating a new 'branch'
+### Creating a new 'branch'
 
 Branches are different variants of the source code that may exist in 
 parallel and one major job of git is making it possible to bring these branches
@@ -161,7 +182,7 @@ git status
 
 ---
 
-## Creating a new chapter
+### Creating a new chapter
 
 You may now add a new chapter simply by placing a new numbered .Rmd file in
 the top level of the book projects directory, 
@@ -229,7 +250,7 @@ The complete documentation for **bookdown** can be found at
 
 ---
 
-## Committing your changes
+### Committing your changes
 
 Next you will want to 'commit' your changes to your local 
 'my-cool-new-chapter' branch.
@@ -255,7 +276,7 @@ The complete documentation for **bookdown** can be found at
 
 ---
 
-## Publishing your changes
+### Publishing your changes
 
 Changes to the master branch in the online repository are organized as 
 pull requests.
@@ -333,25 +354,6 @@ commit to the repositories master branch.
 
 --
 
-## Easy alternative
-
-Whilst it is good practice to follow the git workflow steps described above
-(branch &rarr; add &rarr; commit &rarr; push), we have made it even easier to contribute! 
-
-Simply visit the the book website at [https://rr-mrc-bsu.github.io/reproducible-research/](https://rr-mrc-bsu.github.io/reproducible-research/) and click on the chapter you would like to edit.
-
-Click the edit option at the top of the page:
-![](Figures/alternative1.png)
-
-Which will take you to GitHub. From here, click the 'edit this file' option:
-![](Figures/alternative2.png)
-
-This will open the source markdown in the browser, which you can directly edit.
-Once you have made your changes, at the bottom of the editing page add a  
-short description of the changes you have made and select 'Commit changes'.
-
-A pull request will be opened and a fellow contributor will check your changes  
-before they are published on the book website!
 
 
 

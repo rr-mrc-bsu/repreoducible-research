@@ -267,7 +267,31 @@ techniques will be explained in more detail in the subsequent chapters.
 
 \begin{center}\rule{0.5\linewidth}{\linethickness}\end{center}
 
-\section{Before you start}\label{before-you-start}
+\section{Easy way (online)}\label{easy-way-online}
+
+The easiest way to contribute is to visit the the book website at
+\url{https://rr-mrc-bsu.github.io/reproducible-research/} and click on
+the chapter you would like to edit.
+
+Click the edit option at the top of the page:
+\includegraphics{Figures/alternative1.png}
+
+Which will take you to GitHub. From here, click the `edit this file'
+option: \includegraphics{Figures/alternative2.png}
+
+This will open the source markdown in the browser, which you can
+directly edit. Once you have made your changes, at the bottom of the
+editing page add a\\
+short description of the changes you have made and select `Commit
+changes'.
+
+A pull request will be opened and a fellow contributor will check your
+changes\\
+before they are published on the book website!
+
+\section{Proper way (git)}\label{proper-way-git}
+
+\subsection{Before you start}\label{before-you-start}
 
 In the following we will assume that you are working on a Linux or MacOS
 machine. The instructions are similar for Windows users, but we do not
@@ -283,7 +307,7 @@ virtual machine. Detailed instructions on how to do so can be found
 
 \begin{center}\rule{0.5\linewidth}{\linethickness}\end{center}
 
-\section{Cloning: Getting the book's source
+\subsection{Cloning: Getting the book's source
 code}\label{cloning-getting-the-books-source-code}
 
 The book is compiled from a collection of R markdown files which is a
@@ -374,7 +398,7 @@ device (this need not be done if you have just cloned the source code)
 
 \begin{center}\rule{0.5\linewidth}{\linethickness}\end{center}
 
-\section{\texorpdfstring{Creating a new
+\subsection{\texorpdfstring{Creating a new
 `branch'}{Creating a new branch}}\label{creating-a-new-branch}
 
 Branches are different variants of the source code that may exist in
@@ -434,7 +458,7 @@ Of course, you can always check that you are on your new branch using
 
 \begin{center}\rule{0.5\linewidth}{\linethickness}\end{center}
 
-\section{Creating a new chapter}\label{creating-a-new-chapter}
+\subsection{Creating a new chapter}\label{creating-a-new-chapter}
 
 You may now add a new chapter simply by placing a new numbered .Rmd file
 in the top level of the book projects directory, e.g.~the new file could
@@ -506,7 +530,7 @@ The complete documentation for \textbf{bookdown} can be found at
 
 \begin{center}\rule{0.5\linewidth}{\linethickness}\end{center}
 
-\section{Committing your changes}\label{committing-your-changes}
+\subsection{Committing your changes}\label{committing-your-changes}
 
 Next you will want to `commit' your changes to your local
 `my-cool-new-chapter' branch. Committing means that you store your
@@ -531,7 +555,7 @@ The complete documentation for \textbf{bookdown} can be found at
 
 \begin{center}\rule{0.5\linewidth}{\linethickness}\end{center}
 
-\section{Publishing your changes}\label{publishing-your-changes}
+\subsection{Publishing your changes}\label{publishing-your-changes}
 
 Changes to the master branch in the online repository are organized as
 pull requests. This is a feature on GitHub.com that allows you to
@@ -608,32 +632,6 @@ automatically corresponds to the version obtained from the last commit
 to the repositories master branch.
 
 --
-
-\section{Easy alternative}\label{easy-alternative}
-
-Whilst it is good practice to follow the git workflow steps described
-above (branch → add → commit → push), we have made it even easier to
-contribute!
-
-Simply visit the the book website at
-\url{https://rr-mrc-bsu.github.io/reproducible-research/} and click on
-the chapter you would like to edit.
-
-Click the edit option at the top of the page:
-\includegraphics{Figures/alternative1.png}
-
-Which will take you to GitHub. From here, click the `edit this file'
-option: \includegraphics{Figures/alternative2.png}
-
-This will open the source markdown in the browser, which you can
-directly edit. Once you have made your changes, at the bottom of the
-editing page add a\\
-short description of the changes you have made and select `Commit
-changes'.
-
-A pull request will be opened and a fellow contributor will check your
-changes\\
-before they are published on the book website!
 
 \chapter{Version control}\label{chptr-version-control}
 
