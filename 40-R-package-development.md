@@ -7,6 +7,10 @@ output: html
 
 # R package development
 
+[R]{www.r-project.org} is one the most popular software among statisticians.
+It provides a very powerful environment for statistical computing and data visualization.
+It is now common to create R packages that accompany research papers and implement novel statistical methods. These packages are then made publicly available on [CRAN]{cran.r-project.org}, personal websites or the journal website. Sharing implementations of recent methodological development facilitates uptake by the research community. It is also increasingly used to check reproducibility of published results. This chapter treats of R package development with an emphasis on continuous integration and unit testing.
+
 ## Continuous integration
 
 
