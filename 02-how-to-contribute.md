@@ -1,11 +1,7 @@
 # How to contribute {#chptr-how-to-contribute}
 
-Since this book is a collaborative effort, the most important thing is 
-enabling people to contribute!
-This chapter is a hands-on tutorial and does not go into the details of the 
-required steps.
-Each of the techniques will be explained in more detail in the subsequent 
-chapters.
+This book is a collaborative effort. Therefore, an important aspect is that it enables people to contribute!
+This chapter is a hands-on tutorial on how to contribute.
 
 ---
 
