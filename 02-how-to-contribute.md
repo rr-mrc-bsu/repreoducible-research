@@ -1,14 +1,14 @@
 # How to contribute {#chptr-how-to-contribute}
 
-This book is a collaborative effort. Therefore, an important aspect is that it enables people to contribute!
+This book is a collaborative effort. Therefore, an important aspect is that it enables people to contribute.
 This chapter is a hands-on tutorial on how to contribute.
 
 ---
 
 
-## Easy way (online)
+## The easy way (online)
 
-The easiest way to contribute is to visit the the book website at [https://rr-mrc-bsu.github.io/reproducible-research/](https://rr-mrc-bsu.github.io/reproducible-research/) and click on the chapter you would like to edit.
+The easiest way to contribute is to visit the book website at [https://rr-mrc-bsu.github.io/reproducible-research/](https://rr-mrc-bsu.github.io/reproducible-research/) and click on the chapter you would like to edit.
 
 Click the edit option at the top of the page:
 ![](Figures/alternative1.png)
@@ -17,22 +17,20 @@ Which will take you to GitHub. From here, click the 'edit this file' option:
 ![](Figures/alternative2.png)
 
 This will open the source markdown in the browser, which you can directly edit.
-Once you have made your changes, at the bottom of the editing page add a  
-short description of the changes you have made and select 'Commit changes'.
+Once you have made changes, add a short description of the changes at the bottom of the editing page and select 'Commit changes'.
 
 A pull request will be opened and a fellow contributor will check your changes  
 before they are published on the book website!
 
 
 
-## Proper way (git)
+## The proper way (using git)
 
 ### Before you start
 
-In the following we will assume that you are working on a Linux or MacOS machine. 
+In the following, we assume that you are working on a Linux or MacOS machine. 
 The instructions are similar for Windows users, but we do not discuss the details here. 
-Using an open source operating system such as Linux is preferable since all 
-collaborators are able to use the exact same operating system that you are running. 
+Using an open source operating system, such as Linux, is preferable because it avoids licensing barriers.
 
 A great way to get started with Linux is [Ubuntu](https://www.ubuntu.com/download/desktop)
 and the easiest way to install it on an existing Windows or MacOS machine might be
@@ -55,8 +53,8 @@ later [ref].
 A very important pillar of reproducibility is version control, i.e., some
 mechanism to keep track of changing files over time and enabling roll-backs
 to previous versions.
-For more details on why version control is so important in reproducible 
-research and how to implement it, cf. [ref: version control chapter].
+We refer to [ref: version control chapter] for more details on version control,
+why it is so important in reproducible research and how to implement it.
 For now, we will just focus on how to install and use a specific program, **git**,
 to obtain the source code for the book and make changes to it.
 Assuming that you have a Linux (we will assume an Ubuntu installation) or 
@@ -88,8 +86,8 @@ Here 'cloning' does exactly what it says: it downloads an exact copy of
 the entire source code including its complete history of previous changes to
 your local computer to work on.
 
-Assuming that you have a terminal window opened and the working directory is 
-your home directory '~' you clone the repository by invoking
+Assuming that you have opened a terminal window and that the working directory is 
+your home directory '~', you can clone the repository by invoking
 
 
 ```bash
@@ -111,7 +109,7 @@ this is kept up to date by 'pulling' from the remote master branch.
 This ensures that you are editing the most up-to-date version of the project.
 
 The following command copies the remote master branch to your local device 
-(this need not be done if you have just cloned the source code)
+(this is not needed if you have just cloned the source code)
 
 
 ```bash
@@ -123,7 +121,7 @@ git pull origin master
 ### Creating a new 'branch'
 
 Branches are different variants of the source code that may exist in 
-parallel and one major job of git is making it possible to bring these branches
+parallel. A major feature of git is to make it possible to bring these branches
 together.
 
 By default your git repository will now be on its 'master' branch.
@@ -135,25 +133,21 @@ You may verify that via
 git status
 ```
 
-This is a useful command to check that you are never working on the master 
-branch. 
-For this project, we have invoked a branch protection rule meaning 
-that you are not able to work on the local master and then push this directly 
-to the remote master. 
-Instead, you must first create a branch that you edit and then push back 
+It is important to check that you are never working on the master branch. 
+For this project, we have invoked a branch protection rule so you
+are not able to work on the local master and then push directly to the remote master. 
+Instead, you must first create a branch for editing and then push back 
 to the remote, before opening a pull request to merge with the remote master.
 
-The master branch is special in that it is usually considered the current 'best'
-variant of a project.
-For most smaller projects, a single master branch might be sufficient but things
+The master branch is special in that it is usually considered the current 'best' variant of a project.
+For most small projects, a single master branch might be sufficient but things
 do get a bit hairy when many people could potentially change this common master
 branch at the same time.
-Also, for this book project, each time the master branch in the online repository
+For this book project, each time the master branch in the online repository
 changes, the entire book is recompiled and published at
 [https://rr-mrc-bsu.github.io/reproducible-research/](https://rr-mrc-bsu.github.io/reproducible-research/).
-Therefore the books contributing guidelines require that no changes are 
-made directly to the master branch.
-Instead, all work is done on separate feature branches, e.g., on 'my-cool-new-chapter'
+Therefore, the book contributing guidelines require that no changes are made directly to the master branch.
+Instead, all work is done on separate feature branches, for example on 'my-cool-new-chapter'
 if you want to add a new chapter.
 
 To create this branch you run the following git commands

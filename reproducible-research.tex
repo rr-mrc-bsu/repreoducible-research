@@ -126,7 +126,7 @@
   \postauthor{\par}
       \predate{\centering\large\emph}
   \postdate{\par}
-    \date{2019-04-14}
+    \date{2019-04-15}
 
 \usepackage{booktabs}
 
@@ -261,14 +261,14 @@ advocated techniques, tools, and best-practises for getting there.
 \chapter{How to contribute}\label{chptr-how-to-contribute}
 
 This book is a collaborative effort. Therefore, an important aspect is
-that it enables people to contribute! This chapter is a hands-on
+that it enables people to contribute. This chapter is a hands-on
 tutorial on how to contribute.
 
 \begin{center}\rule{0.5\linewidth}{\linethickness}\end{center}
 
-\section{Easy way (online)}\label{easy-way-online}
+\section{The easy way (online)}\label{the-easy-way-online}
 
-The easiest way to contribute is to visit the the book website at
+The easiest way to contribute is to visit the book website at
 \url{https://rr-mrc-bsu.github.io/reproducible-research/} and click on
 the chapter you would like to edit.
 
@@ -279,24 +279,22 @@ Which will take you to GitHub. From here, click the `edit this file'
 option: \includegraphics{Figures/alternative2.png}
 
 This will open the source markdown in the browser, which you can
-directly edit. Once you have made your changes, at the bottom of the
-editing page add a\\
-short description of the changes you have made and select `Commit
+directly edit. Once you have made changes, add a short description of
+the changes at the bottom of the editing page and select `Commit
 changes'.
 
 A pull request will be opened and a fellow contributor will check your
 changes\\
 before they are published on the book website!
 
-\section{Proper way (git)}\label{proper-way-git}
+\section{The proper way (using git)}\label{the-proper-way-using-git}
 
 \subsection{Before you start}\label{before-you-start}
 
-In the following we will assume that you are working on a Linux or MacOS
+In the following, we assume that you are working on a Linux or MacOS
 machine. The instructions are similar for Windows users, but we do not
-discuss the details here. Using an open source operating system such as
-Linux is preferable since all collaborators are able to use the exact
-same operating system that you are running.
+discuss the details here. Using an open source operating system, such as
+Linux, is preferable because it avoids licensing barriers.
 
 A great way to get started with Linux is
 \href{https://www.ubuntu.com/download/desktop}{Ubuntu} and the easiest
@@ -324,15 +322,16 @@ later {[}ref{]}.
 
 A very important pillar of reproducibility is version control, i.e.,
 some mechanism to keep track of changing files over time and enabling
-roll-backs to previous versions. For more details on why version control
-is so important in reproducible research and how to implement it, cf.
-{[}ref: version control chapter{]}. For now, we will just focus on how
-to install and use a specific program, \textbf{git}, to obtain the
-source code for the book and make changes to it. Assuming that you have
-a Linux (we will assume an Ubuntu installation) or MacOS system running,
-you will need to install the version control system git {[}link to
-chapter{]}. The easiest way to do this is via the command line package
-manager `apt' on Linux (`homebrew' is the equivalent for MacOS).
+roll-backs to previous versions. We refer to {[}ref: version control
+chapter{]} for more details on version control, why it is so important
+in reproducible research and how to implement it. For now, we will just
+focus on how to install and use a specific program, \textbf{git}, to
+obtain the source code for the book and make changes to it. Assuming
+that you have a Linux (we will assume an Ubuntu installation) or MacOS
+system running, you will need to install the version control system git
+{[}link to chapter{]}. The easiest way to do this is via the command
+line package manager `apt' on Linux (`homebrew' is the equivalent for
+MacOS).
 
 On \textbf{Linux}, open a terminal window and execute the command
 
@@ -361,8 +360,8 @@ GitHub.com website:
 entire source code including its complete history of previous changes to
 your local computer to work on.
 
-Assuming that you have a terminal window opened and the working
-directory is your home directory `\textasciitilde{}' you clone the
+Assuming that you have opened a terminal window and that the working
+directory is your home directory `\textasciitilde{}', you can clone the
 repository by invoking
 
 \begin{Shaded}
@@ -387,7 +386,7 @@ kept up to date by `pulling' from the remote master branch. This ensures
 that you are editing the most up-to-date version of the project.
 
 The following command copies the remote master branch to your local
-device (this need not be done if you have just cloned the source code)
+device (this is not needed if you have just cloned the source code)
 
 \begin{Shaded}
 \begin{Highlighting}[]
@@ -401,7 +400,7 @@ device (this need not be done if you have just cloned the source code)
 `branch'}{Creating a new branch}}\label{creating-a-new-branch}
 
 Branches are different variants of the source code that may exist in
-parallel and one major job of git is making it possible to bring these
+parallel. A major feature of git is to make it possible to bring these
 branches together.
 
 By default your git repository will now be on its `master' branch.
@@ -414,23 +413,23 @@ You may verify that via
 \end{Highlighting}
 \end{Shaded}
 
-This is a useful command to check that you are never working on the
-master branch. For this project, we have invoked a branch protection
-rule meaning that you are not able to work on the local master and then
-push this directly to the remote master. Instead, you must first create
-a branch that you edit and then push back to the remote, before opening
-a pull request to merge with the remote master.
+It is important to check that you are never working on the master
+branch. For this project, we have invoked a branch protection rule so
+you are not able to work on the local master and then push directly to
+the remote master. Instead, you must first create a branch for editing
+and then push back to the remote, before opening a pull request to merge
+with the remote master.
 
 The master branch is special in that it is usually considered the
-current `best' variant of a project. For most smaller projects, a single
+current `best' variant of a project. For most small projects, a single
 master branch might be sufficient but things do get a bit hairy when
 many people could potentially change this common master branch at the
-same time. Also, for this book project, each time the master branch in
-the online repository changes, the entire book is recompiled and
-published at \url{https://rr-mrc-bsu.github.io/reproducible-research/}.
-Therefore the books contributing guidelines require that no changes are
-made directly to the master branch. Instead, all work is done on
-separate feature branches, e.g., on `my-cool-new-chapter' if you want to
+same time. For this book project, each time the master branch in the
+online repository changes, the entire book is recompiled and published
+at \url{https://rr-mrc-bsu.github.io/reproducible-research/}. Therefore,
+the book contributing guidelines require that no changes are made
+directly to the master branch. Instead, all work is done on separate
+feature branches, for example on `my-cool-new-chapter' if you want to
 add a new chapter.
 
 To create this branch you run the following git commands
